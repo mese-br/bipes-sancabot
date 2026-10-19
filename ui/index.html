@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="google" value="notranslate">
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>BIPES Project</title>
-  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/media/icon/favicon-32x32.png">
-  <link rel="mask-icon" href="/media/icon/safari-pinned-tab.svg" color="#5bbad5">
-  <meta name="theme-color" content="#fff">
+  <title>SancaBot by BIPES</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="media/icon/favicon-32x32.png">
+  <link rel="mask-icon" href="media/icon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#14161A">
 
   <!-- Progressive Web Application setup -->
   <link rel="manifest" href="manifest.json"></link>
@@ -62,15 +62,15 @@ function checkCookie() {
 
   gtag('config', 'UA-162001686-1');
 </script>
-  <link rel="stylesheet" href="style.css?ver=0.2.3.1125">
+  <link rel="stylesheet" href="style.css?ver=sancabot-20260705-19">
   <link rel="stylesheet" href="core/libs.css">
   <script src="core/storage.js?ver=0.2.2.1125"></script>
   <script src="core/blockly_compressed.js?ver=0.2.1.8260042"></script>
   <script src="core/blocks_compressed.js?ver=0.2.1.8260042"></script>
   <script src="core/javascript_compressed.js?ver=0.2.1.8260042"></script>
   <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
-  <script src="core/code.js?ver=0.2.3.1125"></script>
-  <script src="core/channel.js?ver=0.2.3.1125"></script>
+  <script src="core/code.js?ver=sancabot-20260702-3"></script>
+  <script src="core/channel.js?ver=sancabot-20260703-3"></script>
   <script src="core/utils.js?ver=0.2.3.1125"></script>
   <script src="core/ui.js?ver=0.2.3.1125"></script>
   <script src="core/queue.js"></script>
@@ -79,8 +79,12 @@ function checkCookie() {
 
 
   <!-- Custom Blocks for BIPES Project --> 
-  <script src="core/block_definitions.js?ver=0.2.3.11011813"></script> <!-- Rafael 24/03/2020 -->
-  <script src="core/generator_stubs.js?ver=0.2.3.11011813"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/block_definitions.js?ver=sancabot-20260703-21"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/generator_stubs.js?ver=sancabot-20260703-21"></script> <!-- Rafael 24/03/2020 -->
+
+  <!-- Blocos e geradores SancaBot (separados em 2026-07-05) -->
+  <script src="core/block_definitions_sancabot.js?ver=sancabot-20260705-19"></script>
+  <script src="core/generator_stubs_sancabot.js?ver=sancabot-20260705-19"></script>
 
   <!-- xterm part -->
   <script src="core/xterm.js?ver=4.13.0"></script>
@@ -122,13 +126,13 @@ document.body.appendChild(el);
 
   <div class="top-menu">
 
-    <div class="logo">BIPES</div>
+    <div class="logo sancabot-logo"><span>Sanca</span><strong>Bot</strong><small>by BIPES</small></div>
       <div class="tabs">
-        <div id="tab_blocks" class="tabon">...</div>
+        <div id="tab_blocks" class="tabon">Blocos</div>
         <div id="tab_console" class="taboff">Console</div>
-        <div id="tab_files" class="taboff">...</div>
-        <div id="tab_programs" class="taboff">...</div>
-        <div id="tab_device" class="taboff">...</div>
+        <div id="tab_files" class="taboff">Arquivos</div>
+        <div id="tab_programs" class="taboff">Projetos</div>
+        <div id="tab_device" class="taboff">Robô</div>
         <div id="tab_iot" class="taboff">IOT</div>
         <div id="tab_mqtt" class="taboff" onclick='document.getElementById("easymqtt_iframe").contentWindow.startEasyMQTT(window.easyMQTT_session);'>EasyMQTT</div>
         <div id="tab_databoard" class="taboff">Databoard</div>
@@ -141,6 +145,7 @@ document.body.appendChild(el);
       </div>
       <div class="icon" id="deviceSelect">
         <select id="device_selector">
+          <option value="SancaBot" selected>SancaBot (ESP32-C3)</option>
           <option value="AmadoBoard">Amado Board</option>
           <option value="ESP8266">ESP8266</option>
           <option value="ESP32S2">Franzininho Wifi (ESP32S2+CircuitPython)</option>
@@ -304,7 +309,7 @@ document.body.appendChild(el);
   <details open>
   <summary>
   <h2>On device</h2>
-  <button value="List Files" id="refreshFilesList" class="notext button icon" title="Refresh device file list" onclick="Files.listFiles();" /></button>
+  <button type="button" value="List Files" id="refreshFilesList" class="notext button icon" title="Refresh device file list" onclick="event.preventDefault(); event.stopPropagation(); Files.listFiles(); return false;"></button>
   </summary>
   <span id='fileList'>...</span>
   </details>
@@ -383,10 +388,1461 @@ document.body.appendChild(el);
   </details>
 </div>
 
+
+<!-- SancaBot Mission 1 helper panel. Hidden unless URL contains ?mission=1. -->
+<button id="missionPanelButton" class="mission-fab" type="button" hidden>Miss&atilde;o 1</button>
+<aside id="missionPanel" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 1</span>
+      <h2>Acerto ao Alvo</h2>
+      <p>Monte uma rota curta para sair de um ponto de partida e chegar o mais perto poss&iacute;vel do alvo.</p>
+    </div>
+    <button id="missionPanelClose" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Prepare a pista</h3>
+    <ul class="mission-mini-list">
+      <li>Marque o in&iacute;cio no ch&atilde;o.</li>
+      <li>Coloque uma folha ou fita como alvo.</li>
+      <li>Deixe uma r&eacute;gua ou trena por perto.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Regrinha do teste</h3>
+    <p>Primeiro fa&ccedil;a o SancaBot andar para frente. Me&ccedil;a a dist&acirc;ncia e use o resultado para planejar a pr&oacute;xima tentativa.</p>
+    <div class="mission-grid">
+      <label>Velocidade (%)<input id="missionSpeed" type="number" min="0" max="100" step="1" value="50"></label>
+      <label>Tempo (s)<input id="missionTime" type="number" min="0.1" max="30" step="0.1" value="2"></label>
+      <label>Dist&acirc;ncia medida (cm)<input id="missionDistance" type="number" min="0" max="1000" step="0.5" placeholder="ex: 30"></label>
+      <label>Dist&acirc;ncia at&eacute; o alvo (cm)<input id="missionTarget" type="number" min="0" max="1000" step="0.5" placeholder="ex: 45"></label>
+    </div>
+    <div class="mission-result" id="missionResult">Preencha a dist&acirc;ncia medida para calcular.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">preparar motores</div>
+      <div class="mission-block mission-block--move">SancaBot anda frente velocidade 50% por tempo 2 segundos</div>
+      <div class="mission-block mission-block--tune">corrigir desvio, se ele n&atilde;o andar reto</div>
+      <div class="mission-block mission-block--move">SancaBot gira direita ou esquerda velocidade 40% por angulo 45 graus</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Desafio final</h3>
+    <p>Agora crie uma rota com pelo menos um giro antes de chegar ao alvo.</p>
+    <ul class="mission-checklist">
+      <li>Testei andar para frente.</li>
+      <li>Ajustei o tempo com a regrinha.</li>
+      <li>Corrigi o desvio se precisou.</li>
+      <li>Usei direita ou esquerda para ajustar o giro.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte o que aconteceu: ficou longe, passou do alvo, desviou ou chegou perto?</p>
+    <textarea id="missionEvidence" rows="5" placeholder="Ex: Testei 50% por 2 s. O SancaBot andou 30 cm, desviou um pouco para a esquerda e depois ajustei a rota com um giro..."></textarea>
+    <div class="mission-actions">
+      <button id="missionDraftEvidence" type="button">Gerar resumo</button>
+      <button id="missionSendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="missionClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="missionSaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+<!-- SancaBot Mission 2 helper panel. Hidden unless URL contains ?mission=2. -->
+<button id="missionPanelButton2" class="mission-fab" type="button" hidden>Miss&atilde;o 2</button>
+<aside id="missionPanel2" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 2</span>
+      <h2>SancaBot Explorador</h2>
+      <p>Monte uma regra SE... ent&atilde;o... para o SancaBot medir, decidir e parar antes de encostar.</p>
+    </div>
+    <button id="missionPanelClose2" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Monte a cena</h3>
+    <ul class="mission-mini-list">
+      <li>Coloque uma caixa, livro ou copo como obst&aacute;culo.</li>
+      <li>Deixe o SancaBot a uma dist&acirc;ncia segura para testar.</li>
+      <li>Comece devagar: velocidade baixa deixa o teste melhor.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Crie a regra de decis&atilde;o</h3>
+    <p>Prepare o SancaBot e o sensor. A ideia &eacute; simples: <b>repetir a medi&ccedil;&atilde;o de dist&acirc;ncia</b> e usar <b>SE a dist&acirc;ncia for menor que o limite, ENT&Atilde;O parar</b>.</p>
+    <div class="mission-grid">
+      <label>Velocidade (%)<input id="mission2Speed" type="number" min="0" max="100" step="1" value="30"></label>
+      <label>Limite da regra (cm)<input id="mission2Stop" type="number" min="3" max="100" step="1" value="15"></label>
+      <label>Dist&acirc;ncia medida (cm)<input id="mission2Reading" type="number" min="0" max="400" step="0.5" placeholder="vem do console"></label>
+    </div>
+    <div class="distance-display" id="sancabotDistanceDisplay" aria-live="polite">
+      <div class="distance-display__top">
+        <span class="distance-display__label" id="sancabotPanelLabel">Dist&acirc;ncia agora</span>
+        <strong id="sancabotDistanceValue">-- cm</strong>
+      </div>
+      <div class="distance-display__track"><span id="sancabotDistanceBar"></span></div>
+      <div class="distance-display__status" id="sancabotDistanceStatus">Aguardando leitura do console</div>
+    </div>
+    <div class="mission-result" id="mission2Result">SE a dist&acirc;ncia medida ficar menor que o limite, ENT&Atilde;O o SancaBot deve parar.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">1. preparar motores</div>
+      <div class="mission-block mission-block--sensor">2. preparar sensor de dist&acirc;ncia (ultrassom)</div>
+      <div class="mission-block mission-block--move">3. SancaBot movimenta para frente cont&iacute;nuo</div>
+      <div class="mission-block mission-block--repeat">4. repetir medi&ccedil;&atilde;o de dist&acirc;ncia</div>
+      <div class="mission-block mission-block--console">&nbsp;&nbsp;&nbsp;mostrar dist&acirc;ncia no console</div>
+      <div class="mission-block mission-block--decision">&nbsp;&nbsp;&nbsp;se dist&acirc;ncia menor que 15 cm: parar e sair da repeti&ccedil;&atilde;o</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Desafio final</h3>
+    <p>Fa&ccedil;a o SancaBot andar, repetir a medi&ccedil;&atilde;o da dist&acirc;ncia e parar quando a regra SE... ent&atilde;o... for verdadeira.</p>
+    <ul class="mission-checklist">
+      <li>Testei uma velocidade baixa.</li>
+      <li>Vi a leitura do ultrassom mudar.</li>
+      <li>Usei uma regra SE... ent&atilde;o... para decidir parar.</li>
+      <li>Mudei a dist&acirc;ncia de seguran&ccedil;a e comparei.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte qual limite voc&ecirc; usou, qual leitura apareceu no console e se a decis&atilde;o fez sentido.</p>
+    <textarea id="mission2Evidence" rows="5" placeholder="Ex: Usei velocidade 30% e dist&acirc;ncia de seguran&ccedil;a de 15 cm. Quando o obst&aacute;culo chegou perto, o SancaBot parou antes de encostar..."></textarea>
+    <div class="mission-actions">
+      <button id="mission2DraftEvidence" type="button">Gerar resumo</button>
+      <button id="mission2SendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="mission2ClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="mission2SaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+
+<!-- SancaBot Mission 3 helper panel. Hidden unless URL contains ?mission=3. -->
+<button id="missionPanelButton3" class="mission-fab" type="button" hidden>Miss&atilde;o 3</button>
+<aside id="missionPanel3" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 3</span>
+      <h2>Entrega Especial</h2>
+      <p>Use a guia frontal para levar um objeto especial at&eacute; a zona de entrega, com teste devagar e rota planejada.</p>
+    </div>
+    <button id="missionPanelClose3" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Prepare o transporte</h3>
+    <ul class="mission-mini-list">
+      <li>Acople a guia frontal no SancaBot e coloque o sensor ultrassom logo acima dela.</li>
+      <li>A abertura da guia fica voltada para frente, para o objeto entrar, ser empurrado e sair.</li>
+      <li>O sensor precisa ficar desbloqueado, sem o objeto especial cobrindo a medi&ccedil;&atilde;o.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Plano de empurrar</h3>
+    <p>Comece com pouca velocidade. A miss&atilde;o n&atilde;o &eacute; correr: &eacute; controlar o objeto especial sem deixar ele escapar.</p>
+    <div class="mission-grid">
+      <label>Objeto especial<input id="mission3Cargo" type="text" value="bola geom&eacute;trica"></label>
+      <label>Velocidade (%)<input id="mission3Speed" type="number" min="0" max="100" step="1" value="25"></label>
+      <label>Tempo do empurr&atilde;o (s)<input id="mission3Time" type="number" min="0.1" max="30" step="0.1" value="2"></label>
+      <label>Limite de seguran&ccedil;a (cm)<input id="mission3SafeDistance" type="number" min="3" max="100" step="1" value="12"></label>
+    </div>
+    <div class="mission-result" id="mission3Result">Teste curto: empurre devagar, observe o objeto especial e ajuste tempo ou velocidade.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">1. preparar motores</div>
+      <div class="mission-block mission-block--sensor">2. preparar sensor ultrassom acima da guia frontal</div>
+      <div class="mission-block mission-block--move">3. SancaBot movimenta para frente velocidade 25% por tempo 2 segundos</div>
+      <div class="mission-block mission-block--decision">4. se detectar objeto a menos de 12 cm: parar SancaBot</div>
+      <div class="mission-block mission-block--console">5. registrar o que aconteceu no teste</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Desafio final</h3>
+    <p>Leve o objeto especial de um ponto de partida at&eacute; a zona de entrega. Se escapar, reduza a velocidade ou encurte o tempo do empurr&atilde;o.</p>
+    <ul class="mission-checklist">
+      <li>Acoplei a guia frontal e deixei o ultrassom logo acima.</li>
+      <li>Escolhi um objeto especial que cabe na guia sem bloquear o sensor.</li>
+      <li>Marquei partida e zona de entrega.</li>
+      <li>Testei devagar antes da tentativa final.</li>
+      <li>Ajustei a rota se o objeto especial escapou.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte qual objeto especial voc&ecirc; escolheu, qual velocidade usou e o que ajustou para conseguir entregar.</p>
+    <textarea id="mission3Evidence" rows="5" placeholder="Ex: Usei a bola geom&eacute;trica como objeto especial. Comecei com 25% por 2 s, ela escapou um pouco para a direita, ent&atilde;o reduzi a velocidade e alinhei melhor a guia..."></textarea>
+    <div class="mission-actions">
+      <button id="mission3DraftEvidence" type="button">Gerar resumo</button>
+      <button id="mission3SendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="mission3ClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="mission3SaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+
+<!-- SancaBot Mission 4 helper panel. Hidden unless URL contains ?mission=4. -->
+<button id="missionPanelButton4" class="mission-fab" type="button" hidden>Miss&atilde;o 4</button>
+<aside id="missionPanel4" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 4</span>
+      <h2>O Desafio do Labirinto</h2>
+      <p>Monte um labirinto, programe uma regra aut&ocirc;noma e teste se o SancaBot consegue decidir o caminho.</p>
+    </div>
+    <button id="missionPanelClose4" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Prepare o labirinto</h3>
+    <ul class="mission-mini-list">
+      <li>Use caixas, livros, fita ou papel&atilde;o dobrado para criar paredes baixas.</li>
+      <li>Deixe espa&ccedil;o para o SancaBot virar sem prender nas paredes.</li>
+      <li>Teste o ultrassom antes: parede perto precisa mudar a leitura.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Plano aut&ocirc;nomo</h3>
+    <p>A regra base &eacute; medir, decidir e agir: se houver parede perto, parar e girar; se estiver livre, seguir em frente.</p>
+    <div class="mission-grid">
+      <label>Velocidade (%)<input id="mission4Speed" type="number" min="0" max="100" step="1" value="35"></label>
+      <label>Parede perto (cm)<input id="mission4WallLimit" type="number" min="3" max="100" step="1" value="15"></label>
+      <label>Tempo de giro (s)<input id="mission4TurnTime" type="number" min="0.1" max="5" step="0.1" value="1"></label>
+      <label>Tempo m&aacute;ximo (s)<input id="mission4MaxTime" type="number" min="5" max="300" step="1" value="60"></label>
+      <label>Tentativas planejadas<input id="mission4Attempts" type="number" min="1" max="20" step="1" value="3"></label>
+    </div>
+    <div class="distance-display" id="sancabotMission4Display" aria-live="polite">
+      <div class="distance-display__top">
+        <span class="distance-display__label" id="sancabotMission4PanelLabel">Dist&acirc;ncia agora</span>
+        <strong id="sancabotMission4Value">-- cm</strong>
+      </div>
+      <div class="distance-display__track"><span id="sancabotMission4Bar"></span></div>
+      <div class="distance-display__status" id="sancabotMission4Status">Aguardando leitura do console</div>
+    </div>
+    <div class="mission-result" id="mission4Result">Regra base: repetir enquanto o tempo n&atilde;o acabar. Se detectar parede perto, parar e girar. Sen&atilde;o, seguir em frente.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">1. preparar motores</div>
+      <div class="mission-block mission-block--sensor">2. preparar ultrassom</div>
+      <div class="mission-block mission-block--console">3. iniciar cron&ocirc;metro</div>
+      <div class="mission-block mission-block--move">4. SancaBot movimenta para frente cont&iacute;nuo</div>
+      <div class="mission-block mission-block--repeat">5. SancaBot repete enquanto o tempo for menor que o limite</div>
+      <div class="mission-block mission-block--decision">&nbsp;&nbsp;&nbsp;se ultrassom detectar parede: parar, girar e testar de novo</div>
+      <div class="mission-block mission-block--move">&nbsp;&nbsp;&nbsp;sen&atilde;o: seguir em frente devagar</div>
+      <div class="mission-block mission-block--console">&nbsp;&nbsp;&nbsp;mostrar dist&acirc;ncia e tempo no painel</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Estrat&eacute;gia</h3>
+    <textarea id="mission4Strategy" rows="4">Se encontrar parede, parar, girar para a esquerda e testar de novo.</textarea>
+    <ul class="mission-checklist">
+      <li>Montei um labirinto com espa&ccedil;o para virar.</li>
+      <li>Testei o ultrassom antes da tentativa aut&ocirc;noma.</li>
+      <li>Usei repeti&ccedil;&atilde;o, decis&atilde;o e cron&ocirc;metro.</li>
+      <li>Ajustei velocidade, dist&acirc;ncia da parede e tempo de giro.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte como era o labirinto, qual regra voc&ecirc; usou, onde o SancaBot errou e qual ajuste melhorou a tentativa.</p>
+    <textarea id="mission4Evidence" rows="5" placeholder="Ex: Montei um labirinto com caixas. Usei parede perto em 15 cm, velocidade 35% e giro de 1 s. Na primeira tentativa ele virou pouco, ent&atilde;o ajustei o tempo de giro..."></textarea>
+    <div class="mission-actions">
+      <button id="mission4DraftEvidence" type="button">Gerar resumo</button>
+      <button id="mission4SendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="mission4ClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="mission4SaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+
+<!-- SancaBot BIPES first-use tour. Hidden unless URL contains ?tour=prep. -->
+<div id="sancabotTourOverlay" class="sancabot-tour-overlay" hidden></div>
+<div id="sancabotTourSpotlight" class="sancabot-tour-spotlight" hidden></div>
+<section id="sancabotTour" class="sancabot-tour" aria-hidden="true" hidden>
+  <div class="sancabot-tour__arrow" aria-hidden="true"></div>
+  <div class="sancabot-tour__step" id="sancabotTourStep">Passo 1 / 4</div>
+  <h2 id="sancabotTourTitle">Bem-vindo ao SancaBot by BIPES</h2>
+  <p id="sancabotTourText">Aqui voc&ecirc; monta os blocos e envia para o rob&ocirc;.</p>
+  <div class="sancabot-tour__actions">
+    <button id="sancabotTourSkip" type="button">Pular</button>
+    <button id="sancabotTourNext" type="button">Pr&oacute;ximo</button>
+  </div>
+</section>
+
 <script>
 
 // Init blockly
 Code.init ();
+function applySancaBotToolboxColors() {
+  const colors = [
+    [/^sancabot$/i, '#e86f1a'],
+    [/experimental/i, '#94a3b8'],
+    [/preparacao/i, '#168fd8'],
+    [/movimento/i, '#d96a1c'],
+    [/ajustes|calibr/i, '#c88a00'],
+    [/sensores e leituras|sensores|leituras/i, '#00a7c7'],
+    [/condicoes|condicao/i, '#14b8a6'],
+    [/controle|decisao|repeticao e decisao|repet/i, '#6d5bd0'],
+    [/tempo|cronometro|duracao/i, '#7b61ff'],
+    [/laboratorio avancado/i, '#334155'],
+    [/logic|logica/i, '#5b80a5'],
+    [/math|matem/i, '#5b67a5'],
+    [/text|texto/i, '#5ba58c'],
+    [/list|lista/i, '#745ba5'],
+    [/variable|vari|contador/i, '#a55b80'],
+    [/function|fun/i, '#995ba5'],
+    [/bipes/i, '#2597ff'],
+    [/python/i, '#3776ab'],
+    [/timing/i, '#7b61ff'],
+    [/machine|maquina|cpu|pins|pinos/i, '#4b9a7d'],
+    [/display|led|oled|neopixel/i, '#00a7a7'],
+    [/sensor|ultra|gps|camera/i, '#00a7c7'],
+    [/output|saida|motor|servo|buzzer|som/i, '#c05a42'],
+    [/comm|uart|spi|i2c|bluetooth/i, '#5b6fa5'],
+    [/file|arquivo/i, '#8a6f3d'],
+    [/net|http|wifi|mqtt/i, '#2f8f46']
+  ];
+  document.querySelectorAll('.blocklyTreeLabel').forEach(label => {
+    const row = label.closest('.blocklyTreeRow');
+    if (!row) return;
+    const text = (label.textContent || '').trim();
+    const key = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const found = colors.find(([pattern]) => pattern.test(key));
+    const color = found ? found[1] : '#94a3b8';
+    row.classList.add('sancabot-toolbox-row');
+    row.style.setProperty('--sancabot-cat-color', color);
+    if (/sancabot/i.test(key)) row.classList.add('sancabot-toolbox-sancabot');
+  });
+}
+let sancabotToolboxColorTimer;
+const sancabotToolboxObserver = new MutationObserver(() => {
+  clearTimeout(sancabotToolboxColorTimer);
+  sancabotToolboxColorTimer = setTimeout(applySancaBotToolboxColors, 40);
+});
+sancabotToolboxObserver.observe(document.body, { childList: true, subtree: true });
+setTimeout(applySancaBotToolboxColors, 200);
+
+function initSancaBotMissionPanel() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('mission') !== '1') return;
+
+  const panel = document.getElementById('missionPanel');
+  const button = document.getElementById('missionPanelButton');
+  const closeButton = document.getElementById('missionPanelClose');
+  if (!panel || !button || !closeButton) return;
+
+  const fields = {
+    speed: document.getElementById('missionSpeed'),
+    time: document.getElementById('missionTime'),
+    distance: document.getElementById('missionDistance'),
+    target: document.getElementById('missionTarget'),
+    evidence: document.getElementById('missionEvidence')
+  };
+  const result = document.getElementById('missionResult');
+  const draftButton = document.getElementById('missionDraftEvidence');
+  const clearButton = document.getElementById('missionClearEvidence');
+  const sendStudioButton = document.getElementById('missionSendStudio');
+  const saveNote = document.getElementById('missionSaveNote');
+  const storageKey = 'sancabot_mission_1_draft';
+  const studioStorageKey = 'sancabot_studio_mission_1';
+  const studioInboxKey = 'sancabot_studio_mission_1_inbox';
+
+  panel.hidden = false;
+  button.hidden = false;
+  document.body.classList.add('mission-mode');
+
+  function readNumber(input) {
+    const value = Number(String(input.value || '').replace(',', '.'));
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function saveMissionDraft() {
+    const payload = {};
+    Object.keys(fields).forEach((key) => payload[key] = fields[key].value || '');
+    localStorage.setItem(storageKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Rascunho salvo neste navegador.';
+  }
+
+  function buildStudioPayload() {
+    const speed = readNumber(fields.speed);
+    const time = readNumber(fields.time);
+    const distance = readNumber(fields.distance);
+    const target = readNumber(fields.target);
+    const cmPerSecond = time && distance ? distance / time : 0;
+    const suggestedTime = target && cmPerSecond ? target / cmPerSecond : 0;
+    return {
+      source: 'bipes',
+      mission: 1,
+      receivedAt: new Date().toISOString(),
+      speed: fields.speed.value || '',
+      testTime: fields.time.value || '',
+      distance: fields.distance.value || '',
+      target: fields.target.value || '',
+      cmPerSecond: cmPerSecond ? cmPerSecond.toFixed(1) : '',
+      suggestedTime: suggestedTime ? suggestedTime.toFixed(1) : '',
+      evidence: fields.evidence.value || '',
+      checks: {
+        track: true,
+        forward: !!distance,
+        rule: !!target && !!suggestedTime,
+        evidence: (fields.evidence.value || '').trim().length >= 30
+      }
+    };
+  }
+
+  function sendMissionToStudio() {
+    const payload = buildStudioPayload();
+    localStorage.setItem(studioStorageKey, JSON.stringify(payload));
+    localStorage.setItem(studioInboxKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Registro enviado para o Studio.';
+    const studioUrl = window.location.origin + '/studio/?mission=1&review=1';
+    window.open(studioUrl, '_blank');
+  }
+
+  function updateMissionCalc() {
+    const speed = readNumber(fields.speed);
+    const time = readNumber(fields.time);
+    const distance = readNumber(fields.distance);
+    const target = readNumber(fields.target);
+
+    if (!time || !distance) {
+      result.textContent = 'Me\u00e7a quanto o SancaBot andou para calcular a pr\u00f3xima tentativa.';
+      saveMissionDraft();
+      return;
+    }
+
+    const cmPerSecond = distance / time;
+    let message = `Seu teste deu ${cmPerSecond.toFixed(1)} cm/s usando ${speed || 0}% de velocidade.`;
+    if (target > 0 && cmPerSecond > 0) {
+      const suggestedTime = target / cmPerSecond;
+      message += ` Para chegar a ${target.toFixed(1)} cm, tente: SancaBot anda frente por tempo ${suggestedTime.toFixed(1)} segundos.`;
+    } else {
+      message += ' Informe a dist\u00e2ncia at\u00e9 o alvo para receber uma sugest\u00e3o.';
+    }
+    result.textContent = message;
+    saveMissionDraft();
+  }
+
+  function openPanel() {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    button.setAttribute('aria-expanded', 'true');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    Object.keys(fields).forEach((key) => {
+      if (saved[key] !== undefined) fields[key].value = saved[key];
+    });
+  } catch (error) {
+    console.warn('Nao foi possivel carregar a missao salva.', error);
+  }
+
+  [fields.speed, fields.time, fields.distance, fields.target, fields.evidence].forEach((field) => {
+    field.addEventListener('input', updateMissionCalc);
+  });
+
+  draftButton.addEventListener('click', () => {
+    const speed = readNumber(fields.speed);
+    const time = readNumber(fields.time);
+    const distance = readNumber(fields.distance);
+    const target = readNumber(fields.target);
+    const cmPerSecond = time && distance ? distance / time : 0;
+    const suggestedTime = target && cmPerSecond ? target / cmPerSecond : 0;
+    fields.evidence.value = `No teste, usei ${speed || 0}% de velocidade por ${time || 0} s e o SancaBot percorreu ${distance || 0} cm. Para chegar ao alvo de ${target || 0} cm, tentei ajustar o tempo para ${suggestedTime.toFixed(1)} s. Também observei se ele desviou e se precisei usar um giro para mirar melhor.`;
+    updateMissionCalc();
+    fields.evidence.focus();
+  });
+
+  clearButton.addEventListener('click', () => {
+    fields.evidence.value = '';
+    updateMissionCalc();
+  });
+
+  if (sendStudioButton) sendStudioButton.addEventListener('click', sendMissionToStudio);
+
+  button.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
+  closeButton.addEventListener('click', closePanel);
+  updateMissionCalc();
+  openPanel();
+}
+
+function initSancaBotMission2Panel() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('mission') !== '2') return;
+
+  const panel = document.getElementById('missionPanel2');
+  const button = document.getElementById('missionPanelButton2');
+  const closeButton = document.getElementById('missionPanelClose2');
+  if (!panel || !button || !closeButton) return;
+
+  const fields = {
+    speed: document.getElementById('mission2Speed'),
+    stop: document.getElementById('mission2Stop'),
+    reading: document.getElementById('mission2Reading'),
+    evidence: document.getElementById('mission2Evidence')
+  };
+  const result = document.getElementById('mission2Result');
+  const draftButton = document.getElementById('mission2DraftEvidence');
+  const clearButton = document.getElementById('mission2ClearEvidence');
+  const sendStudioButton = document.getElementById('mission2SendStudio');
+  const saveNote = document.getElementById('mission2SaveNote');
+  const storageKey = 'sancabot_mission_2_draft';
+  const studioStorageKey = 'sancabot_studio_mission_2';
+  const studioInboxKey = 'sancabot_studio_mission_2_inbox';
+
+  panel.hidden = false;
+  button.hidden = false;
+  document.body.classList.add('mission-mode');
+
+  function readNumber(input) {
+    const value = Number(String(input.value || '').replace(',', '.'));
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function saveMissionDraft() {
+    const payload = {};
+    Object.keys(fields).forEach((key) => payload[key] = fields[key].value || '');
+    localStorage.setItem(storageKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Rascunho salvo neste navegador.';
+  }
+
+  function buildStudioPayload() {
+    const stop = readNumber(fields.stop);
+    const reading = readNumber(fields.reading);
+    return {
+      source: 'bipes',
+      mission: 2,
+      receivedAt: new Date().toISOString(),
+      speed: fields.speed.value || '',
+      stopDistance: fields.stop.value || '',
+      reading: fields.reading.value || '',
+      decision: reading && stop ? (reading <= stop ? 'parar' : 'continuar') : '',
+      evidence: fields.evidence.value || '',
+      checks: {
+        obstacle: true,
+        sensor: !!reading,
+        condition: !!stop,
+        evidence: (fields.evidence.value || '').trim().length >= 30
+      }
+    };
+  }
+
+  function sendMissionToStudio() {
+    const payload = buildStudioPayload();
+    localStorage.setItem(studioStorageKey, JSON.stringify(payload));
+    localStorage.setItem(studioInboxKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Registro enviado para o Studio.';
+    const studioUrl = window.location.origin + '/studio/?mission=2&review=1';
+    window.open(studioUrl, '_blank');
+  }
+
+  function updateMissionDecision() {
+    const speed = readNumber(fields.speed);
+    const stop = readNumber(fields.stop);
+    const reading = readNumber(fields.reading);
+    if (!reading || !stop) {
+      result.textContent = 'Digite ou receba do console uma dist\u00e2ncia para testar a regra SE... ent\u00e3o...';
+      saveMissionDraft();
+      return;
+    }
+    const action = reading <= stop ? 'ENT\u00c3O parar SancaBot' : `ENT\u00c3O seguir devagar com ${speed || 0}%`;
+    const compare = reading <= stop ? '<=' : '>';
+    result.textContent = `SE ${reading.toFixed(1)} cm ${compare} ${stop.toFixed(1)} cm, ${action}.`;
+    saveMissionDraft();
+  }
+
+  function openPanel() {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    button.setAttribute('aria-expanded', 'true');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    Object.keys(fields).forEach((key) => {
+      if (saved[key] !== undefined) fields[key].value = saved[key];
+    });
+  } catch (error) {
+    console.warn('Nao foi possivel carregar a missao 2 salva.', error);
+  }
+
+  [fields.speed, fields.stop, fields.reading, fields.evidence].forEach((field) => {
+    field.addEventListener('input', updateMissionDecision);
+  });
+
+  draftButton.addEventListener('click', () => {
+    const speed = readNumber(fields.speed);
+    const stop = readNumber(fields.stop);
+    const reading = readNumber(fields.reading);
+    const action = reading && stop && reading <= stop ? 'parou' : 'continuou';
+    fields.evidence.value = `Usei velocidade ${speed || 0}% e dist\u00e2ncia de seguran\u00e7a de ${stop || 0} cm. A leitura do sensor ficou em ${reading || 0} cm, ent\u00e3o o SancaBot ${action}. Ajustei o obst\u00e1culo e observei se ele parava antes de encostar.`;
+    updateMissionDecision();
+    fields.evidence.focus();
+  });
+
+  clearButton.addEventListener('click', () => {
+    fields.evidence.value = '';
+    updateMissionDecision();
+  });
+
+  if (sendStudioButton) sendStudioButton.addEventListener('click', sendMissionToStudio);
+
+  button.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
+  closeButton.addEventListener('click', closePanel);
+  updateMissionDecision();
+  openPanel();
+}
+
+
+function initSancaBotMission3Panel() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('mission') !== '3') return;
+
+  const panel = document.getElementById('missionPanel3');
+  const button = document.getElementById('missionPanelButton3');
+  const closeButton = document.getElementById('missionPanelClose3');
+  if (!panel || !button || !closeButton) return;
+
+  const fields = {
+    cargo: document.getElementById('mission3Cargo'),
+    speed: document.getElementById('mission3Speed'),
+    time: document.getElementById('mission3Time'),
+    safeDistance: document.getElementById('mission3SafeDistance'),
+    evidence: document.getElementById('mission3Evidence')
+  };
+  const result = document.getElementById('mission3Result');
+  const draftButton = document.getElementById('mission3DraftEvidence');
+  const clearButton = document.getElementById('mission3ClearEvidence');
+  const sendStudioButton = document.getElementById('mission3SendStudio');
+  const saveNote = document.getElementById('mission3SaveNote');
+  const storageKey = 'sancabot_mission_3_draft';
+  const studioStorageKey = 'sancabot_studio_mission_3';
+  const studioInboxKey = 'sancabot_studio_mission_3_inbox';
+
+  panel.hidden = false;
+  button.hidden = false;
+  document.body.classList.add('mission-mode');
+
+  function readNumber(input) {
+    const value = Number(String(input.value || '').replace(',', '.'));
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function saveMissionDraft() {
+    const payload = {};
+    Object.keys(fields).forEach((key) => payload[key] = fields[key].value || '');
+    localStorage.setItem(storageKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Rascunho salvo neste navegador.';
+  }
+
+  function buildStudioPayload() {
+    return {
+      source: 'bipes',
+      mission: 3,
+      receivedAt: new Date().toISOString(),
+      cargo: fields.cargo.value || '',
+      speed: fields.speed.value || '',
+      pushTime: fields.time.value || '',
+      limitDistance: fields.safeDistance.value || '',
+      evidence: fields.evidence.value || '',
+      checks: {
+        setup: true,
+        cargo: (fields.cargo.value || '').trim().length > 0,
+        route: true,
+        sensor: true,
+        delivery: (fields.evidence.value || '').trim().length >= 30
+      }
+    };
+  }
+
+  function sendMissionToStudio() {
+    const payload = buildStudioPayload();
+    localStorage.setItem(studioStorageKey, JSON.stringify(payload));
+    localStorage.setItem(studioInboxKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Registro enviado para o Studio.';
+    const studioUrl = window.location.origin + '/studio/?mission=3&review=1';
+    window.open(studioUrl, '_blank');
+  }
+
+  function updateMissionPlan() {
+    const cargo = (fields.cargo.value || 'objeto especial').trim() || 'objeto especial';
+    const speed = readNumber(fields.speed);
+    const time = readNumber(fields.time);
+    const safeDistance = readNumber(fields.safeDistance);
+    let message = `Plano: empurrar ${cargo} com ${speed || 0}% de velocidade por ${time || 0} s.`;
+    if (safeDistance > 0) {
+      message += ` Se usar o sensor, pare quando detectar um objeto a menos de ${safeDistance} cm.`;
+    }
+    message += ' Se o objeto especial escapar, reduza a velocidade ou alinhe melhor a guia.';
+    result.textContent = message;
+    saveMissionDraft();
+  }
+
+  function openPanel() {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    button.setAttribute('aria-expanded', 'true');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    Object.keys(fields).forEach((key) => {
+      if (saved[key] !== undefined) fields[key].value = saved[key];
+    });
+  } catch (error) {
+    console.warn('Nao foi possivel carregar a missao 3 salva.', error);
+  }
+
+  [fields.cargo, fields.speed, fields.time, fields.safeDistance, fields.evidence].forEach((field) => {
+    field.addEventListener('input', updateMissionPlan);
+  });
+
+  draftButton.addEventListener('click', () => {
+    const cargo = (fields.cargo.value || 'objeto especial').trim() || 'objeto especial';
+    const speed = readNumber(fields.speed);
+    const time = readNumber(fields.time);
+    const safeDistance = readNumber(fields.safeDistance);
+    fields.evidence.value = `Escolhi ${cargo} como objeto especial. Acoplei a guia frontal e deixei o sensor ultrassom logo acima, sem bloquear a medi\u00e7\u00e3o. Testei empurrar com ${speed || 0}% de velocidade por ${time || 0} s. Usei ${safeDistance || 0} cm como limite para parar ao detectar um objeto e ajustei a rota at\u00e9 a zona de entrega.`;
+    updateMissionPlan();
+    fields.evidence.focus();
+  });
+
+  clearButton.addEventListener('click', () => {
+    fields.evidence.value = '';
+    updateMissionPlan();
+  });
+
+  if (sendStudioButton) sendStudioButton.addEventListener('click', sendMissionToStudio);
+
+  button.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
+  closeButton.addEventListener('click', closePanel);
+  updateMissionPlan();
+  openPanel();
+}
+
+function initSancaBotMission4Panel() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('mission') !== '4') return;
+
+  const panel = document.getElementById('missionPanel4');
+  const button = document.getElementById('missionPanelButton4');
+  const closeButton = document.getElementById('missionPanelClose4');
+  if (!panel || !button || !closeButton) return;
+
+  const fields = {
+    speed: document.getElementById('mission4Speed'),
+    wallLimit: document.getElementById('mission4WallLimit'),
+    turnTime: document.getElementById('mission4TurnTime'),
+    maxTime: document.getElementById('mission4MaxTime'),
+    attempts: document.getElementById('mission4Attempts'),
+    strategy: document.getElementById('mission4Strategy'),
+    evidence: document.getElementById('mission4Evidence')
+  };
+  const result = document.getElementById('mission4Result');
+  const draftButton = document.getElementById('mission4DraftEvidence');
+  const clearButton = document.getElementById('mission4ClearEvidence');
+  const sendStudioButton = document.getElementById('mission4SendStudio');
+  const saveNote = document.getElementById('mission4SaveNote');
+  const storageKey = 'sancabot_mission_4_draft';
+  const studioStorageKey = 'sancabot_studio_mission_4';
+  const studioInboxKey = 'sancabot_studio_mission_4_inbox';
+
+  panel.hidden = false;
+  button.hidden = false;
+  document.body.classList.add('mission-mode');
+
+  function readNumber(input) {
+    const value = Number(String(input.value || '').replace(',', '.'));
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function saveMissionDraft() {
+    const payload = {};
+    Object.keys(fields).forEach((key) => payload[key] = fields[key].value || '');
+    localStorage.setItem(storageKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Rascunho salvo neste navegador.';
+  }
+
+  function buildStudioPayload() {
+    return {
+      source: 'bipes',
+      mission: 4,
+      receivedAt: new Date().toISOString(),
+      speed: fields.speed.value || '',
+      wallLimit: fields.wallLimit.value || '',
+      turnTime: fields.turnTime.value || '',
+      maxTime: fields.maxTime.value || '',
+      attempts: fields.attempts.value || '',
+      strategy: fields.strategy.value || '',
+      evidence: fields.evidence.value || '',
+      checks: {
+        maze: true,
+        sensor: true,
+        rule: true,
+        timer: true,
+        test: (fields.evidence.value || '').trim().length >= 30
+      }
+    };
+  }
+
+  function sendMissionToStudio() {
+    const payload = buildStudioPayload();
+    localStorage.setItem(studioStorageKey, JSON.stringify(payload));
+    localStorage.setItem(studioInboxKey, JSON.stringify(payload));
+    if (saveNote) saveNote.textContent = 'Registro enviado para o Studio.';
+    const studioUrl = window.location.origin + '/studio/?mission=4&review=1';
+    window.open(studioUrl, '_blank');
+  }
+
+  function updateMissionPlan() {
+    const speed = readNumber(fields.speed);
+    const wallLimit = readNumber(fields.wallLimit);
+    const turnTime = readNumber(fields.turnTime);
+    const maxTime = readNumber(fields.maxTime);
+    const attempts = readNumber(fields.attempts);
+    result.textContent = `Plano: andar com ${speed || 0}% de velocidade, considerar parede a menos de ${wallLimit || 0} cm, girar por ${turnTime || 0} s e tentar sair em ate ${maxTime || 0} s. Planeje ${attempts || 0} tentativa(s) e ajuste uma coisa por vez.`;
+    saveMissionDraft();
+  }
+
+  function openPanel() {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    button.setAttribute('aria-expanded', 'true');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    Object.keys(fields).forEach((key) => {
+      if (saved[key] !== undefined) fields[key].value = saved[key];
+    });
+  } catch (error) {
+    console.warn('Nao foi possivel carregar a missao 4 salva.', error);
+  }
+
+  Object.keys(fields).forEach((key) => fields[key].addEventListener('input', updateMissionPlan));
+
+  draftButton.addEventListener('click', () => {
+    const speed = readNumber(fields.speed);
+    const wallLimit = readNumber(fields.wallLimit);
+    const turnTime = readNumber(fields.turnTime);
+    const maxTime = readNumber(fields.maxTime);
+    const attempts = readNumber(fields.attempts);
+    fields.evidence.value = `Montei um labirinto com paredes baixas e testei o ultrassom antes. Programei o SancaBot para andar com ${speed || 0}% de velocidade, detectar parede a menos de ${wallLimit || 0} cm, girar por ${turnTime || 0} s e tentar por ate ${maxTime || 0} s. Fiz ${attempts || 0} tentativa(s). Minha estrategia foi: ${fields.strategy.value || 'medir, decidir e agir.'}`;
+    updateMissionPlan();
+    fields.evidence.focus();
+  });
+
+  clearButton.addEventListener('click', () => {
+    fields.evidence.value = '';
+    updateMissionPlan();
+  });
+
+  if (sendStudioButton) sendStudioButton.addEventListener('click', sendMissionToStudio);
+
+  button.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
+  closeButton.addEventListener('click', closePanel);
+  updateMissionPlan();
+  openPanel();
+}
+setTimeout(initSancaBotMissionPanel, 250);
+setTimeout(initSancaBotMission2Panel, 250);
+setTimeout(initSancaBotMission3Panel, 250);
+setTimeout(initSancaBotMission4Panel, 250);
+
+
+function initSancaBotTraceFlow() {
+  const MIN_DISPLAY_MS = 300;   // tempo minimo que cada bloco fica destacado
+  const MAX_QUEUE = 6;          // acima disso, pula para o mais recente (execucao muito rapida)
+  const state = {
+    currentId: null,
+    currentTimer: null,
+    executed: new Set(),
+    traceBuffer: '',
+    queue: [],
+    displaying: false,
+    counts: {},
+  };
+
+  const traceDecoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8') : null;
+
+  function normalizeTraceData(data) {
+    if (data == null) return '';
+    if (typeof data === 'string') return data;
+    if (data instanceof ArrayBuffer && traceDecoder) return traceDecoder.decode(new Uint8Array(data));
+    if (ArrayBuffer.isView(data) && traceDecoder) return traceDecoder.decode(data);
+    if (Array.isArray(data)) return String.fromCharCode.apply(null, data);
+    return String(data || '');
+  }
+
+  function getWorkspace() {
+    return (window.Code && Code.workspace) || (window.Blockly && Blockly.getMainWorkspace && Blockly.getMainWorkspace()) || null;
+  }
+
+  function getBlockSvg(blockId) {
+    const workspace = getWorkspace();
+    if (!workspace || !blockId) return null;
+    const block = workspace.getBlockById(blockId);
+    if (!block || typeof block.getSvgRoot !== 'function') return null;
+    return block.getSvgRoot();
+  }
+
+  function clearCurrent() {
+    if (!state.currentId) return;
+    const oldSvg = getBlockSvg(state.currentId);
+    if (oldSvg) oldSvg.classList.remove('sancabot-trace-current');
+    state.currentId = null;
+  }
+
+  function getBadge() {
+    let badge = document.getElementById('sancabotTraceBadge');
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.id = 'sancabotTraceBadge';
+      document.body.appendChild(badge);
+    }
+    return badge;
+  }
+
+  function showBadge(blockId, count) {
+    const badge = getBadge();
+    if (!count || count < 2) { badge.style.display = 'none'; return; }
+    const svg = getBlockSvg(blockId);
+    if (!svg) { badge.style.display = 'none'; return; }
+    const rect = svg.getBoundingClientRect();
+    badge.textContent = '×' + count;
+    badge.style.display = 'block';
+    badge.style.left = Math.round(rect.right - 8) + 'px';
+    badge.style.top = Math.round(rect.top - 10) + 'px';
+  }
+
+  function hideBadge() {
+    const badge = document.getElementById('sancabotTraceBadge');
+    if (badge) badge.style.display = 'none';
+  }
+
+  // Exibe um item da fila por pelo menos MIN_DISPLAY_MS antes de passar ao proximo.
+  function displayNext() {
+    if (!state.queue.length) { state.displaying = false; return; }
+    state.displaying = true;
+    // Execucao muito rapida: mantem apenas o mais recente, marca os pulados como "vistos".
+    if (state.queue.length > MAX_QUEUE) {
+      const skipped = state.queue.splice(0, state.queue.length - 1);
+      skipped.forEach((item) => {
+        const svg = getBlockSvg(item.blockId);
+        if (svg) svg.classList.add('sancabot-trace-seen');
+        state.executed.add(item.blockId);
+      });
+    }
+    const item = state.queue.shift();
+    if (state.currentTimer) clearTimeout(state.currentTimer);
+    clearCurrent();
+    const svg = getBlockSvg(item.blockId);
+    if (svg) {
+      svg.classList.add('sancabot-trace-seen');
+      svg.classList.add('sancabot-trace-current');
+      state.executed.add(item.blockId);
+      state.currentId = item.blockId;
+      showBadge(item.blockId, item.count);
+      window.sancabotLastTrace = { blockId: item.blockId, label: item.label || '', at: Date.now() };
+    }
+    setTimeout(() => {
+      if (state.queue.length) { displayNext(); return; }
+      state.displaying = false;
+      // Fila vazia: mantem o ultimo bloco aceso por mais um tempo.
+      state.currentTimer = setTimeout(() => {
+        const currentSvg = getBlockSvg(item.blockId);
+        if (currentSvg) currentSvg.classList.remove('sancabot-trace-current');
+        if (state.currentId === item.blockId) state.currentId = null;
+        hideBadge();
+      }, 6500);
+    }, MIN_DISPLAY_MS);
+  }
+
+  function markTrace(blockId, label, count) {
+    if (!blockId) return;
+    if ((label || '').toLowerCase().indexOf('preparar motores') !== -1) clearTrace();
+    const parsedCount = Number(count);
+    state.counts[blockId] = Number.isFinite(parsedCount) && parsedCount > 0
+      ? parsedCount
+      : (state.counts[blockId] || 0) + 1;
+    state.queue.push({ blockId, label: label || '', count: state.counts[blockId] });
+    if (!state.displaying) displayNext();
+  }
+
+  function clearTrace() {
+    if (state.currentTimer) clearTimeout(state.currentTimer);
+    clearCurrent();
+    state.executed.forEach((blockId) => {
+      const svg = getBlockSvg(blockId);
+      if (svg) svg.classList.remove('sancabot-trace-seen', 'sancabot-trace-current');
+    });
+    state.executed.clear();
+    state.queue.length = 0;
+    state.displaying = false;
+    state.counts = {};
+    hideBadge();
+  }
+
+  function inspectTraceText(text) {
+    const clean = normalizeTraceData(text).replace(/\x1b\[[0-9;?]*[ -/]*[@-~]/g, ' ');
+    if (!clean) return;
+    state.traceBuffer = (state.traceBuffer + clean).slice(-2400);
+    const matches = [...state.traceBuffer.matchAll(/SANCABOT_TRACE\|([^|\r\n]+)\|([^|\r\n]*)(?:\|(\d+))?/gi)];
+    matches.forEach((match) => markTrace(match[1], match[2] || '', match[3]));
+    const lastBreak = Math.max(state.traceBuffer.lastIndexOf('\n'), state.traceBuffer.lastIndexOf('\r'));
+    if (lastBreak >= 0) state.traceBuffer = state.traceBuffer.slice(lastBreak + 1);
+  }
+
+  function stripTraceText(text) {
+    if (text == null) return text;
+    const normalized = normalizeTraceData(text);
+    if (!normalized || !/SANCABOT_TRACE\|/i.test(normalized)) return text;
+    const endsWithBreak = /\r?\n$/.test(normalized);
+    const visible = normalized
+      .split(/\r?\n/)
+      .filter((line) => !/SANCABOT_TRACE\|/i.test(line))
+      .join('\n');
+    return visible && endsWithBreak ? visible + '\n' : visible;
+  }
+
+  // ===== Filtro de STREAM (com estado) =====
+  // O BLE/serial fatia as linhas em pedacos; um filtro por chunk deixa vazar
+  // fragmentos de SANCABOT_TRACE no console. Este filtro guarda o comeco de uma
+  // possivel linha de trace ate ela completar (ou ate provar que nao e trace).
+  const TRACE_MARK = 'SANCABOT_TRACE|';
+  const INTERNAL_MARKS = ['SANCABOT_TRACE|'];
+  const INTERNAL_MARKS_UPPER = INTERNAL_MARKS.map((mark) => mark.toUpperCase());
+  const INTERNAL_LINE_RE = /SANCABOT_TRACE\|/i;
+  const streamState = { tail: '' };
+
+  function tailCouldBeTrace(partial) {
+    const breakAt = Math.max(partial.lastIndexOf('\r'), partial.lastIndexOf('\n'));
+    const seg = partial.slice(breakAt + 1).toUpperCase();
+    if (INTERNAL_MARKS_UPPER.some((mark) => seg.indexOf(mark) !== -1)) return true;
+    const max = Math.min(seg.length, Math.max(...INTERNAL_MARKS_UPPER.map((mark) => mark.length)) - 1);
+    for (let n = max; n > 0; n--) {
+      if (INTERNAL_MARKS_UPPER.some((mark) => seg.slice(-n) === mark.slice(0, n))) return true;
+    }
+    return false;
+  }
+
+  function filterTraceStream(data) {
+    const normalized = normalizeTraceData(data);
+    const upper = normalized.toUpperCase();
+    // Caminho rapido: nada pendente e nenhum indicio de canal interno -> devolve intocado
+    // (preserva o tipo original do dado para o terminal).
+    if (!streamState.tail && !INTERNAL_MARKS_UPPER.some((mark) => upper.indexOf(mark) !== -1)) {
+      const lastBreak = Math.max(normalized.lastIndexOf('\r'), normalized.lastIndexOf('\n'));
+      const lastLine = normalized.slice(lastBreak + 1);
+      if (!tailCouldBeTrace(lastLine)) return data;
+    }
+
+    let text = streamState.tail + normalized;
+    streamState.tail = '';
+    let out = '';
+    let lineStart = 0;
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch !== '\n' && ch !== '\r') continue;
+      let end = i + 1;
+      if (ch === '\r' && text[i + 1] === '\n') {
+        end = i + 2;
+        i++;
+      }
+      const line = text.slice(lineStart, end);
+      if (!INTERNAL_LINE_RE.test(line)) out += line;
+      lineStart = end;
+    }
+
+    const rest = text.slice(lineStart);
+    if (rest) {
+      if (tailCouldBeTrace(rest) && rest.length <= 600) {
+        streamState.tail = rest; // segura ate a linha completar
+      } else if (!INTERNAL_LINE_RE.test(rest)) {
+        out += rest;
+      }
+    }
+    return out;
+  }
+  window.sancabotTraceFlow = { markTrace, clearTrace, inspectTraceText, stripTraceText, filterTraceStream };
+}
+initSancaBotTraceFlow();
+
+// Botao "modo passo a passo" (tartaruga): injeta pausa de 350ms apos cada bloco
+// no codigo gerado, para a turma acompanhar o destaque dos blocos com calma.
+function initSancaBotSlowModeToggle() {
+  const runButton = document.getElementById('runButton');
+  if (!runButton || document.getElementById('sancabotSlowToggle')) {
+    if (!runButton) setTimeout(initSancaBotSlowModeToggle, 500);
+    return;
+  }
+  const saved = localStorage.getItem('sancabot_slow_mode') === '1';
+  window.sancabotSlowMode = saved;
+  const toggle = document.createElement('button');
+  toggle.id = 'sancabotSlowToggle';
+  toggle.type = 'button';
+  toggle.textContent = '🐢';
+  toggle.title = 'Modo passo a passo: roda o programa devagar para ver cada bloco acender';
+  toggle.classList.toggle('active', saved);
+  toggle.addEventListener('click', () => {
+    window.sancabotSlowMode = !window.sancabotSlowMode;
+    localStorage.setItem('sancabot_slow_mode', window.sancabotSlowMode ? '1' : '0');
+    toggle.classList.toggle('active', window.sancabotSlowMode);
+  });
+  runButton.parentNode.insertBefore(toggle, runButton.nextSibling);
+}
+setTimeout(initSancaBotSlowModeToggle, 600);
+function initSancaBotDistancePanel() {
+  const labelEl = document.getElementById('sancabotPanelLabel');
+  const valueEl = document.getElementById('sancabotDistanceValue');
+  const barEl = document.getElementById('sancabotDistanceBar');
+  const statusEl = document.getElementById('sancabotDistanceStatus');
+  const mission4LabelEl = document.getElementById('sancabotMission4PanelLabel');
+  const mission4ValueEl = document.getElementById('sancabotMission4Value');
+  const mission4BarEl = document.getElementById('sancabotMission4Bar');
+  const mission4StatusEl = document.getElementById('sancabotMission4Status');
+  const inputEl = document.getElementById('mission2Reading');
+  if ((!valueEl || !barEl || !statusEl) && (!mission4ValueEl || !mission4BarEl || !mission4StatusEl)) return;
+
+  function updatePanel(label, value, unit) {
+    if (!Number.isFinite(value)) return;
+    const displayLabel = label || 'Valor';
+    const displayUnit = unit || '';
+    const normalized = `${displayLabel} ${displayUnit}`.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const isDistance = normalized.includes('dist') || displayUnit.toLowerCase() === 'cm';
+    const noReading = isDistance && (value < 2 || value > 400);
+    if (labelEl) labelEl.textContent = displayLabel;
+    if (mission4LabelEl) mission4LabelEl.textContent = displayLabel;
+    if (noReading) {
+      const status = 'Sem eco do ultrassom: confira fios, pinos Trigger/Echo e alimentação do sensor.';
+      if (valueEl) valueEl.textContent = 'sem leitura';
+      if (barEl) barEl.style.width = '4%';
+      if (statusEl) { statusEl.textContent = status; statusEl.dataset.tone = 'lost'; }
+      if (mission4ValueEl) mission4ValueEl.textContent = 'sem leitura';
+      if (mission4BarEl) mission4BarEl.style.width = '4%';
+      if (mission4StatusEl) { mission4StatusEl.textContent = status; mission4StatusEl.dataset.tone = 'lost'; }
+      return;
+    }
+    const displayValue = `${value.toFixed(1)}${displayUnit ? ' ' + displayUnit : ''}`;
+    if (valueEl) valueEl.textContent = displayValue;
+    if (mission4ValueEl) mission4ValueEl.textContent = displayValue;
+    const clamped = Math.max(0, Math.min(100, value));
+    const barWidth = `${Math.max(4, Math.min(100, clamped))}%`;
+    if (barEl) barEl.style.width = barWidth;
+    if (mission4BarEl) mission4BarEl.style.width = barWidth;
+    let status = 'Valor recebido';
+    let tone = 'far';
+    if (isDistance) {
+      status = 'Longe';
+      if (value <= 15) { status = 'Perto: parar'; tone = 'near'; }
+      else if (value <= 30) { status = 'Aten\u00e7\u00e3o'; tone = 'mid'; }
+      if (inputEl) {
+        inputEl.value = value.toFixed(1);
+        inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    }
+    if (statusEl) { statusEl.textContent = status; statusEl.dataset.tone = tone; }
+    if (mission4StatusEl) { mission4StatusEl.textContent = status; mission4StatusEl.dataset.tone = tone; }
+  }
+
+  let consoleBuffer = '';
+  let panelBuffer = '';
+  const decoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8') : null;
+
+  function normalizeTerminalData(data) {
+    if (data == null) return '';
+    if (typeof data === 'string') return data;
+    if (data instanceof ArrayBuffer && decoder) return decoder.decode(new Uint8Array(data));
+    if (ArrayBuffer.isView(data) && decoder) return decoder.decode(data);
+    if (Array.isArray(data)) return String.fromCharCode.apply(null, data);
+    return String(data || '');
+  }
+
+  function consumePanelText(text) {
+    if (!text) return false;
+    panelBuffer = (panelBuffer + text).slice(-3000);
+    const patterns = [
+      /SANCABOT_PANEL\|([^|\r\n]+)\|(-?\d+(?:[\.,]\d+)?)\|([^|\r\n]*)/gi,
+      /SANCABOT_PANEL\s+([^|:\r\n]+)\s*[:|]\s*(-?\d+(?:[\.,]\d+)?)\s*([^\r\n]*)/gi,
+      /(?:Distancia|Distância|Distance)\s*:?\s*(-?\d+(?:[\.,]\d+)?)\s*(cm)?/gi
+    ];
+    let found = null;
+    patterns.forEach((pattern, index) => {
+      const matches = [...panelBuffer.matchAll(pattern)];
+      const match = matches[matches.length - 1];
+      if (!match) return;
+      found = index === 2
+        ? { label: 'Distância agora', value: match[1], unit: match[2] || 'cm' }
+        : { label: match[1], value: match[2], unit: match[3] || '' };
+    });
+    if (!found) return false;
+    updatePanel(found.label, Number(String(found.value).replace(',', '.')), String(found.unit || '').trim());
+    const lastBreak = Math.max(panelBuffer.lastIndexOf('\n'), panelBuffer.lastIndexOf('\r'));
+    if (lastBreak >= 0) panelBuffer = panelBuffer.slice(lastBreak + 1);
+    return true;
+  }
+  function inspectConsoleText(text) {
+    if (window.sancabotTraceFlow) window.sancabotTraceFlow.inspectTraceText(text);
+    const raw = normalizeTerminalData(text).replace(/\x1b\[[0-9;?]*[ -/]*[@-~]/g, ' ');
+    if (!raw) return;
+
+    consumePanelText(raw);
+
+    const clean = raw.replace(/.*SANCABOT_TRACE\|[^\r\n]*/gi, '');
+    if (!clean) return;
+    consoleBuffer = (consoleBuffer + clean).slice(-1600);
+    const searchable = consoleBuffer.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const distanceMatches = [...searchable.matchAll(/(?:Distancia|Distance)\s*:?\s*(-?\d+(?:[\.,]\d+)?)/gi)];
+    const distanceMatch = distanceMatches[distanceMatches.length - 1];
+    if (distanceMatch) updatePanel('Dist\u00e2ncia agora', Number(distanceMatch[1].replace(',', '.')), 'cm');
+  }
+  window.sancabotMission2InspectConsole = inspectConsoleText;
+
+  const install = () => {
+    const termObj = window.term || (typeof term !== 'undefined' ? term : null) || window.terminal || (typeof terminal !== 'undefined' ? terminal : null);
+    if (!termObj || termObj.__sancabotDistanceHook) return false;
+    ['write', 'writeUtf8', 'writeln'].forEach((method) => {
+      if (typeof termObj[method] !== 'function') return;
+      const original = termObj[method].bind(termObj);
+      termObj[method] = function(data, callback) {
+        inspectConsoleText(data);
+        const visibleData = window.sancabotTraceFlow && window.sancabotTraceFlow.filterTraceStream
+          ? window.sancabotTraceFlow.filterTraceStream(data)
+          : data;
+        if (visibleData === '') { if (typeof callback === 'function') callback(); return; }
+        return original(visibleData, callback);
+      };
+    });
+    const termEl = document.getElementById('term') || document.querySelector('.xterm');
+    if (termEl && typeof MutationObserver !== 'undefined') {
+      let lastText = '';
+      const observer = new MutationObserver(() => {
+        const text = termEl.textContent || '';
+        if (text && text !== lastText) {
+          inspectConsoleText(text.slice(Math.max(0, lastText.length - 300)));
+          lastText = text;
+        }
+      });
+      observer.observe(termEl, { childList: true, subtree: true, characterData: true });
+      termObj.__sancabotDistanceObserver = observer;
+    }
+    termObj.__sancabotDistanceHook = true;
+    return true;
+  };
+
+  if (!install()) {
+    const timer = setInterval(() => {
+      if (install()) clearInterval(timer);
+    }, 300);
+    setTimeout(() => clearInterval(timer), 60000);
+  }
+  // Garante o hook mesmo se o terminal for criado tarde (ex.: conectar depois):
+  // ao clicar no play, tenta instalar de novo (install() ignora se ja instalado).
+  const runBtnHook = document.getElementById('runButton');
+  if (runBtnHook) runBtnHook.addEventListener('click', () => setTimeout(install, 400));
+}
+setTimeout(initSancaBotDistancePanel, 800);
+
+
+function initSancaBotPrepTour() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('tour') !== 'prep') return;
+
+  const tour = document.getElementById('sancabotTour');
+  const overlay = document.getElementById('sancabotTourOverlay');
+  const spotlight = document.getElementById('sancabotTourSpotlight');
+  const title = document.getElementById('sancabotTourTitle');
+  const text = document.getElementById('sancabotTourText');
+  const stepLabel = document.getElementById('sancabotTourStep');
+  const nextButton = document.getElementById('sancabotTourNext');
+  const skipButton = document.getElementById('sancabotTourSkip');
+  if (!tour || !overlay || !spotlight || !title || !text || !stepLabel || !nextButton || !skipButton) return;
+
+  const steps = [
+    {
+      target: null,
+      title: 'Bem-vindo ao SancaBot by BIPES',
+      text: 'Este \u00e9 o editor onde voc\u00ea conecta o SancaBot, monta os blocos e roda seus testes. Vamos come\u00e7ar?'
+    },
+    {
+      target: '#channel_connect',
+      title: 'Conecte o SancaBot',
+      text: 'Clique em Conectar, escolha Bluetooth e selecione o SancaBot quando ele aparecer.'
+    },
+    {
+      target: '.sancabot-toolbox-sancabot',
+      title: 'Escolha os blocos laranja',
+      text: 'Abra a categoria SancaBot. Ela tem os blocos de movimento, corre\u00e7\u00e3o e parada.'
+    },
+    {
+      target: '#runButton',
+      title: 'Clique no Play',
+      text: 'Quando o programa estiver pronto, clique no Play para rodar o c\u00f3digo no SancaBot.'
+    }
+  ];
+  let stepIndex = 0;
+
+  function findTarget(selector) {
+    const options = selector.split(',').map(s => s.trim());
+    for (const option of options) {
+      const el = document.querySelector(option);
+      if (el) return el;
+    }
+    return null;
+  }
+
+  function rectForTarget(target) {
+    if (!target) return { left: 22, top: 76, width: 260, height: 70 };
+    const rect = target.getBoundingClientRect();
+    const maxWidth = Math.min(rect.width, window.innerWidth - 32);
+    const maxHeight = Math.min(rect.height, window.innerHeight - 32);
+    return {
+      left: Math.max(12, Math.min(rect.left, window.innerWidth - maxWidth - 12)),
+      top: Math.max(12, Math.min(rect.top, window.innerHeight - maxHeight - 12)),
+      width: Math.max(48, maxWidth),
+      height: Math.max(34, maxHeight)
+    };
+  }
+
+  function placeSpotlight(rect) {
+    spotlight.style.left = rect.left + 'px';
+    spotlight.style.top = rect.top + 'px';
+    spotlight.style.width = rect.width + 'px';
+    spotlight.style.height = rect.height + 'px';
+  }
+
+  function placeTour(rect) {
+    const width = Math.min(360, window.innerWidth - 28);
+    let left = rect.left + rect.width + 18;
+    let top = rect.top;
+    if (left + width > window.innerWidth - 14) left = rect.left - width - 18;
+    if (left < 14) left = Math.max(14, Math.min((window.innerWidth - width) / 2, window.innerWidth - width - 14));
+    if (top + 230 > window.innerHeight) top = window.innerHeight - 244;
+    top = Math.max(14, top);
+    tour.style.width = width + 'px';
+    tour.style.left = left + 'px';
+    tour.style.top = top + 'px';
+    tour.style.setProperty('--tour-arrow-left', '34px');
+  }
+
+  function placeTourIntro() {
+    const width = Math.min(390, window.innerWidth - 28);
+    tour.style.width = `${width}px`;
+    tour.style.left = `${Math.max(14, (window.innerWidth - width) / 2)}px`;
+    tour.style.top = `${Math.max(18, Math.min(112, window.innerHeight * 0.14))}px`;
+    tour.style.setProperty('--tour-arrow-left', '34px');
+  }
+
+  function showStep() {
+    const step = steps[stepIndex];
+    const target = step.target ? findTarget(step.target) : null;
+    const rect = step.target ? rectForTarget(target) : null;
+    stepLabel.textContent = `Passo ${stepIndex + 1} / ${steps.length}`;
+    title.textContent = step.title;
+    text.textContent = step.text;
+    nextButton.textContent = stepIndex === steps.length - 1 ? 'Concluir' : 'Pr\u00f3ximo';
+    tour.classList.toggle('sancabot-tour--intro', !rect);
+    if (rect) {
+      spotlight.hidden = false;
+      placeSpotlight(rect);
+      placeTour(rect);
+    } else {
+      spotlight.hidden = true;
+      placeTourIntro();
+    }
+  }
+
+  function closeTour() {
+    tour.hidden = true;
+    overlay.hidden = true;
+    spotlight.hidden = true;
+    tour.setAttribute('aria-hidden', 'true');
+  }
+
+  nextButton.addEventListener('click', () => {
+    if (stepIndex < steps.length - 1) {
+      stepIndex += 1;
+      showStep();
+    } else {
+      closeTour();
+    }
+  });
+  skipButton.addEventListener('click', closeTour);
+  window.addEventListener('resize', () => showStep());
+
+  function startTourWhenReady() {
+    const hasMenu = !!document.querySelector('.top-menu');
+    const hasBlockly = !!document.querySelector('.blocklyToolboxDiv, .blocklyTreeRoot, #content_blocks');
+    if (!hasMenu || !hasBlockly) {
+      setTimeout(startTourWhenReady, 250);
+      return;
+    }
+    tour.hidden = false;
+    overlay.hidden = false;
+    spotlight.hidden = true;
+    tour.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => requestAnimationFrame(showStep));
+    setTimeout(showStep, 650);
+  }
+  setTimeout(startTourWhenReady, 1200);
+}
+setTimeout(initSancaBotPrepTour, 1200);
+
 
 /* global WebSocket, WebSerial and Bluetooth variable and functions (see core/channel.js) */
 var Channel = {};
@@ -419,7 +1875,8 @@ Tool.clearQueue ();
 
 window.onload = function() {
 	checkCookie()
-	loadPage(); //Load modal splash screen
+	// SancaBot: splash inicial removido para abrir direto no editor/tour.
+	// loadPage();
 
 	//i18n
 	//Auto detect user language (from the browser)
@@ -445,7 +1902,7 @@ window.onload = function() {
 	if (MSG["splash_welcome"]) 
 		document.getElementById("modalTitle").innerHTML = MSG["splash_welcome"];
 	else
-		document.getElementById("modalTitle").innerHTML = "Welcome to BIPES!";
+		document.getElementById("modalTitle").innerHTML = "Bem-vindo ao SancaBot by BIPES!";
 
 	if (MSG["splash_message"]) 
 		document.getElementById("modalMsg").innerHTML = MSG["splash_message"] + addMsg;
@@ -473,7 +1930,7 @@ window.onload = function() {
 	//		document.getElementById("modalTitle").innerHTML = MSG["splash_welcome"];
 	//	}
 	//	else {
-	//		document.getElementById("modalTitle").innerHTML = "Welcome to BIPES!";
+	//		document.getElementById("modalTitle").innerHTML = "Bem-vindo ao SancaBot by BIPES!";
 	//	}
 	//}
 
@@ -725,6 +2182,29 @@ function eraseCookieModal(name) {
 
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

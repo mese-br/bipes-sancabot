@@ -1,7 +1,9 @@
-[submodule "ui/freeboard"]
-    path = ui/freeboard
-    url = git@github.com:joaodrj/freeboard.git
-[submodule "databoard"]
-    path = databoard
-    url = git@github.com:joaodrj/databoard.git
+ARQUIVO OBSOLETO - RECOMENDA-SE EXCLUSAO MANUAL.
 
+Este arquivo e um backup residual (.save) de um .gitmodules antigo, sem uso
+no projeto atual. O agente de edicao nao teve acesso a uma ferramenta de
+exclusao de arquivo nesta sessao, entao o conteudo original foi substituido
+por este aviso.
+
+Acao recomendada: apagar este arquivo manualmente
+(I:\Meu Drive\SancaLabs - Documentos\06 - Produtos\06.02 - SancaBot Impact Lab\21_EDITOR_BIPES_SANCABOT\BIPES-sancabot\.gitmodules.save).

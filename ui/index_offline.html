@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,6 +82,10 @@ function checkCookie() {
   <!-- Custom Blocks for BIPES Project --> 
   <script src="core/block_definitions.js?ver=0.2.3.11011813"></script> <!-- Rafael 24/03/2020 -->
   <script src="core/generator_stubs.js?ver=0.2.3.11011813"></script> <!-- Rafael 24/03/2020 -->
+
+  <!-- Blocos e geradores SancaBot (separados em 2026-07-05) -->
+  <script src="core/block_definitions_sancabot.js?ver=sancabot-20260705-19"></script>
+  <script src="core/generator_stubs_sancabot.js?ver=sancabot-20260705-19"></script>
 
   <!-- xterm part -->
   <script src="core/xterm.js?ver=4.13.0"></script>
@@ -439,7 +443,7 @@ window.onload = function() {
 		pLang='en';
 
 	if ((userLang.startsWith("pt")) || (pLang.startsWith("pt"))) {	
-		addMsg="<p><a href=/beta2/ui/?lang=pt-br>Acessar o BIPES em Português</a>";
+		addMsg="<p><a href=/beta2/ui/?lang=pt-br>Acessar o BIPES em PortuguÃªs</a>";
 		addMsg+=" | <a href=/beta2/ui/?lang=en>Access BIPES in English</a>";
 	}
 
@@ -1089,7 +1093,7 @@ function eraseCookieModal(name) {
           <field name="TEXT"></field>
         </shadow>
       </value>
-      <value name="Função">
+      <value name="FunÃ§Ã£o">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
@@ -1799,12 +1803,12 @@ function eraseCookieModal(name) {
       <block type="dht_read_temp"></block>
       <block type="dht_read_humidity"></block>
     </category>
-<!--Adicionando os blocos do Anenmômetro-->
-    <category name="Anemômetro">
-    <label text="Anenômetro"></label>
-<!--Iniciar Anemômetro-->
+<!--Adicionando os blocos do AnenmÃ´metro-->
+    <category name="AnemÃ´metro">
+    <label text="AnenÃ´metro"></label>
+<!--Iniciar AnemÃ´metro-->
     <block type="anemo_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -1815,21 +1819,21 @@ function eraseCookieModal(name) {
           </shadow>
         </value>
       </block>
-<!--Parar Anemômetro-->
+<!--Parar AnemÃ´metro-->
       <block type="anemo_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
       </block>
   </category>
-<!--Adicionando os blocos do Pluviômetro--> 
-  <category name="Pluviômetro">
-    <label text= "Pluviômetro"></label>
-<!--Iniciar Pluviômetro-->
+<!--Adicionando os blocos do PluviÃ´metro--> 
+  <category name="PluviÃ´metro">
+    <label text= "PluviÃ´metro"></label>
+<!--Iniciar PluviÃ´metro-->
     <block type="pluvio_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -1840,9 +1844,9 @@ function eraseCookieModal(name) {
           </shadow>
         </value>
       </block>
-<!--Parar Pluviômetro-->
+<!--Parar PluviÃ´metro-->
       <block type="pluvio_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -3014,7 +3018,7 @@ _
 <category name="%{BKY_CAT_CONTROL}">
   <category name="PID">
     <button text="Install control library" callbackKey="installPyLib"></button>
-    <label text="Proportional–integral–derivative Controller"></label>
+    <label text="Proportionalâ€“integralâ€“derivative Controller"></label>
       <label text="Library: https://github.com/JorgeGMarques/micropython-simple-pid"></label>
       <button text="Load example: pid_water_boiler" callbackKey="loadExample"></button>
 
@@ -7797,7 +7801,7 @@ _
           <field name="TEXT"></field>
         </shadow>
       </value>
-      <value name="Função">
+      <value name="FunÃ§Ã£o">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
@@ -8491,12 +8495,12 @@ _
       <block type="dht_read_temp"></block>
       <block type="dht_read_humidity"></block>
     </category>
-<!--Adicionando os blocos do Anenmômetro-->
-    <category name="Anemômetro">
-    <label text="Anenômetro"></label>
-<!--Iniciar Anemômetro-->
+<!--Adicionando os blocos do AnenmÃ´metro-->
+    <category name="AnemÃ´metro">
+    <label text="AnenÃ´metro"></label>
+<!--Iniciar AnemÃ´metro-->
     <block type="anemo_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -8507,21 +8511,21 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Anemômetro-->
+<!--Parar AnemÃ´metro-->
       <block type="anemo_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
       </block>
   </category>
-<!--Adicionando os blocos do Pluviômetro--> 
-  <category name="Pluviômetro">
-    <label text= "Pluviômetro"></label>
-<!--Iniciar Pluviômetro-->
+<!--Adicionando os blocos do PluviÃ´metro--> 
+  <category name="PluviÃ´metro">
+    <label text= "PluviÃ´metro"></label>
+<!--Iniciar PluviÃ´metro-->
     <block type="pluvio_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -8532,9 +8536,9 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Pluviômetro-->
+<!--Parar PluviÃ´metro-->
       <block type="pluvio_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -9451,7 +9455,7 @@ _
           <field name="TEXT"></field>
         </shadow>
       </value>
-      <value name="Função">
+      <value name="FunÃ§Ã£o">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
@@ -10161,12 +10165,12 @@ _
       <block type="dht_read_temp"></block>
       <block type="dht_read_humidity"></block>
     </category>
-<!--Adicionando os blocos do Anenmômetro-->
-    <category name="Anemômetro">
-    <label text="Anenômetro"></label>
-<!--Iniciar Anemômetro-->
+<!--Adicionando os blocos do AnenmÃ´metro-->
+    <category name="AnemÃ´metro">
+    <label text="AnenÃ´metro"></label>
+<!--Iniciar AnemÃ´metro-->
     <block type="anemo_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -10177,21 +10181,21 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Anemômetro-->
+<!--Parar AnemÃ´metro-->
       <block type="anemo_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
       </block>
   </category>
-<!--Adicionando os blocos do Pluviômetro--> 
-  <category name="Pluviômetro">
-    <label text= "Pluviômetro"></label>
-<!--Iniciar Pluviômetro-->
+<!--Adicionando os blocos do PluviÃ´metro--> 
+  <category name="PluviÃ´metro">
+    <label text= "PluviÃ´metro"></label>
+<!--Iniciar PluviÃ´metro-->
     <block type="pluvio_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -10202,9 +10206,9 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Pluviômetro-->
+<!--Parar PluviÃ´metro-->
       <block type="pluvio_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -11375,7 +11379,7 @@ _
 <category name="%{BKY_CAT_CONTROL}">
   <category name="PID">
     <button text="Install control library" callbackKey="installPyLib"></button>
-    <label text="Proportional–integral–derivative Controller"></label>
+    <label text="Proportionalâ€“integralâ€“derivative Controller"></label>
       <label text="Library: https://github.com/JorgeGMarques/micropython-simple-pid"></label>
       <button text="Load example: pid_water_boiler" callbackKey="loadExample"></button>
 
@@ -12840,7 +12844,7 @@ _
           <field name="TEXT"></field>
         </shadow>
       </value>
-      <value name="Função">
+      <value name="FunÃ§Ã£o">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
@@ -13584,12 +13588,12 @@ _
       <block type="dht_read_temp"></block>
       <block type="dht_read_humidity"></block>
     </category>
-<!--Adicionando os blocos do Anenmômetro-->
-    <category name="Anemômetro">
-    <label text="Anenômetro"></label>
-<!--Iniciar Anemômetro-->
+<!--Adicionando os blocos do AnenmÃ´metro-->
+    <category name="AnemÃ´metro">
+    <label text="AnenÃ´metro"></label>
+<!--Iniciar AnemÃ´metro-->
     <block type="anemo_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -13600,21 +13604,21 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Anemômetro-->
+<!--Parar AnemÃ´metro-->
       <block type="anemo_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
       </block>
   </category>
-<!--Adicionando os blocos do Pluviômetro--> 
-  <category name="Pluviômetro">
-    <label text= "Pluviômetro"></label>
-<!--Iniciar Pluviômetro-->
+<!--Adicionando os blocos do PluviÃ´metro--> 
+  <category name="PluviÃ´metro">
+    <label text= "PluviÃ´metro"></label>
+<!--Iniciar PluviÃ´metro-->
     <block type="pluvio_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -13625,9 +13629,9 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Pluviômetro-->
+<!--Parar PluviÃ´metro-->
       <block type="pluvio_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -14774,7 +14778,7 @@ _
 <category name="%{BKY_CAT_CONTROL}">
   <category name="PID">
     <button text="Install control library" callbackKey="installPyLib"></button>
-    <label text="Proportional–integral–derivative Controller"></label>
+    <label text="Proportionalâ€“integralâ€“derivative Controller"></label>
       <label text="Library: https://github.com/JorgeGMarques/micropython-simple-pid"></label>
       <button text="Load example: pid_water_boiler" callbackKey="loadExample"></button>
 
@@ -16236,7 +16240,7 @@ _
           <field name="TEXT"></field>
         </shadow>
       </value>
-      <value name="Função">
+      <value name="FunÃ§Ã£o">
         <shadow type="text">
           <field name="TEXT"></field>
         </shadow>
@@ -16850,12 +16854,12 @@ _
       <block type="dht_read_temp"></block>
       <block type="dht_read_humidity"></block>
     </category>
-<!--Adicionando os blocos do Anenmômetro-->
-    <category name="Anemômetro">
-    <label text="Anenômetro"></label>
-<!--Iniciar Anemômetro-->
+<!--Adicionando os blocos do AnenmÃ´metro-->
+    <category name="AnemÃ´metro">
+    <label text="AnenÃ´metro"></label>
+<!--Iniciar AnemÃ´metro-->
     <block type="anemo_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -16866,21 +16870,21 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Anemômetro-->
+<!--Parar AnemÃ´metro-->
       <block type="anemo_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
       </block>
   </category>
-<!--Adicionando os blocos do Pluviômetro--> 
-  <category name="Pluviômetro">
-    <label text= "Pluviômetro"></label>
-<!--Iniciar Pluviômetro-->
+<!--Adicionando os blocos do PluviÃ´metro--> 
+  <category name="PluviÃ´metro">
+    <label text= "PluviÃ´metro"></label>
+<!--Iniciar PluviÃ´metro-->
     <block type="pluvio_init">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -16891,9 +16895,9 @@ _
           </shadow>
         </value>
       </block>
-<!--Parar Pluviômetro-->
+<!--Parar PluviÃ´metro-->
       <block type="pluvio_stop">
-        <value name="Função">
+        <value name="FunÃ§Ã£o">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
@@ -18023,7 +18027,7 @@ _
 <category name="%{BKY_CAT_CONTROL}">
   <category name="PID">
     <button text="Install control library" callbackKey="installPyLib"></button>
-    <label text="Proportional–integral–derivative Controller"></label>
+    <label text="Proportionalâ€“integralâ€“derivative Controller"></label>
       <label text="Library: https://github.com/JorgeGMarques/micropython-simple-pid"></label>
       <button text="Load example: pid_water_boiler" callbackKey="loadExample"></button>
 
@@ -25711,3 +25715,14 @@ OFFLINE_devinfo_devinfo_json = `
 
 `;
 </script>
+
+
+
+
+
+
+
+
+
+
+

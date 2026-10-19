@@ -113,7 +113,7 @@ class mux {
         textArray = code.replace(/\r\n|\n/gm, '\r').match(pattern_);
       } else if (Channel ['webbluetooth'].connected) {
         var pattern_ = new RegExp(`(.|[\r]){1,`, 'g')
-        textArray = code.replace(/\r\n|\n/gm, '\r').match(/(.|[\r]){1,5}/g);
+        textArray = code.replace(/\r\n|\n/gm, '\r').match(/(.|[\r]){1,60}/g);
       }
     }
 
@@ -298,7 +298,9 @@ class websocket {
             break;
           }
         }
-        term.write(event.data);
+        if (window.sancabotMission2InspectConsole) window.sancabotMission2InspectConsole(event.data);
+        const visibleEventData = window.sancabotTraceFlow && window.sancabotTraceFlow.filterTraceStream ? window.sancabotTraceFlow.filterTraceStream(event.data) : event.data;
+        if (visibleEventData !== '') term.write(visibleEventData);
         if (typeof event.data == 'string') {
           Tool.bipesVerify ();
           if (event.data.includes(">>> ")) {
@@ -413,7 +415,9 @@ class webserial {
                 }
                 Files.received_string = Files.received_string.concat(chunk);
               }
-              term.write(chunk);
+              if (window.sancabotMission2InspectConsole) window.sancabotMission2InspectConsole(chunk);
+              const visibleChunk = window.sancabotTraceFlow && window.sancabotTraceFlow.filterTraceStream ? window.sancabotTraceFlow.filterTraceStream(chunk) : chunk;
+              if (visibleChunk !== '') term.write(visibleChunk);
             }
           }
         });
@@ -694,7 +698,9 @@ class webbluetooth {
     for (let i = 0; i < value.byteLength; i++) {
       chunk += String.fromCharCode(value.getUint8(i));
     }
-    term.write(chunk);
+    if (window.sancabotMission2InspectConsole) window.sancabotMission2InspectConsole(chunk);
+    const visibleChunk = window.sancabotTraceFlow && window.sancabotTraceFlow.filterTraceStream ? window.sancabotTraceFlow.filterTraceStream(chunk) : chunk;
+    if (visibleChunk !== '') term.write(visibleChunk);
     Tool.bipesVerify ();
     //data comes in chunks, keep last 4 chars to check MicroPython REPL string
     this.last4chars = this.last4chars.concat(chunk.substr(-4,4)).substr(-4,4)

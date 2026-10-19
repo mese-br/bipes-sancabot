@@ -22,20 +22,46 @@ var BlocklyStorage = {};
  * @private
  */
 BlocklyStorage.backupBlocks_ = function(opt_workspace) {
-  if ('localStorage' in window) {
+  if ('localStorage' in window && UI && UI ['account'] && UI ['workspace']) {
     var workspace =  opt_workspace || Blockly.getMainWorkspace();
+    var uid = UI ['account'].currentProject.uid;
+    if (!uid) return;
 
-    var xml = Blockly.Xml.workspaceToDom(workspace);
-    var data = Blockly.Xml.domToText(xml);
-    data = UI ['workspace'].writeWorkspace (data, false);
-    localStorage.setItem(UI ['account'].currentProject.uid, data)
-    localStorage.setItem('bipes_projects', JSON.stringify(UI ['account'].projects))
+    try {
+      var xml = Blockly.Xml.workspaceToDom(workspace);
+      var data = Blockly.Xml.domToText(xml);
+      data = UI ['workspace'].writeWorkspace (data, false);
+      UI ['account'].projects[uid] = +new Date();
+      localStorage.setItem(uid, data);
+      localStorage.setItem('bipes_projects', JSON.stringify(UI ['account'].projects));
+      UI ['account'].currentProject.xml = data;
+    } catch (e) {
+      if (UI ['notify']) UI ['notify'].log(e);
+    }
   }
 };
 /**
  * Bind the localStorage backup function to the unload event.
  * @param {Blockly.WorkspaceSvg=} opt_workspace Workspace.
  */
+/**
+ * Autosave the active project shortly after meaningful Blockly changes.
+ * This keeps project storage current even when the browser does not fire unload.
+ * @param {Blockly.WorkspaceSvg=} opt_workspace Workspace.
+ */
+BlocklyStorage.enableAutosave = function(opt_workspace) {
+  var workspace = opt_workspace || Blockly.getMainWorkspace();
+  if (!workspace || workspace.sancabotAutosaveEnabled_) return;
+  workspace.sancabotAutosaveEnabled_ = true;
+  var autosaveTimer = null;
+  workspace.addChangeListener(function(event) {
+    if (!event || event.isUiEvent || event.type == Blockly.Events.UI || event.type == Blockly.Events.VIEWPORT_CHANGE) return;
+    clearTimeout(autosaveTimer);
+    autosaveTimer = setTimeout(function() {
+      BlocklyStorage.backupBlocks_(workspace);
+    }, 900);
+  });
+};
 BlocklyStorage.backupOnUnload = function(opt_workspace) {
   var workspace = opt_workspace || Blockly.getMainWorkspace();
   window.addEventListener('unload',

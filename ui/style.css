@@ -1,4 +1,4 @@
-html, body {
+﻿html, body {
   height: 100%;
 }
 
@@ -1004,4 +1004,1169 @@ button.icon.medium:before  {
     border-bottom: 1px dashed #666;
     font-weight: bold;
     padding-bottom: .125rem;
+}
+/* SancaBot by BIPES custom theme - safe toolbar skin */
+:root {
+  --sanca-dark: #101218;
+  --sanca-panel: #181c24;
+  --sanca-blue: #00BFFF;
+  --sanca-orange: #FF8C00;
+  --sanca-yellow: #FFD700;
+}
+.top-menu {
+  height: 4.1rem;
+  background: linear-gradient(180deg, #181c24 0%, #101218 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 28px rgba(0,0,0,.28);
+  padding: 0 .8rem 0 1rem;
+  gap: .75rem;
+  overflow: visible;
+}
+.content {
+  top: 4.1rem;
+}
+.top-menu > .logo.sancabot-logo {
+  color: #fff;
+  gap: .06rem;
+  min-width: 15rem;
+  font-size: 1.58rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.top-menu > .logo.sancabot-logo:before {
+  width: 3rem;
+  height: 3rem;
+  margin-right: .55rem;
+  border-radius: 50%;
+  background-image: url(media/sancabot-face.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 10px rgba(0,191,255,.34));
+}
+.top-menu > .logo.sancabot-logo span {
+  color: #fff;
+}
+.top-menu > .logo.sancabot-logo strong {
+  color: var(--sanca-blue);
+  font-weight: 900;
+}
+.top-menu > .logo.sancabot-logo small {
+  color: var(--sanca-orange);
+  font-size: .66rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  align-self: flex-end;
+  margin: 0 0 .38rem .42rem;
+  letter-spacing: .08em;
+}
+.top-menu > .tabs {
+  width: auto;
+  flex: 0 1 auto;
+  gap: .25rem;
+  margin: 0;
+  padding: .32rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  overflow: visible;
+}
+.tabs > div {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: .5rem .78rem;
+  margin: 0;
+  color: rgba(255,255,255,.76);
+  font-weight: 800;
+  font-size: .88rem;
+  line-height: 1;
+  background: transparent;
+  box-shadow: none;
+}
+.tabs > div:hover {
+  background: rgba(0,191,255,.13);
+  border-color: rgba(0,191,255,.25);
+  color: #fff;
+}
+.tabs > div.on {
+  background: var(--sanca-blue);
+  border-color: var(--sanca-blue);
+  color: #001021;
+  box-shadow: 0 0 16px rgba(0,191,255,.2);
+}
+.tabs > div.on:hover {
+  color: #001021 !important;
+}
+.top-menu > .toolbar {
+  flex: 1 0 auto;
+  justify-content: flex-end;
+  gap: .4rem;
+  align-items: center;
+  min-width: 0;
+}
+.top-menu #channel_connect {
+  display: flex;
+  gap: .32rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  margin-right: .1rem;
+  padding: 0;
+  overflow: visible;
+}
+.top-menu #channel_connect button.icon,
+.top-menu button.icon,
+.top-menu label.button.icon {
+  background-color: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.16);
+  color: #fff;
+  border-radius: .78rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+.top-menu #channel_connect button.icon:hover,
+.top-menu button.icon:hover,
+.top-menu label.button.icon:hover {
+  background-color: rgba(0,191,255,.18);
+  border-color: rgba(0,191,255,.46);
+}
+.top-menu button.icon:before,
+.top-menu label.icon:before,
+.top-menu #deviceSelect:before,
+.top-menu #channelButton:before,
+.top-menu #connectButton:before,
+.top-menu #saveButton:before,
+.top-menu #loadButton:before,
+.top-menu #forumButton:before,
+.top-menu #notificationButton:before,
+.top-menu #accountButton:before {
+  filter: invert(1) brightness(1.85) saturate(.75);
+  opacity: .96;
+}
+#deviceSelect {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  height: 2.45rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  padding: .15rem .22rem .15rem .65rem;
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+#device_selector {
+  height: 2.05rem;
+  min-width: 12rem;
+  max-width: 13rem;
+  background-color: #202631 !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  padding: 0 .75rem;
+  font-weight: 800;
+  outline: none;
+  color-scheme: dark;
+}
+#device_selector option {
+  background-color: #202631;
+  color: #fff;
+}
+#runButton.primary, #runButton, .top-menu button.primary {
+  background: linear-gradient(90deg, var(--sanca-orange), var(--sanca-yellow)) !important;
+  border-color: rgba(255,215,0,.9) !important;
+  color: #14161A !important;
+  border-radius: 999px !important;
+  box-shadow: 0 0 18px rgba(255,140,0,.24);
+}
+#runButton:before, #runIcon:before {
+  filter: none !important;
+}
+#tab_iot, #tab_mqtt, #tab_databoard {
+  display: none !important;
+}
+.channel-panel {
+  background: #181c24;
+  color: #fff;
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 18px 40px rgba(0,0,0,.38);
+}
+.channel-panel input {
+  background: #202631;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: .45rem;
+}
+.account-panel, .notify-panel, .top-menu > .toolbar#show {
+  background: #181c24;
+  color: #fff;
+  border-color: rgba(255,255,255,.14);
+}
+@media (max-width: 1100px) {
+  .top-menu {
+    height: auto;
+    flex-wrap: wrap;
+    padding: .65rem .75rem;
+  }
+  .content {
+    top: 7.5rem;
+  }
+  .top-menu > .toolbar {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 720px) {
+  .top-menu > .logo.sancabot-logo {
+    min-width: auto;
+    font-size: 1.25rem;
+  }
+  .top-menu > .logo.sancabot-logo:before {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+  .top-menu > .logo.sancabot-logo small {
+    display: none;
+  }
+  .top-menu > .tabs {
+    flex: 1 1 100%;
+  }
+  #device_selector {
+    min-width: 9.5rem;
+  }
+}
+
+/* SancaBot by BIPES custom theme - conservative skin */
+:root {
+  --sanca-dark: #101218;
+  --sanca-panel: #181c24;
+  --sanca-blue: #00BFFF;
+  --sanca-orange: #FF8C00;
+  --sanca-yellow: #FFD700;
+}
+.top-menu {
+  background: linear-gradient(180deg, #181c24 0%, #101218 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,.24);
+  padding-left: 1rem;
+  overflow: visible;
+}
+.top-menu > .logo.sancabot-logo {
+  color: #fff;
+  gap: .06rem;
+  min-width: 15rem;
+  font-size: 1.58rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.top-menu > .logo.sancabot-logo:before {
+  width: 3rem;
+  height: 3rem;
+  margin-right: .55rem;
+  border-radius: 50%;
+  background-image: url(media/sancabot-face.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 10px rgba(0,191,255,.34));
+}
+.top-menu > .logo.sancabot-logo span { color: #fff; }
+.top-menu > .logo.sancabot-logo strong { color: var(--sanca-blue); font-weight: 900; }
+.top-menu > .logo.sancabot-logo small {
+  color: var(--sanca-orange);
+  font-size: .66rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  align-self: flex-end;
+  margin: 0 0 .38rem .42rem;
+  letter-spacing: .08em;
+}
+.top-menu > .tabs {
+  width: auto;
+  flex: 0 1 auto;
+  gap: .25rem;
+  margin: 0 .5rem;
+  padding: .32rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  overflow: visible;
+}
+.tabs > div {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: .5rem .78rem;
+  margin: 0;
+  color: rgba(255,255,255,.76);
+  font-weight: 800;
+  font-size: .88rem;
+  line-height: 1;
+  background: transparent;
+  box-shadow: none;
+}
+.tabs > div:hover {
+  background: rgba(0,191,255,.13);
+  border-color: rgba(0,191,255,.25);
+  color: #fff;
+}
+.tabs > div.on {
+  background: var(--sanca-blue);
+  border-color: var(--sanca-blue);
+  color: #001021;
+  box-shadow: 0 0 16px rgba(0,191,255,.2);
+}
+.tabs > div.on:hover { color: #001021 !important; }
+#tab_iot, #tab_mqtt, #tab_databoard { display: none !important; }
+.top-menu #channel_connect {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  margin-right: .25rem;
+  overflow: visible;
+}
+.top-menu button.icon,
+.top-menu label.button.icon,
+.top-menu #channel_connect button.icon {
+  background-color: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.16);
+  color: #fff;
+  border-radius: .72rem;
+}
+.top-menu button.icon:hover,
+.top-menu label.button.icon:hover,
+.top-menu #channel_connect button.icon:hover {
+  background-color: rgba(0,191,255,.18);
+  border-color: rgba(0,191,255,.46);
+}
+.top-menu button.icon:before,
+.top-menu label.icon:before,
+.top-menu #deviceSelect:before {
+  filter: invert(1) brightness(1.85) saturate(.75);
+  opacity: .96;
+}
+#deviceSelect {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  color: #fff;
+}
+#device_selector {
+  background-color: #202631 !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  font-weight: 800;
+  color-scheme: dark;
+}
+#device_selector option {
+  background-color: #202631;
+  color: #fff;
+}
+#runButton.primary, #runButton, .top-menu button.primary {
+  background: linear-gradient(90deg, var(--sanca-orange), var(--sanca-yellow)) !important;
+  border-color: rgba(255,215,0,.9) !important;
+  color: #14161A !important;
+  border-radius: 999px !important;
+}
+#runButton:before, #runIcon:before { filter: none !important; }
+.channel-panel {
+  background: #181c24;
+  color: #fff;
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 18px 40px rgba(0,0,0,.38);
+}
+.channel-panel input {
+  background: #202631;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: .45rem;
+}
+.account-panel, .notify-panel, .top-menu > .toolbar#show {
+  background: #181c24;
+  color: #fff;
+  border-color: rgba(255,255,255,.14);
+}
+@media (max-width: 720px) {
+  .top-menu > .logo.sancabot-logo { min-width: auto; font-size: 1.25rem; }
+  .top-menu > .logo.sancabot-logo:before { width: 2.4rem; height: 2.4rem; }
+  .top-menu > .logo.sancabot-logo small { display: none; }
+}
+
+/* SancaBot final polish: board pinout and connection states */
+#content_device {
+  background: #f6f8fb;
+  color: #172033;
+}
+#content_device center {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+#content_device #device_title {
+  color: #111827;
+  font-size: 1.2rem;
+}
+#content_device #device_img {
+  max-width: min(860px, 92vw);
+  max-height: 68vh;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, .1);
+  border-radius: 14px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, .12);
+  padding: .75rem;
+}
+#content_device #device_desc {
+  display: inline-block;
+  max-width: 680px;
+  margin-top: 1rem;
+  color: #334155;
+  line-height: 1.55;
+}
+.sancabot-pinout-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .62rem 1rem;
+  border-radius: 999px;
+  background: #00BFFF;
+  color: #001021 !important;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(0, 191, 255, .22);
+}
+.sancabot-pinout-link:hover {
+  background: #33ccff;
+}
+.channel-panel {
+  background: #f8fafc !important;
+  color: #172033 !important;
+  border: 1px solid rgba(15, 23, 42, .14) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, .22) !important;
+  padding: .45rem !important;
+}
+.channel-panel > div {
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, .1) !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+.channel-panel > div > span,
+.channel-panel label,
+.channel-panel .checkswitch {
+  color: #334155 !important;
+}
+.channel-panel input,
+.channel-panel #url:disabled {
+  background: #fff !important;
+  color: #111827 !important;
+}
+#bluetoothButton,
+#serialButton,
+#networkButton,
+#scanButton {
+  background: #f1f5f9 !important;
+  color: #172033 !important;
+  border: 1px solid rgba(15, 23, 42, .12) !important;
+}
+#bluetoothButton:hover,
+#serialButton:hover,
+#networkButton:hover,
+#scanButton:hover {
+  background: rgba(0, 191, 255, .14) !important;
+  color: #001021 !important;
+}
+#connectButton {
+  background: rgba(0, 191, 255, .16) !important;
+  border: 1px solid rgba(0, 191, 255, .38) !important;
+}
+#channel_connect.wait,
+#toolbarButton.wait {
+  animation: none !important;
+  background: transparent !important;
+}
+#channel_connect.wait #connectButton,
+#toolbarButton.wait {
+  box-shadow: 0 0 0 4px rgba(0, 191, 255, .16), 0 0 22px rgba(0, 191, 255, .38) !important;
+}
+
+/* SancaBot Blockly toolbox polish */
+.blocklyToolboxDiv {
+  background: #111722 !important;
+  border-right: 1px solid rgba(255,255,255,.10) !important;
+  box-shadow: 8px 0 24px rgba(0,0,0,.20);
+  padding: 10px 8px !important;
+}
+.blocklyTreeRow {
+  height: 34px !important;
+  line-height: 34px !important;
+  margin: 4px 0 !important;
+  padding: 0 12px !important;
+  border-radius: 10px !important;
+  color: rgba(255,255,255,.72) !important;
+  transition: background .16s ease, color .16s ease, transform .16s ease;
+}
+.blocklyTreeRow:hover {
+  background: rgba(255,255,255,.07) !important;
+  color: #ffffff !important;
+}
+.blocklyTreeSelected {
+  background: rgba(37, 151, 255, .20) !important;
+  color: #54b8ff !important;
+  box-shadow: inset 3px 0 0 #54b8ff;
+}
+.blocklyTreeLabel {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+.blocklyTreeIcon {
+  opacity: .72;
+}
+.blocklyTreeSeparator {
+  border-color: rgba(255,255,255,.10) !important;
+  margin: 10px 8px !important;
+}
+.blocklyFlyoutBackground {
+  fill: #f6f8fb !important;
+  fill-opacity: .98 !important;
+}
+.blocklyScrollbarHandle {
+  fill: rgba(84, 184, 255, .55) !important;
+}
+/* SancaBot side panels polish */
+.account-panel details {
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 12px;
+  margin: 10px 0;
+  background: rgba(255,255,255,.035);
+  overflow: hidden;
+}
+.account-panel summary {
+  padding: 0 10px !important;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+.account-panel h2 {
+  color: rgba(255,255,255,.94) !important;
+  font-weight: 900;
+}
+#ProjectList {
+  display: block;
+  padding: 8px;
+}
+#ProjectList > div {
+  background: rgba(255,255,255,.055) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  color: rgba(255,255,255,.88) !important;
+  border-radius: 10px !important;
+  padding: 7px 8px !important;
+}
+#ProjectList > div:hover {
+  background: rgba(255,255,255,.085) !important;
+  border-color: rgba(255,255,255,.22) !important;
+}
+#ProjectList > .current {
+  background: rgba(255,122,24,.18) !important;
+  border-color: rgba(255,122,24,.55) !important;
+  color: #fff !important;
+  box-shadow: inset 3px 0 0 #e86f1a, 0 8px 22px rgba(0,0,0,.18) !important;
+}
+.account-panel .icon:before,
+.account-panel button.icon:before,
+.account-panel label.icon:before,
+#ProjectList .icon:before,
+#ProjectList button.icon:before,
+#ProjectList span.icon:before {
+  filter: invert(1) brightness(1.8) !important;
+  opacity: .86;
+}
+.account-panel button.icon:hover:before,
+#ProjectList button.icon:hover:before {
+  opacity: 1;
+}
+#newProjectButton {
+  color: #fff !important;
+  background: rgba(255,122,24,.14) !important;
+  border: 1px solid rgba(255,122,24,.38) !important;
+  border-radius: 9px !important;
+}
+#languageIcon {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 10px !important;
+  color: #fff !important;
+}
+#languageMenu {
+  background: rgba(255,255,255,.92) !important;
+  color: #111827 !important;
+  border: 1px solid rgba(255,255,255,.30) !important;
+  border-radius: 999px !important;
+  padding: 7px 12px !important;
+  font-weight: 800;
+  outline: none !important;
+}
+#languageMenu option {
+  color: #111827 !important;
+  background: #fff !important;
+}
+
+/* SancaBot category color guides */
+.blocklyTreeRow.sancabot-toolbox-row {
+  background: rgba(255,255,255,.035) !important;
+  border: 1px solid rgba(255,255,255,.06) !important;
+  box-shadow: inset 4px 0 0 var(--sancabot-cat-color, #94a3b8) !important;
+}
+.blocklyTreeRow.sancabot-toolbox-row:hover {
+  background: rgba(255,255,255,.07) !important;
+  color: #fff !important;
+}
+.blocklyTreeSelected.sancabot-toolbox-row {
+  background: rgba(255,255,255,.10) !important;
+  color: var(--sancabot-cat-color, #fff) !important;
+  border-color: rgba(255,255,255,.18) !important;
+  box-shadow: inset 4px 0 0 var(--sancabot-cat-color, #94a3b8), 0 8px 18px rgba(0,0,0,.15) !important;
+}
+.blocklyTreeRow.sancabot-toolbox-sancabot {
+  background: rgba(255,122,24,.13) !important;
+  color: #ffb15f !important;
+  border-color: rgba(255,122,24,.30) !important;
+}
+.blocklyTreeRow.sancabot-toolbox-sancabot:hover,
+.blocklyTreeSelected.sancabot-toolbox-sancabot {
+  background: rgba(255,122,24,.18) !important;
+  color: #ffd2a3 !important;
+  border-color: rgba(255,122,24,.48) !important;
+}
+
+/* SancaBot project panel icon contrast fix */
+.account-panel #newProjectButton:before,
+.account-panel #downloadIcon:before,
+.account-panel #trashIcon:before,
+#ProjectList #downloadIcon:before,
+#ProjectList #trashIcon:before {
+  filter: invert(1) brightness(2.4) contrast(1.15) !important;
+  opacity: .95 !important;
+}
+#ProjectList #downloadIcon,
+#ProjectList #trashIcon {
+  display: inline-grid !important;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,.08) !important;
+  margin-left: 3px;
+}
+#ProjectList #downloadIcon:hover,
+#ProjectList #trashIcon:hover,
+.account-panel #newProjectButton:hover {
+  background: rgba(255,122,24,.20) !important;
+}
+
+/* SancaBot mission helper panel */
+.mission-fab[hidden],
+.mission-panel[hidden] {
+  display: none !important;
+}
+.mission-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000001;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: #e86f1a;
+  color: #111827;
+  font-weight: 900;
+  box-shadow: 0 14px 34px rgba(232,111,26,.35), 0 8px 22px rgba(0,0,0,.28);
+  cursor: pointer;
+}
+.mission-fab:hover {
+  background: #f28a31;
+  transform: translateY(-1px);
+}
+.mission-panel {
+  position: fixed;
+  top: 72px;
+  right: 16px;
+  bottom: 16px;
+  width: min(430px, calc(100vw - 32px));
+  z-index: 1000000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: auto;
+  padding: 16px;
+  color: #f8fafc;
+  background: linear-gradient(180deg, rgba(18,22,29,.98), rgba(10,13,18,.98));
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.44);
+  transform: translateX(calc(100% + 28px));
+  transition: transform .24s ease;
+}
+.mission-panel.open {
+  transform: translateX(0);
+}
+.mission-panel__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+.mission-panel__header h2 {
+  margin: 4px 0 6px;
+  color: #fff;
+  font-size: 26px;
+  line-height: 1.05;
+}
+.mission-panel__header p,
+.mission-card p,
+.mission-card li,
+.mission-note {
+  color: rgba(248,250,252,.78);
+  line-height: 1.45;
+}
+.mission-kicker {
+  display: inline-flex;
+  width: max-content;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(232,111,26,.18);
+  color: #ffb15f;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.mission-close,
+.mission-actions button {
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+.mission-close {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+}
+.mission-close:hover,
+.mission-actions button:hover {
+  background: rgba(232,111,26,.20);
+  border-color: rgba(232,111,26,.45);
+}
+.mission-actions .mission-actions__primary {
+  background: linear-gradient(135deg, #168fd8, #19b7ff);
+  border-color: rgba(25,183,255,.45);
+  color: #06111f;
+}
+.mission-actions .mission-actions__primary:hover {
+  background: linear-gradient(135deg, #19b7ff, #ffd700);
+  border-color: rgba(255,215,0,.55);
+}
+.mission-card {
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 14px;
+  background: rgba(255,255,255,.055);
+}
+.mission-card--warm {
+  background: linear-gradient(180deg, rgba(232,111,26,.13), rgba(255,255,255,.05));
+  border-color: rgba(232,111,26,.25);
+}
+
+.mission-card--intro {
+  background: linear-gradient(180deg, rgba(22,143,216,.14), rgba(255,255,255,.045));
+  border-color: rgba(22,143,216,.26);
+}
+.mission-mini-list,
+.mission-checklist {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.mission-mini-list li,
+.mission-checklist li {
+  position: relative;
+  padding-left: 22px;
+}
+.mission-mini-list li + li,
+.mission-checklist li + li {
+  margin-top: 7px;
+}
+.mission-mini-list li:before,
+.mission-checklist li:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .55em;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #19b7ff;
+  box-shadow: 0 0 0 4px rgba(25,183,255,.12);
+}
+.mission-checklist li:before {
+  background: #f4b000;
+  box-shadow: 0 0 0 4px rgba(244,176,0,.13);
+}
+.mission-block-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+.mission-block {
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #111827;
+  font-weight: 900;
+  line-height: 1.25;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.16), 0 8px 18px rgba(0,0,0,.18);
+}
+.mission-block--setup { background: #168fd8; color: #fff; }
+.mission-block--move { background: #d96a1c; color: #fff; }
+.mission-block--tune { background: #f4b000; color: #251a00; }
+.mission-block--sensor { background: #00a7c7; color: #04252d; }
+.mission-block--repeat { background: #6d5bd0; color: #fff; }
+.mission-block--console { background: #3d7ad6; color: #fff; }
+.mission-block--decision { background: #14b8a6; color: #04201d; }
+.mission-card h3 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 16px;
+}
+.mission-card ol {
+  margin: 8px 0 0 18px;
+  padding: 0;
+}
+.mission-card li + li {
+  margin-top: 7px;
+}
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+.mission-grid label {
+  display: grid;
+  gap: 6px;
+  color: rgba(248,250,252,.82);
+  font-size: 12px;
+  font-weight: 800;
+}
+.mission-grid input,
+.mission-card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px;
+  background: rgba(255,255,255,.10);
+  color: #fff;
+  outline: none;
+}
+.mission-grid input {
+  min-height: 38px;
+  padding: 8px 10px;
+}
+.mission-card textarea {
+  resize: vertical;
+  min-height: 104px;
+  padding: 10px 11px;
+  font-family: inherit;
+  line-height: 1.45;
+}
+.mission-grid input:focus,
+.mission-card textarea:focus {
+  border-color: rgba(232,111,26,.78);
+  box-shadow: 0 0 0 3px rgba(232,111,26,.18);
+}
+.mission-result {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.24);
+  color: #ffd3a7;
+  font-weight: 900;
+  line-height: 1.35;
+}
+.mission-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.mission-actions button {
+  padding: 9px 12px;
+}
+.mission-actions button:first-child {
+  background: #e86f1a;
+  color: #111827;
+  border-color: #e86f1a;
+}
+.mission-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+@media (max-width: 760px) {
+  .mission-panel {
+    top: 58px;
+    right: 8px;
+    bottom: 8px;
+    width: calc(100vw - 16px);
+    padding: 12px;
+    border-radius: 14px;
+  }
+  .mission-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* SancaBot first-use tour */
+.sancabot-tour-overlay[hidden],
+.sancabot-tour[hidden] {
+  display: none !important;
+}
+.sancabot-tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000001;
+  background: transparent;
+  pointer-events: none;
+}
+.sancabot-tour {
+  position: fixed;
+  z-index: 1000002;
+  box-sizing: border-box;
+  padding: 18px;
+  color: #f8fafc;
+  background: linear-gradient(180deg, rgba(22,27,36,.98), rgba(11,14,20,.98));
+  border: 1px solid rgba(0,191,255,.30);
+  border-radius: 18px;
+  box-shadow: 0 22px 60px rgba(0,0,0,.44), 0 0 0 1px rgba(255,255,255,.06) inset;
+}
+.sancabot-tour__arrow {
+  position: absolute;
+  top: -10px;
+  left: var(--tour-arrow-left, 42px);
+  width: 18px;
+  height: 18px;
+  transform: rotate(45deg);
+  background: rgba(22,27,36,.98);
+  border-left: 1px solid rgba(0,191,255,.30);
+  border-top: 1px solid rgba(0,191,255,.30);
+}
+.sancabot-tour.sancabot-tour--intro .sancabot-tour__arrow {
+  display: none;
+}
+.sancabot-tour__step {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255,215,0,.14);
+  color: #ffd700;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.sancabot-tour h2 {
+  margin: 10px 0 8px;
+  color: #fff;
+  font-size: 21px;
+  line-height: 1.1;
+}
+.sancabot-tour p {
+  margin: 0;
+  color: rgba(248,250,252,.76);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.sancabot-tour__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.sancabot-tour__actions button {
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 11px;
+  padding: 9px 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+#sancabotTourSkip {
+  background: rgba(255,255,255,.06);
+  color: rgba(248,250,252,.74);
+}
+#sancabotTourNext {
+  background: #e86f1a;
+  border-color: #e86f1a;
+  color: #111827;
+}
+.sancabot-tour-highlight-disabled {
+  position: relative !important;
+  z-index: 1000003 !important;
+  outline: 3px solid rgba(0,191,255,.92) !important;
+  outline-offset: 4px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 0 8px rgba(0,191,255,.14), 0 0 28px rgba(0,191,255,.45) !important;
+}
+
+
+.sancabot-tour-spotlight[hidden] {
+  display: none !important;
+}
+.sancabot-tour-spotlight {
+  position: fixed;
+  z-index: 1000002;
+  box-sizing: border-box;
+  border: 3px solid rgba(0,191,255,.92);
+  border-radius: 14px;
+  pointer-events: none;
+  box-shadow: 0 0 0 9999px rgba(2,6,23,.48), 0 0 28px rgba(0,191,255,.48);
+}
+
+/* SancaBot distance visual panel */
+.distance-display {
+  margin-top: 12px;
+  border: 1px solid rgba(0, 167, 199, .34);
+  background: linear-gradient(135deg, rgba(0,167,199,.14), rgba(7,12,18,.72));
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+}
+.distance-display__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.distance-display__label {
+  color: rgba(226, 246, 255, .72);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.distance-display__top strong {
+  color: #4ee9ff;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.distance-display__track {
+  margin: 12px 0 9px;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+}
+.distance-display__track span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2dd4bf, #facc15, #ef4444);
+  transition: width .18s ease;
+}
+.distance-display__status {
+  color: rgba(248,250,252,.78);
+  font-size: 13px;
+  font-weight: 900;
+}
+.distance-display__status[data-tone="near"] { color: #fca5a5; }
+.distance-display__status[data-tone="mid"] { color: #fde68a; }
+.distance-display__status[data-tone="far"] { color: #99f6e4; }
+.distance-display__status[data-tone="lost"] { color: #fca5a5; }
+
+/* SancaBot Blockly tooltips */
+.blocklyTooltipDiv {
+  background: linear-gradient(145deg, rgba(12, 20, 33, 0.98), rgba(20, 37, 57, 0.98)) !important;
+  border: 1px solid rgba(56, 189, 248, 0.42) !important;
+  border-left: 4px solid #f6b900 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.36), 0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+  color: #f8fafc !important;
+  font-family: BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  max-width: 320px !important;
+  padding: 12px 14px !important;
+  white-space: normal !important;
+  z-index: 100000 !important;
+}
+/* SancaBot trace flow */
+.blocklyWorkspace .sancabot-trace-seen > .blocklyPath,
+.blocklyWorkspace .sancabot-trace-seen .blocklyPath {
+  stroke: #20c7f2 !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 6px rgba(32, 199, 242, 0.54));
+}
+
+.blocklyWorkspace .sancabot-trace-seen > .blocklyPathLight,
+.blocklyWorkspace .sancabot-trace-seen .blocklyPathLight {
+  stroke: rgba(194, 246, 255, 0.78) !important;
+}
+
+.blocklyWorkspace .sancabot-trace-current > .blocklyPath,
+.blocklyWorkspace .sancabot-trace-current .blocklyPath {
+  stroke: #ffc32b !important;
+  stroke-width: 5px !important;
+  filter: drop-shadow(0 0 9px rgba(255, 195, 43, 0.86)) drop-shadow(0 0 20px rgba(32, 199, 242, 0.56));
+  animation: sancabotTracePulse 1.15s ease-in-out infinite alternate;
+}
+
+.blocklyWorkspace .sancabot-trace-current > .blocklyPathLight,
+.blocklyWorkspace .sancabot-trace-current .blocklyPathLight {
+  stroke: #fff0a6 !important;
+}
+
+@keyframes sancabotTracePulse {
+  from { filter: drop-shadow(0 0 7px rgba(255, 195, 43, 0.68)) drop-shadow(0 0 14px rgba(32, 199, 242, 0.36)); }
+  to { filter: drop-shadow(0 0 13px rgba(255, 195, 43, 0.98)) drop-shadow(0 0 26px rgba(32, 199, 242, 0.72)); }
+}
+
+/* Selo de repeticao do bloco em execucao (ex.: x3 dentro de um loop) */
+#sancabotTraceBadge {
+  display: none;
+  position: fixed;
+  z-index: 100001;
+  pointer-events: none;
+  background: #ffc32b;
+  color: #14161a;
+  font: 700 12px/1 sans-serif;
+  padding: 4px 7px;
+  border-radius: 999px;
+  box-shadow: 0 0 8px rgba(255, 195, 43, 0.8);
+}
+
+/* Botao modo passo a passo (tartaruga) */
+#sancabotSlowToggle {
+  margin-left: 6px;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.55;
+  vertical-align: middle;
+}
+
+#sancabotSlowToggle.active {
+  opacity: 1;
+  background: rgba(255, 195, 43, 0.25);
+  border-color: #ffc32b;
+  box-shadow: 0 0 6px rgba(255, 195, 43, 0.6);
 }

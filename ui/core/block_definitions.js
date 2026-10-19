@@ -1,4 +1,4 @@
-Blockly.Blocks['pwm'] = {
+﻿Blockly.Blocks['pwm'] = {
   init: function(){
     this.appendDummyInput()
         .appendField("PWM #")
@@ -11834,4 +11834,12 @@ Blockly.Blocks['math_max'] = {
     this.setHelpUrl("");
   }
 };
+
+
+
+
+// Blocos SancaBot movidos para block_definitions_sancabot.js em 2026-07-05.
+// Backup do conteúdo original em _backup_pre_reorg_20260705/block_definitions.js.bak
+// (todos os 24 blocos sancabot_* originais foram removidos daqui; ver arquivo novo)
+
 

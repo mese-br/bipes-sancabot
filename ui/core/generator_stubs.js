@@ -4721,7 +4721,7 @@ class HCSR04:
 
 /*
  * while 1:
-	sensor = HCSR04(trigger_pin=13, echo_pin=15, echo_timeout_us=10000)
+	sensor = HCSR04(trigger_pin=13, echo_pin=15, echo_timeout_us=25000)
 	distance = sensor.distance_mm()
 	print(distance)
 	time.sleep(1)
@@ -6369,3 +6369,8 @@ Blockly.Python['math_max'] = function(block) {
 
 
   
+
+
+// Geradores Python SancaBot movidos para generator_stubs_sancabot.js em 2026-07-05.
+// (todos os geradores sancabot_* originais foram removidos daqui; ver arquivo novo)
+

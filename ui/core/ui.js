@@ -525,17 +525,11 @@ class workspace {
  */
 workspace.prototype.run = function () {
   if (this.runButton.status) {
-    if(mux.connected ()) {
-        Tool.runPython();
-    } else {
-      Channel ['mux'].connect ();
-      setTimeout(() => { if (mux.connected ()) Tool.runPython();}, 2000);
-    }
+    Tool.runWhenConnected(() => Tool.runPython(), 'Rodando programa...');
   } else {
     Tool.stopPython();
   }
 }
-
 /**
  * Styling for when the platform is trying to connect to a device.
  */
@@ -637,6 +631,9 @@ workspace.prototype.changeTo = function (device) {
  * @param {string} uid - optional uid to download a specific project, if none, the current will be downloaded.
  */
 workspace.prototype.saveXML = function (uid) {
+  if (uid == undefined && 'BlocklyStorage' in window) {
+    BlocklyStorage.backupBlocks_(Code.workspace);
+  }
   let xmlText = '';
   if (uid == undefined) {
     xmlText = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(Code.workspace));

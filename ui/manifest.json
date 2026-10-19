@@ -1,14 +1,14 @@
-{
+﻿{
     "dir": "ltr",
     "lang": "en",
-    "name": "BIPES",
-    "short_name": "BIPES",
+    "name": "SancaBot by BIPES",
+    "short_name": "SancaBot",
     "scope": "/beta2/ui/",
     "display": "standalone",
     "start_url": "https://bipes.net.br/beta2/ui/",
-    "background_color": "#fff",
-    "theme_color": "#fff",
-    "description": "Block based Integrated Platform for Embedded Systems",
+    "background_color": "#14161A",
+    "theme_color": "#14161A",
+    "description": "Editor de blocos SancaBot, baseado no projeto open source BIPES",
     "orientation": "any",
     "related_applications": [],
     "prefer_related_applications": false,
@@ -35,4 +35,5 @@
     "url": "https://bipes.net.br/beta2/ui/#",
     "screenshots": []
 }
+
 

@@ -560,7 +560,8 @@ Code.init = function() {
   Code.loadBlocks('');
 
   if ('BlocklyStorage' in window) {
-    // Hook a save function onto unload.
+    // Keep the active project saved locally while editing, and again on unload.
+    BlocklyStorage.enableAutosave(Code.workspace);
     BlocklyStorage.backupOnUnload(Code.workspace);
   }
 
@@ -777,7 +778,7 @@ Code.initLanguage = function() {
     languages.push([Code.LANGUAGE_NAME[lang], lang]);
   }
   var comp = function(a, b) {
-    // Sort based on first argument ('English', 'Русский', '简体字', etc).
+    // Sort based on first argument ('English', 'Ð ÑƒÑÑÐºÐ¸Ð¹', 'ç®€ä½“å­—', etc).
     if (a[0] > b[0]) return 1;
     if (a[0] < b[0]) return -1;
     return 0;

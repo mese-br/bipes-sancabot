@@ -148,6 +148,25 @@ class Tool {
     }
   }
 
+  static runWhenConnected (action, pendingMessage) {
+    if (mux.connected ()) {
+      action();
+      return;
+    }
+    if (pendingMessage) UI ['notify'].send(pendingMessage);
+    Channel ['mux'].connect ();
+    let attempts = 0;
+    const wait = setInterval(() => {
+      attempts++;
+      if (mux.connected ()) {
+        clearInterval(wait);
+        action();
+      } else if (attempts >= 40) {
+        clearInterval(wait);
+        UI ['notify'].log('Não foi possível conectar ao dispositivo para executar a ação.');
+      }
+    }, 250);
+  }
   /**Send ``\x03\x03`` to stop running a program, see a `ASCII table
   * <https://www.ascii-code.com/>`_ to know more.*/
   static stopPython () {
@@ -560,9 +579,11 @@ class files {
    * List files from device, on success, calls :js:func:`files.updateTable` to display it.
    */
   listFiles () {
-    mux.bufferPush ('import os; os.listdir(\'.\')\r', files.updateTable.bind(this)); //Using ; to trigger only one ">>>"
+    Tool.runWhenConnected(() => {
+      mux.bufferPush ('import os; os.listdir(\'.\')\r', files.updateTable.bind(this)); //Using ; to trigger only one prompt
+    }, 'Atualizando arquivos do dispositivo...');
   }
-   /**
+  /**
    * Execute a program.
    * @param {string} file - File name of the script to be executed.
    */
