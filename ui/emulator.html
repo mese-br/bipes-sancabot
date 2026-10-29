@@ -5,8 +5,9 @@
   <meta name="google" value="notranslate">
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <title>Amado Bipes</title>
-  <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/media/icon/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="media/icon/favicon-32x32.png">
   <link rel="mask-icon" href="/media/icon/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#fff">
 
@@ -64,20 +65,33 @@ function checkCookie() {
 </script>
   <link rel="stylesheet" href="style.css?ver=0.2.1.892356">
   <link rel="stylesheet" href="core/libs.css">
+  <link rel="preload" href="media/fonts/nunito/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="core/sancabot_scratch.css?ver=sancabot-v3-6">
   <script src="core/storage.js"></script>
-  <script src="core/blockly_compressed.js"></script>
-  <script src="core/blocks_compressed.js"></script>
-  <script src="core/javascript_compressed.js"></script>
-  <script src="core/python_compressed.js"></script>
-  <script src="core/code.js"></script>
+  <!-- Blockly 13.4.0 (vendorizado em core/blockly13/) + camada de compatibilidade e tema SancaBot -->
+  <script src="core/blockly13/blockly_compressed.js"></script>
+  <script src="core/blockly13/blocks_compressed.js"></script>
+  <script src="core/blockly13/javascript_compressed.js"></script>
+  <script src="core/blockly13/python_compressed.js"></script>
+  <script src="core/blockly13/plugins/field-colour.js"></script>
+  <script src="core/blockly13/plugins/field-angle.js"></script>
+  <script src="core/sancabot_blockly_compat.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_config.js?ver=sancabot-v3-7"></script>
+  <script src="core/sancabot_scratch_theme.js?ver=sancabot-v3-1"></script>
+  <script src="core/code.js?ver=sancabot-20261027-8"></script>
   <script src="core/channel.js?ver=0.2.1.892356"></script>
   <script src="core/utils.js"></script>
-  <script src="core/ui.js?ver=0.2.1.892356"></script>
+  <script src="core/ui.js?ver=sancabot-20261027-1"></script>
   <script src="core/queue.js"></script>
 
   <!-- Custom Blocks for BIPES Project --> 
-  <script src="core/block_definitions.js"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/block_definitions.js?ver=sancabot-20261027-3"></script> <!-- Rafael 24/03/2020 -->
   <script src="core/generator_stubs.js"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/sancabot_i18n_ptbr_tips.js?ver=sancabot-20261027-1"></script>
+  <script src="core/sancabot_i18n_ptbr.js?ver=sancabot-20261027-3"></script>
+  <script src="core/sancabot_icons.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_block_roles.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_polish.js?ver=sancabot-v3-5"></script>
 
   <!-- WebREPL part -->
   <script src="core/xterm.js?ver=4.13.0"></script>
@@ -149,8 +163,8 @@ document.body.appendChild(el);
   <button id="toolbarButton" class="notext icon medium" title="..."></button>
   <div class="toolbar">
     <div id="channel_connect">
-      <button class="icon" id="channelButton" title="Choose connection channel"></button>
-      <button class="icon" id="connectButton" title="Connect/Disconnect"></button>
+      <button class="icon" id="channelButton" title="Escolher como conectar"></button>
+      <button class="icon" id="connectButton" title="Conectar / desconectar"></button>
     </div>
     <div class="icon" id="deviceSelect">
         <select id="device_selector">

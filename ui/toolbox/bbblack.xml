@@ -260,7 +260,7 @@
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
 
     <sep></sep>
-     <category name="Info">
+     <category name="Informações">
     <block type="project_metadata">
       <field name="NAME">Project INFO</field>
       <field name="project_author">Author</field>

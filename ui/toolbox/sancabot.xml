@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
   <category name="SancaBot" colour="#e86f1a">
-    <category name="Prepara&#231;&#227;o" colour="#168fd8">
+    <category name="Prepara&#231;&#227;o" colour="#FF7B6B">
       <label text="Comece preparando o rob&#244; e os sensores"></label>
       <block type="sancabot_config"></block>
       <block type="sancabot_distance_sensor"></block>
     </category>
 
-    <category name="Movimento" colour="#d96a1c">
+    <category name="Movimento" colour="#4C9FFF">
       <label text="Movimento cont&#237;nuo ou por tempo"></label>
       <block type="sancabot_motion_scene">
         <statement name="MOVES">
@@ -46,13 +46,13 @@
       </block>
     </category>
 
-    <category name="Ajustes" colour="#c88a00">
+    <category name="Ajustes" colour="#FF7B6B">
       <label text="Calibra&#231;&#227;o antes do desafio"></label>
       <block type="sancabot_calibrate"></block>
       <block type="sancabot_turn_calibration"></block>
     </category>
 
-    <category name="Sensores e leituras" colour="#00a7c7">
+    <category name="Sensores e leituras" colour="#1FD3C0">
       <label text="Valores medidos pelo mundo f&#237;sico"></label>
       <block type="sancabot_distance_cm"></block>
       <block type="sancabot_panel_number">
@@ -64,7 +64,7 @@
       </block>
     </category>
 
-    <category name="Condi&#231;&#245;es" colour="#14b8a6">
+    <category name="Condi&#231;&#245;es" colour="#5FDB74">
       <label text="Perguntas que retornam verdadeiro ou falso"></label>
       <block type="sancabot_ultrasonic_condition"></block>
       <block type="sancabot_timer_condition"></block>
@@ -78,11 +78,23 @@
       </block>
     </category>
 
-    <category name="Controle" colour="#6d5bd0">
-      <label text="Decidir, repetir e sair de uma repeti&#231;&#227;o"></label>
+    <category name="Decidir" colour="#FF9A3C">
+      <label text="O rob&#244; escolhe o que fazer"></label>
+      <block type="sancabot_if_obstacle"></block>
       <block type="sancabot_exp_if_else">
         <value name="IF0">
           <shadow type="sancabot_ultrasonic_condition"></shadow>
+        </value>
+      </block>
+    </category>
+
+    <category name="Repetir" colour="#FFD23F">
+      <label text="Repetir uma ideia e sair da repeti&#231;&#227;o"></label>
+      <block type="sancabot_exp_repeat_times">
+        <value name="TIMES">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
         </value>
       </block>
       <block type="sancabot_exp_repeat_condition">
@@ -97,22 +109,15 @@
           <shadow type="sancabot_ultrasonic_condition"></shadow>
         </value>
       </block>
-      <block type="sancabot_exp_repeat_times">
-        <value name="TIMES">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-      </block>
       <block type="sancabot_break_explore"></block>
     </category>
 
-    <category name="Vari&#225;vel" colour="#a55b80" custom="VARIABLE">
+    <category name="Vari&#225;vel" colour="#FF6FA5" custom="VARIABLE">
       <label text="Uma vari&#225;vel &#233; uma caixinha com nome que guarda um valor durante o programa"></label>
       <label text="Use para contar tentativas, guardar tempo ou comparar leituras"></label>
     </category>
 
-    <category name="Tempo" colour="#7b61ff">
+    <category name="Tempo" colour="#A58BFF">
       <label text="Cron&#244;metro e dura&#231;&#227;o"></label>
       <block type="sancabot_timer_start"></block>
       <block type="sancabot_timer_seconds"></block>
@@ -127,7 +132,7 @@
       </block>
     </category>
 
-    <category name="Modelos" colour="#0ea5e9">
+    <category name="Modelos" colour="#A9B6D8">
       <label text="Modelo: labirinto aut&#244;nomo por 60 segundos"></label>
       <block type="sancabot_config">
         <next>
@@ -160,7 +165,7 @@
                                     <field name="LIMIT_CM">15</field>
                                   </shadow>
                                 </value>
-                                <statement name="DO">
+                                <statement name="DO0">
                                   <block type="sancabot_stop">
                                     <next>
                                       <block type="sancabot_move_mode">
@@ -212,12 +217,12 @@
       </block>
     </category>
 
-    <category name="Experimental" colour="#94a3b8">
-      <label text="Espa&#231;o livre para os pr&#243;ximos blocos em teste"></label>
-    </category>
+    <!-- Blocos novos entram aqui primeiro (README-SANCABOT.md). Os criados no SancaBot Studio Creator vêm do carregador
+         (core/sancabot_custom_loader.js); sem eles, aparece o aviso abaixo. -->
+    <category name="Experimental" colour="#A9B6D8" custom="SANCABOT_EXPERIMENTAL"></category>
   </category>
   <sep></sep>
-  <category name="Laborat&#243;rio Avan&#231;ado" colour="#334155">
+  <category name="Laborat&#243;rio Avan&#231;ado" colour="#A9B6D8">
     <label text="Blocos completos do BIPES"></label>
   <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
@@ -615,8 +620,8 @@
 
   <category name="%{BKY_CAT_MACHINE}">
       <label text="%{BKY_CAT_MACHINE}"></label>
-      <category name="CPU">
-      <label text="ESP32 CPU"></label>
+      <category name="Processador (CPU)">
+      <label text="CPU do ESP32"></label>
 
     <block type="get_freq"></block>
     <block type="set_freq">
@@ -636,8 +641,8 @@
     <block type="reset_cause_deep"></block>
       </category>
     
-      <category name="In/Out Pins">
-      <label text="In/Out Pins"></label>
+      <category name="Pinos de entrada e saída">
+      <label text="Pinos de entrada e saída"></label>
     <block type="pinout"></block>
     <block type="gpio_set">
       <value name="pin">
@@ -732,10 +737,10 @@
 
 <category name="%{BKY_CAT_DISPLAYS}">
 
-<category name="NeoPixel LED Strip">
-      <label text="NeoPixel RGB LED Strip"></label>
+<category name="Fita de LED NeoPixel">
+      <label text="Fita de LED RGB NeoPixel"></label>
 
-        <button text="Documentation and how to connect: neopixel" callbackKey="loadDoc"></button>
+        <button text="Documentação e como conectar: neopixel" callbackKey="loadDoc"></button>
 
       <block type="neopixel_init">
        <value name="pin">
@@ -838,11 +843,11 @@
 
 
 
-  <category name="Character display">
-      <label text="PCF8574 Display controller"></label>
+  <category name="Display de caracteres">
+      <label text="Controlador de display PCF8574"></label>
 
-      <label text="Library: https://github.com/dhylands/python_lcd"></label>
-      <button text="Install I2CLCD library" callbackKey="installPyLib"></button>
+      <label text="Biblioteca: https://github.com/dhylands/python_lcd"></label>
+      <button text="Instalar biblioteca I2CLCD" callbackKey="installPyLib"></button>
 	<block type="char_lcd_init">
         <value name="scl">
           <shadow type="pinout">
@@ -880,10 +885,10 @@
 
   </category>
 
-    <category name="ST7789 Display">
-      <label text="ST7789 Display"></label>
-      <label text="Library: https://github.com/devbis/st7789py_mpy"></label>
-      <button text="Install st7789py library" callbackKey="installPyLib"></button>
+    <category name="Display ST7789">
+      <label text="Display ST7789"></label>
+      <label text="Biblioteca: https://github.com/devbis/st7789py_mpy"></label>
+      <button text="Instalar biblioteca st7789py" callbackKey="installPyLib"></button>
 
       <block type="st7789_init">
         <value name="spi">
@@ -1023,9 +1028,9 @@
     </block>
     </category>
 
-    <category name="OLED Display">
-      <label text="SSD1306 OLED I2C Display"></label>
-      <button text="Install ssd1306 library" callbackKey="installPyLib"></button>
+    <category name="Display OLED">
+      <label text="Display OLED SSD1306 (I2C)"></label>
+      <button text="Instalar biblioteca ssd1306" callbackKey="installPyLib"></button>
 
 	    
       <block type="init_oled">
@@ -1106,12 +1111,12 @@
 
     </category>
 
-  <category name="LED Matrix">
-      <label text="TM1640 LED Matrix"></label>
-      <label text="Library: https://github.com/mcauser/micropython-tm1640"></label>
-        <button text="Install tm1640 library" callbackKey="installPyLib"></button>
-        <button text="Load example: tm1640" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: tm1640" callbackKey="loadDoc"></button>
+  <category name="Matriz de LED">
+      <label text="Matriz de LED TM1640"></label>
+      <label text="Biblioteca: https://github.com/mcauser/micropython-tm1640"></label>
+        <button text="Instalar biblioteca tm1640" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: tm1640" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: tm1640" callbackKey="loadDoc"></button>
 
     <block type="tm1640_init">
 
@@ -1232,8 +1237,8 @@
   </category>
 
   <category name="%{BKY_CAT_SENSORS}">
-    <category name="DHT11/22 Sensor">
-      <label text="DHT11/22 Temperature and Humidity Sensor"></label>
+    <category name="Sensor DHT11/22">
+      <label text="Sensor de temperatura e umidade DHT11/22"></label>
       <block type="dht_init">
         <field name="BLOCK_DHT_INIT">Start DHT11/22 sensor</field>
         <value name="pin">
@@ -1297,10 +1302,10 @@
       </block>
   </category>
 
-  <category name="Ultrasound">
-      <label text="HCSR04 ultrasound distance sensor"></label>
-      <label text="Library: https://github.com/rsc1975/micropython-hcsr04"></label>
-        <button text="Install HCSR04 library" callbackKey="installPyLib"></button>
+  <category name="Ultrassom">
+      <label text="Sensor de distância ultrassônico HC-SR04"></label>
+      <label text="Biblioteca: https://github.com/rsc1975/micropython-hcsr04"></label>
+        <button text="Instalar biblioteca HCSR04" callbackKey="installPyLib"></button>
 
 
       <block type="hcsr_init">
@@ -1327,9 +1332,9 @@
   </category>
 
   <category name="GPS">
-      <label text="Global Positioning System sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install GPS library" callbackKey="installPyLib"></button>
+      <label text="Sensor de posicionamento global (GPS)"></label>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca GPS" callbackKey="installPyLib"></button>
 
 	<block type="gps_init">
       </block>
@@ -1349,10 +1354,10 @@
 
   </category>
 
-  <category name="Oximeter">
-      <label text="MAX30100 pulse oximeter sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
+  <category name="Oxímetro">
+      <label text="Sensor oxímetro de pulso MAX30100"></label>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca MAX30100" callbackKey="installPyLib"></button>
 
 	<block type="max30100_init">
       </block>
@@ -1368,13 +1373,13 @@
 
   </category>
 
-  <category name="Inertial Measurement">
+  <category name="Medição inercial">
       <label text="MPU6050 IMU"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install imu library (MPU6050)" callbackKey="installPyLib"></button>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca imu (MPU6050)" callbackKey="installPyLib"></button>
 
-        <button text="Load example: mpu6050" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mpu6050" callbackKey="loadDoc"></button>
+        <button text="Carregar exemplo: mpu6050" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: mpu6050" callbackKey="loadDoc"></button>
 
 
 
@@ -1408,8 +1413,8 @@
       <category name="OneWire">
       <label text="OneWire"></label>
 
-        <button text="Load example: ds1820" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: ds1820" callbackKey="loadDoc"></button>
+        <button text="Carregar exemplo: ds1820" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: ds1820" callbackKey="loadDoc"></button>
 
       <block type="onewire_ds18x20_init">
         <value name="pin">
@@ -1431,12 +1436,12 @@
       </category>
 
 
-  <category name="RFID Reader">
-      <label text="RC522 13.56MHz RFID Reader"></label>
-      <label text="Library: https://github.com/wendlers/micropython-mfrc522"></label>
-        <button text="Install mfrc522 library" callbackKey="installPyLib"></button>
-        <button text="Load example: mfrc522" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mfrc522" callbackKey="loadDoc"></button>
+  <category name="Leitor RFID">
+      <label text="Leitor RFID RC522 13,56 MHz"></label>
+      <label text="Biblioteca: https://github.com/wendlers/micropython-mfrc522"></label>
+        <button text="Instalar biblioteca mfrc522" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: mfrc522" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: mfrc522" callbackKey="loadDoc"></button>
 
       <block type="rfid_rc522_init">
         <value name="sck">
@@ -1478,10 +1483,10 @@
   </category>
 
 
-  <category name="Rotatory Encoder">
-      <label text="Rotatory Incremental Encoder"></label>
-        <button text="Load example: encoder" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: encoder" callbackKey="loadDoc"></button>
+  <category name="Encoder rotativo">
+      <label text="Encoder incremental rotativo"></label>
+        <button text="Carregar exemplo: encoder" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: encoder" callbackKey="loadDoc"></button>
 
       <block type="encoder_init">
         <value name="p0">
@@ -1501,10 +1506,10 @@
       <block type="encoder_read"></block>
   </category>
 
-  <category name="Camera (ESP32CAM)">
-      <label text="OV2640 Camera on ESP32-CAM Board"></label>
-        <button text="Load example: esp32cam" callbackKey="loadExample"></button>
-      <label text="More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
+  <category name="Câmera (ESP32-CAM)">
+      <label text="Câmera OV2640 na placa ESP32-CAM"></label>
+        <button text="Carregar exemplo: esp32cam" callbackKey="loadExample"></button>
+      <label text="Mais informações: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
 
       <block type="esp32_cam_init"> </block>
       <block type="esp32_cam_capture"> </block>
@@ -1514,8 +1519,8 @@
   </category>
 
   <category name="%{BKY_CAT_OUTPUTS}">
-    <category name="Relay">
-      <label text="Relay"></label>
+    <category name="Relé">
+      <label text="Relé"></label>
       <block type="relay_switch">
         <value name="pin">
           <shadow type="pinout">
@@ -1525,8 +1530,8 @@
       </block>
     </category>
 
-  <category name="RC Servo Motor">
-      <label text="Hobby RC Servo Motor"></label>
+  <category name="Servomotor">
+      <label text="Servomotor de hobby (RC)"></label>
     <block type="init_servo">
         <value name="pin">
           <shadow type="pinout">
@@ -1545,8 +1550,8 @@
   </category>
 
 
-  <category name="Stepper Motor">
-      <label text="Stepper Motor"></label>
+  <category name="Motor de passo">
+      <label text="Motor de passo"></label>
     <block type="stepper_init">
       <value name="p0">
         <shadow type="pinout">
@@ -1579,8 +1584,8 @@
     </block>
   </category>
 
-  <category name="DC Motor">
-      <label text="DC Motor"></label>
+  <category name="Motor DC">
+      <label text="Motor DC"></label>
     <block type="dc_motor_init">
       <value name="pwm">
         <shadow type="pinout">
@@ -1620,14 +1625,14 @@ _
     </block>
   </category>
 
-  <category name="Sounds">
-        <label text="Sounds and RTTTL:"></label>
-        <label text="Ring Tone Text Transfer Language (RTTTL) "></label>
-        <label text="Library: "></label>
-        <button text="Install rtttl library" callbackKey="installPyLib"></button>
-        <button text="Install songs library" callbackKey="installPyLib"></button>
-        <button text="Load example: songs" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: sound" callbackKey="loadDoc"></button>
+  <category name="Sons">
+        <label text="Sons e RTTTL:"></label>
+        <label text="Linguagem de toques em texto (RTTTL) "></label>
+        <label text="Biblioteca: "></label>
+        <button text="Instalar biblioteca rtttl" callbackKey="installPyLib"></button>
+        <button text="Instalar biblioteca songs" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: songs" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: sound" callbackKey="loadDoc"></button>
 
     <block type="tone"> 
       <value name="pin">
@@ -1680,8 +1685,8 @@ _
       </value>
     </block>
 
-    <label text="Songs:"></label>
-    <button text="Install songs library" callbackKey="installPyLib"></button>
+    <label text="Músicas:"></label>
+    <button text="Instalar biblioteca songs" callbackKey="installPyLib"></button>
 
     <block type="text"> <field name="TEXT">Super Mario - Main Theme</field> </block>
     <block type="text"> <field name="TEXT">Super Mario - Title Music</field> </block>
@@ -1757,9 +1762,9 @@ _
     <block type="net_wiznet5k_ifconfig">
     </block>
 
-    <category name="HTTP Client">
-      <label text="HTTP (web) Client"></label>
-      <label text="GET Method"></label>
+    <category name="Cliente HTTP">
+      <label text="Cliente HTTP (web)"></label>
+      <label text="Método GET"></label>
 
       <block type="net_get_request"></block>
     <block type="net_get_request">
@@ -1788,11 +1793,11 @@ _
     </category>
 
 
-    <category name="EMAIL">
-      <label text="Email sender using uMail"></label>
-      <label text="Library: https://github.com/shawwwn/uMail"></label>
-        <button text="Install umail library" callbackKey="installPyLib"></button>
-        <button text="Documentation: uMail" callbackKey="loadDoc"></button>
+    <category name="E-mail">
+      <label text="Envio de e-mail com uMail"></label>
+      <label text="Biblioteca: https://github.com/shawwwn/uMail"></label>
+        <button text="Instalar biblioteca umail" callbackKey="installPyLib"></button>
+        <button text="Documentação: uMail" callbackKey="loadDoc"></button>
 
       <block type="umail_init">
 	  <value name="host">
@@ -1825,12 +1830,12 @@ _
         </value>
         <value name="subject">
           <shadow type="text">
-            <field name="TEXT">Email from BIPES!</field>
+            <field name="TEXT">E-mail do SancaBot!</field>
           </shadow>
         </value>
         <value name="contents">
           <shadow type="text">
-            <field name="TEXT">BIPES is nice!</field>
+            <field name="TEXT">O SancaBot é legal!</field>
           </shadow>
         </value>
       </block>

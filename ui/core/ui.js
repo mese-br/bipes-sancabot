@@ -55,10 +55,11 @@ function account (button_, panel_) {
   this.currentProject = {uid:'', xml:''};
 	this.projects = [];
 
+	if (localStorage ['account_user'] == 'User') localStorage.removeItem ('account_user');  // 'User' era o padrão em inglês
 	if (localStorage ['account_user']) {
 	  this.dom_username.innerText = localStorage ['account_user'];
 	} else {
-	  localStorage.setItem('account_user', 'User');
+	  localStorage.setItem('account_user', (window.SancaBotConfig && SancaBotConfig.defaults && SancaBotConfig.defaults.author) || 'Aluno');
 	}
 }
 /**
@@ -100,11 +101,11 @@ account.prototype.listProject = function (uid, timestamp) {
     timestamp = Tool.unix2date(timestamp);
     let short_project_name = project_name.length > 30 ? `${project_name.substring(0,27)}...` : project_name;
     let wrapper2_ = new DOM ('div', {'id':uid});
-    let openButton_ = new DOM ('div', {innerText:short_project_name, className: 'runText', title:`Open project ${project_name}, created at ${timestamp}`})
+    let openButton_ = new DOM ('div', {innerText:short_project_name, className: 'runText', title:`Abrir o projeto ${project_name}, criado às ${timestamp}`})
         .onclick (this, this.openProject, [uid])
-    let deleteButton_ = new DOM ('span', {className:'icon', id:'trashIcon', title:`Delete project ${project_name}`})
+    let deleteButton_ = new DOM ('span', {className:'icon', id:'trashIcon', title:`Apagar o projeto ${project_name}`})
         .onclick (this, this.deleteProject, [uid])
-    let downloadButton_ = new DOM ('span', {className:'icon', id:'downloadIcon', title:`Download project ${project_name}`})
+    let downloadButton_ = new DOM ('span', {className:'icon', id:'downloadIcon', title:`Baixar o projeto ${project_name}`})
         .onclick (this, UI ['workspace'].saveXML, [uid])
 
     let wrapper_ = new DOM ('div')
@@ -166,7 +167,7 @@ account.prototype.getProjectName_ = function (uid) {
     let project_description_chunk = xml.match (regex_) [0];
     project_name = project_description_chunk.match (/<field name="TEXT">(.*?)<\/field>/)[1].slice();
   } else {
-    project_name = "My BIPES Project";
+    project_name = "Meu projeto";
   }
   return project_name;
 }
@@ -227,7 +228,7 @@ account.prototype.setCurrentProjectName_ = function (str_) {
   let a_ = getIn(this.projectList, `#${this.currentProject.uid}`);
   let b_ = getIn(a_, '.runText')
   b_.innerText = short_project_name;
-  b_.title = `Open project ${str_}.`;
+  b_.title = `Abrir o projeto ${str_}.`;
 }
 
 account.prototype.onOpenPanel_ = function () {
@@ -373,7 +374,7 @@ async function xhrGET (filename, responsetype, onsuccess, onfail) {
         }
         onsuccess(xml_);
 	    } else
-	      alert(`Could not find ${filename} locally, please run at a server or use the live version at bipes.net.br/beta2/ui.`);
+	      alert(`Não encontrei o arquivo ${filename}. Abra a página por um servidor (não direto do arquivo) ou use a versão online.`);
 
 
   }
@@ -471,7 +472,7 @@ class progress {
 class workspace {
   constructor () {
     if (window.location.pathname.includes ('index.html') && window.location.protocol == 'file:') {
-      alert('You will now be redirected to the offline version.');
+      alert('Você será levado para a versão offline.');
       window.location.replace("index_offline.html");
     }
 
@@ -751,9 +752,9 @@ workspace.prototype.loadXML = function () {
         catch (e) {
           UI ['notify'].log(e)
           if (/Error: Variable id, (.*) is already in use\.$/.test(e))
-            UI ['notify'].send (`Unique variable is already in use, could not load ${file.name}.`);
+            UI ['notify'].send (`Esse nome de variável já está em uso, não consegui abrir ${file.name}.`);
           else
-            UI ['notify'].send (`Failed to parse data, could not load ${file.name}.`);
+            UI ['notify'].send (`O arquivo ${file.name} não parece um projeto válido, não consegui abrir.`);
           this.loadButton.value = ''
           return;
         }
@@ -761,7 +762,7 @@ workspace.prototype.loadXML = function () {
         this.loadButton.value = ''
       }
     } else {
-      UI ['notify'].send ('No valid file selected to load.');
+      UI ['notify'].send ('Nenhum arquivo válido foi escolhido.');
     }
   }
 }

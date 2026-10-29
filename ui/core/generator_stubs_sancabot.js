@@ -117,14 +117,14 @@ function sancabotDeindent(code) {
   }).join('\n');
 }
 
-Blockly.Python['sancabot_motion_scene'] = function(block) {
+Blockly.Python.forBlock['sancabot_motion_scene'] = function(block) {
   var statements = Blockly.Python.statementToCode(block, 'MOVES');
   statements = sancabotDeindent(statements);
   return statements || '';
 };
 
 
-Blockly.Python['sancabot_config'] = function(block) {
+Blockly.Python.forBlock['sancabot_config'] = function(block) {
   var leftPin = block.getFieldValue('LEFT_PIN');
   var rightPin = block.getFieldValue('RIGHT_PIN');
   sancabotRuntimeDefinition();
@@ -139,12 +139,12 @@ Blockly.Python['sancabot_config'] = function(block) {
 
 
 
-Blockly.Python['sancabot_time_seconds'] = function(block) {
+Blockly.Python.forBlock['sancabot_time_seconds'] = function(block) {
   var seconds = block.getFieldValue('SECONDS') || '1';
   return [seconds, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['sancabot_angle_degrees'] = function(block) {
+Blockly.Python.forBlock['sancabot_angle_degrees'] = function(block) {
   var degrees = block.getFieldValue('DEGREES') || '90';
   return [degrees, Blockly.Python.ORDER_ATOMIC];
 };
@@ -167,7 +167,7 @@ function sancabotWheelSpeedsForAction(action, speed) {
   return { left: left, right: right };
 }
 
-Blockly.Python['sancabot_move_mode'] = function(block) {
+Blockly.Python.forBlock['sancabot_move_mode'] = function(block) {
   var action = block.getFieldValue('ACTION');
   var speed = block.getFieldValue('SPEED') || '50';
   var mode = block.getFieldValue('MODE') || 'CONTINUOUS';
@@ -182,17 +182,17 @@ Blockly.Python['sancabot_move_mode'] = function(block) {
   return code;
 };
 
-Blockly.Python['sancabot_stop'] = function(block) {
+Blockly.Python.forBlock['sancabot_stop'] = function(block) {
   sancabotRuntimeDefinition();
   return sancabotTraceLine(block, 'parar SancaBot') + 'sancabot_stop()\n';
 };
 
-Blockly.Python['sancabot_wait'] = function(block) {
+Blockly.Python.forBlock['sancabot_wait'] = function(block) {
   var seconds = Blockly.Python.valueToCode(block, 'SECONDS', Blockly.Python.ORDER_ATOMIC) || '1';
   Blockly.Python.definitions_['import_time'] = 'import time';
   return sancabotTraceLine(block, 'esperar') + 'time.sleep(' + seconds + ')\n';
 };
-Blockly.Python['sancabot_calibrate'] = function(block) {
+Blockly.Python.forBlock['sancabot_calibrate'] = function(block) {
   var side = block.getFieldValue('SIDE');
   var correction = block.getFieldValue('CORRECTION');
   sancabotRuntimeDefinition();
@@ -201,7 +201,7 @@ Blockly.Python['sancabot_calibrate'] = function(block) {
   return sancabotTraceLine(block, 'corrigir desvio') + 'sancabot_set_correction(' + left + ', ' + right + ')\n';
 };
 
-Blockly.Python['sancabot_turn_calibration'] = function(block) {
+Blockly.Python.forBlock['sancabot_turn_calibration'] = function(block) {
   var seconds = block.getFieldValue('SECONDS') || '1';
   sancabotRuntimeDefinition();
   return sancabotTraceLine(block, 'calibrar giro') + 'sancabot_set_turn_calibration(' + seconds + ')\n';
@@ -267,7 +267,7 @@ function sancabotDistanceRuntimeDefinition() {
   ].join('\n');
 }
 
-Blockly.Python['sancabot_distance_sensor'] = function(block) {
+Blockly.Python.forBlock['sancabot_distance_sensor'] = function(block) {
   var triggerPin = block.getFieldValue('TRIGGER_PIN') || '7';
   var echoPin = block.getFieldValue('ECHO_PIN') || '8';
   var readInterval = block.getFieldValue('READ_INTERVAL') || '0.2';
@@ -279,7 +279,7 @@ Blockly.Python['sancabot_distance_sensor'] = function(block) {
   return code;
 };
 
-Blockly.Python['sancabot_distance_cm'] = function(block) {
+Blockly.Python.forBlock['sancabot_distance_cm'] = function(block) {
   sancabotDistanceRuntimeDefinition();
   return ['sancabot_observed_distance_cm()', Blockly.Python.ORDER_FUNCTION_CALL];
 };
@@ -291,14 +291,14 @@ function sancabotDistanceCompareExpression(op, limit) {
   return '(' + reading + ' >= 0 and ' + reading + ' < ' + limit + ')';
 }
 
-Blockly.Python['sancabot_obstacle_near'] = function(block) {
+Blockly.Python.forBlock['sancabot_obstacle_near'] = function(block) {
   var limit = block.getFieldValue('LIMIT_CM') || '15';
   var op = block.getFieldValue('OP') || 'LT';
   sancabotDistanceRuntimeDefinition();
   return [sancabotDistanceCompareExpression(op, limit), Blockly.Python.ORDER_RELATIONAL || Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['sancabot_if_obstacle'] = function(block) {
+Blockly.Python.forBlock['sancabot_if_obstacle'] = function(block) {
   var limit = block.getFieldValue('LIMIT_CM') || '15';
   var op = block.getFieldValue('OP') || 'LT';
   sancabotDistanceRuntimeDefinition();
@@ -307,7 +307,7 @@ Blockly.Python['sancabot_if_obstacle'] = function(block) {
   return sancabotTraceLine(block, 'decidir pela distancia') + 'if ' + sancabotDistanceCompareExpression(op, limit) + ':\n' + branch;
 };
 
-Blockly.Python['sancabot_observe_scene'] = function(block) {
+Blockly.Python.forBlock['sancabot_observe_scene'] = function(block) {
   var seconds = block.getFieldValue('SECONDS') || '5';
   var interval = block.getFieldValue('INTERVAL') || '0.2';
   sancabotDistanceRuntimeDefinition();
@@ -338,7 +338,7 @@ function sancabotPyString(value) {
 
 
 
-Blockly.Python['sancabot_explore_until'] = function(block) {
+Blockly.Python.forBlock['sancabot_explore_until'] = function(block) {
   var limit = block.getFieldValue('LIMIT_CM') || '15';
   var op = block.getFieldValue('OP') || 'LT';
   var interval = block.getFieldValue('INTERVAL') || '0.2';
@@ -364,7 +364,7 @@ Blockly.Python['sancabot_explore_until'] = function(block) {
   return code;
 };
 
-Blockly.Python['sancabot_explore_forever'] = function(block) {
+Blockly.Python.forBlock['sancabot_explore_forever'] = function(block) {
   var interval = block.getFieldValue('INTERVAL') || '0.2';
   sancabotDistanceRuntimeDefinition();
   var branch = Blockly.Python.statementToCode(block, 'DO');
@@ -395,14 +395,14 @@ function sancabotIsInsideRepeat(block) {
   }
   return false;
 }
-Blockly.Python['sancabot_break_explore'] = function(block) {
+Blockly.Python.forBlock['sancabot_break_explore'] = function(block) {
   if (!sancabotIsInsideRepeat(block)) {
     return '# sair da repeticao usado fora de uma repeticao\npass\n';
   }
   return sancabotTraceLine(block, 'sair da repeticao') + 'break\n';
 };
 
-Blockly.Python['sancabot_panel_number'] = function(block) {
+Blockly.Python.forBlock['sancabot_panel_number'] = function(block) {
   var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '0';
   var label = sancabotPyString(block.getFieldValue('LABEL') || 'Valor');
   var unit = sancabotPyString(block.getFieldValue('UNIT') || '');
@@ -424,7 +424,7 @@ Blockly.Python['sancabot_panel_number'] = function(block) {
 
 
 
-Blockly.Python['sancabot_observe_drive'] = function(block) {
+Blockly.Python.forBlock['sancabot_observe_drive'] = function(block) {
   var action = block.getFieldValue('ACTION');
   var speed = block.getFieldValue('SPEED') || '30';
   sancabotRuntimeDefinition();
@@ -469,7 +469,7 @@ function sancabotStatementCode(block, inputName) {
   return branch;
 }
 
-Blockly.Python['sancabot_exp_if_else'] = function(block) {
+Blockly.Python.forBlock['sancabot_exp_if_else'] = function(block) {
   var code = sancabotTraceLine(block, 'decidir') + '';
   var index = 0;
   do {
@@ -483,25 +483,25 @@ Blockly.Python['sancabot_exp_if_else'] = function(block) {
   }
   return code;
 };
-Blockly.Python['sancabot_exp_repeat_times'] = function(block) {
+Blockly.Python.forBlock['sancabot_exp_repeat_times'] = function(block) {
   var times = Blockly.Python.valueToCode(block, 'TIMES', Blockly.Python.ORDER_ATOMIC) || '10';
   var branch = sancabotStatementCode(block, 'DO');
   return 'for sancabot_repeat_i in range(int(' + times + ')):\n' + sancabotLoopIterationTraceLine(block, 'repetir vezes') + branch;
 };
 
-Blockly.Python['sancabot_exp_repeat_while'] = function(block) {
+Blockly.Python.forBlock['sancabot_exp_repeat_while'] = function(block) {
   var condition = sancabotBooleanCode(block, 'COND', 'False');
   var branch = sancabotStatementCode(block, 'DO');
   return 'while ' + condition + ':\n' + sancabotLoopIterationTraceLine(block, 'repetir enquanto') + branch;
 };
 
-Blockly.Python['sancabot_exp_repeat_until'] = function(block) {
+Blockly.Python.forBlock['sancabot_exp_repeat_until'] = function(block) {
   var condition = sancabotBooleanCode(block, 'COND', 'False');
   var branch = sancabotStatementCode(block, 'DO');
   return 'while not (' + condition + '):\n' + sancabotLoopIterationTraceLine(block, 'repetir ate') + branch;
 };
 
-Blockly.Python['sancabot_exp_repeat_condition'] = function(block) {
+Blockly.Python.forBlock['sancabot_exp_repeat_condition'] = function(block) {
   var condition = sancabotBooleanCode(block, 'COND', 'False');
   var mode = block.getFieldValue('MODE') || 'WHILE';
   var branch = sancabotStatementCode(block, 'DO');
@@ -511,14 +511,14 @@ Blockly.Python['sancabot_exp_repeat_condition'] = function(block) {
   return 'while ' + condition + ':\n' + sancabotLoopIterationTraceLine(block, 'repetir enquanto') + branch;
 };
 
-Blockly.Python['sancabot_ultrasonic_condition'] = function(block) {
+Blockly.Python.forBlock['sancabot_ultrasonic_condition'] = function(block) {
   var limit = block.getFieldValue('LIMIT_CM') || '15';
   var op = block.getFieldValue('OP') || 'LT';
   sancabotDistanceRuntimeDefinition();
   return [sancabotDistanceCompareExpression(op, limit), Blockly.Python.ORDER_RELATIONAL || Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['sancabot_logic_join'] = function(block) {
+Blockly.Python.forBlock['sancabot_logic_join'] = function(block) {
   var a = sancabotBooleanCode(block, 'A', 'False');
   var b = sancabotBooleanCode(block, 'B', 'False');
   var op = block.getFieldValue('OP') || 'AND';
@@ -526,12 +526,12 @@ Blockly.Python['sancabot_logic_join'] = function(block) {
   return ['(' + a + pyOp + b + ')', Blockly.Python.ORDER_LOGICAL_AND || Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['sancabot_timer_start'] = function(block) {
+Blockly.Python.forBlock['sancabot_timer_start'] = function(block) {
   sancabotTimerRuntimeDefinition();
   return sancabotTraceLine(block, 'iniciar cronometro') + 'sancabot_timer_start = time.ticks_ms()\n';
 };
 
-Blockly.Python['sancabot_timer_seconds'] = function(block) {
+Blockly.Python.forBlock['sancabot_timer_seconds'] = function(block) {
   sancabotTimerRuntimeDefinition();
   return ['sancabot_timer_seconds()', Blockly.Python.ORDER_FUNCTION_CALL];
 };
@@ -543,7 +543,7 @@ function sancabotTimerCompareExpression(op, seconds) {
   return '(' + reading + ' < ' + seconds + ')';
 }
 
-Blockly.Python['sancabot_timer_condition'] = function(block) {
+Blockly.Python.forBlock['sancabot_timer_condition'] = function(block) {
   var seconds = block.getFieldValue('SECONDS') || '60';
   var op = block.getFieldValue('OP') || 'LT';
   sancabotTimerRuntimeDefinition();

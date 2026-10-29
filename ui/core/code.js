@@ -61,8 +61,8 @@ Code.getStringParamFromUrl = function(name, defaultValue) {
 Code.getLang = function() {
   var lang = Code.getStringParamFromUrl('lang', '');
   if (Code.LANGUAGE_NAME[lang] === undefined) {
-    // Default to English.
-    lang = 'en';
+    // Padrão do SancaBot: português do Brasil (use ?lang=en para inglês).
+    lang = 'pt-br';
   }
   return lang;
 };
@@ -423,7 +423,7 @@ Code.checkAllGeneratorFunctionsDefined = function(generator) {
   var missingBlockGenerators = [];
   for (var i = 0; i < blocks.length; i++) {
     var blockType = blocks[i].type;
-    if (!generator[blockType]) {
+    if (!(generator.forBlock && generator.forBlock[blockType]) && !generator[blockType]) {
       if (missingBlockGenerators.indexOf(blockType) === -1) {
         missingBlockGenerators.push(blockType);
       }
@@ -546,9 +546,11 @@ Code.init = function() {
       {grid:
           {spacing: 25,
            length: 3,
-           colour: '#ccc',
+           colour: '#cfd7f0',
            snap: true},
-       media: 'media/',
+       media: 'core/blockly13/media/',
+       renderer: window.SancaBotRenderer || 'geras',
+       theme: window.SancaBotTheme || undefined,
        rtl: rtl,
        toolbox: toolboxXml,
        oneBasedIndex: false,
@@ -607,13 +609,13 @@ Code.init = function() {
 
   Code.workspace.registerButtonCallback('installPyLib', function(button) {
 
-	var lib = button.text_.split(" ")[1];
+	var _p = button.text_.split(" "); var lib = /^Instalar$/i.test(_p[0]) ? _p[2] : _p[1];  // "Install X library" ou "Instalar biblioteca X"
 	console.log(button.text_);
 	console.log(lib)
-        alert("This will automatic download and install the library on the connected board: " + lib + ". Internet is required for this operation. Install results will be shown on console tab.");
+        alert("Isto vai baixar e instalar a biblioteca " + lib + " no robô conectado. É preciso ter internet. O resultado da instalação aparece na aba Console.");
 
 
-	UI ['notify'].send('Installing library, check console')
+	UI ['notify'].send('Instalando a biblioteca. Acompanhe pela aba Console.')
 
 	var installCmd = `
 def bipesInstall(url, lib):
@@ -677,7 +679,7 @@ print('Install done.')
 	var tmp = button.text_.split(":")[1];
 	var lib = tmp.replace(/\s/g,'');
 
-        var msgCon = "This will load Example: " + lib + ". Internet is required for this operation. Important: all blocks on workspace will be lost and replaced by the example blocks. Do you want to continue?";
+        var msgCon = "Isto vai carregar o exemplo: " + lib + ". É preciso ter internet. Atenção: todos os blocos que estão na tela serão trocados pelos blocos do exemplo. Quer continuar?";
 
 	if (confirm(msgCon)) {
 		//console.log('Thing was saved to the database.');
@@ -800,21 +802,20 @@ Code.initLanguage = function() {
 
   // Inject language strings.
   //Changed to a fixed title for all languages - BIPES Beta
-  document.getElementById('tab_blocks').textContent = MSG['blocks'];
-  document.getElementById('tab_files').textContent = MSG['files'];
-  document.getElementById('tab_programs').textContent = MSG['shared'];
-  document.getElementById('tab_device').textContent = MSG['device'];
-
-  document.getElementById('linkButton').title = MSG['linkTooltip'];
-  document.getElementById('runButton').title = MSG['runTooltip'];
+  var _e_tab_blocks = document.getElementById('tab_blocks'); if (_e_tab_blocks) _e_tab_blocks.textContent = MSG['blocks'];
+  var _e_tab_files = document.getElementById('tab_files'); if (_e_tab_files) _e_tab_files.textContent = MSG['files'];
+  var _e_tab_programs = document.getElementById('tab_programs'); if (_e_tab_programs) _e_tab_programs.textContent = MSG['shared'];
+  var _e_tab_device = document.getElementById('tab_device'); if (_e_tab_device) _e_tab_device.textContent = MSG['device'];
+  var _e_linkButton = document.getElementById('linkButton'); if (_e_linkButton) _e_linkButton.title = MSG['linkTooltip'];
+  var _e_runButton = document.getElementById('runButton'); if (_e_runButton) _e_runButton.title = MSG['runTooltip'];
   //document.getElementById('trashButton').title = MSG['trashTooltip'];
-  document.getElementById('saveButton').title = MSG['saveTooltip'];
-  document.getElementById('loadButton').title = MSG['loadTooltip'];
-  document.getElementById('notificationButton').title = MSG['notificationTooltip'];
-  document.getElementById('languageIcon').title = MSG['languageTooltip'];
-  document.getElementById('toolbarButton').title = MSG['toolbarTooltip'];
-  document.getElementById('forumButton').title = MSG['forumTooltip'];
-  document.getElementById('accountButton').title = MSG['accountTooltip'];
+  var _e_saveButton = document.getElementById('saveButton'); if (_e_saveButton) _e_saveButton.title = MSG['saveTooltip'];
+  var _e_loadButton = document.getElementById('loadButton'); if (_e_loadButton) _e_loadButton.title = MSG['loadTooltip'];
+  var _e_notificationButton = document.getElementById('notificationButton'); if (_e_notificationButton) _e_notificationButton.title = MSG['notificationTooltip'];
+  var _e_languageIcon = document.getElementById('languageIcon'); if (_e_languageIcon) _e_languageIcon.title = MSG['languageTooltip'];
+  var _e_toolbarButton = document.getElementById('toolbarButton'); if (_e_toolbarButton) _e_toolbarButton.title = MSG['toolbarTooltip'];
+  var _e_forumButton = document.getElementById('forumButton'); if (_e_forumButton) _e_forumButton.title = MSG['forumTooltip'];
+  var _e_accountButton = document.getElementById('accountButton'); if (_e_accountButton) _e_accountButton.title = MSG['accountTooltip'];
 };
 
 /**
@@ -833,5 +834,9 @@ Code.discard = function() {
 
 // Load the Code demo's language strings.
 document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
-// Load Blockly's language strings.
+// Load Blockly's language strings (Blockly 13). Os textos novos vêm de core/blockly13/msg; os do Blockly 6 antigo
+// (b.msg/js) entram só para completar o que o BIPES ainda usa e o Blockly novo não tem mais. Onde existir nos dois, vale o novo.
+document.write('<script src="core/blockly13/msg/' + Code.LANG + '.js"></script>\n');
+document.write('<script>window.__sancabotMsgNew = Object.assign({}, Blockly.Msg);</script>\n');
 document.write('<script src="b.msg/js/' + Code.LANG + '.js"></script>\n');
+document.write('<script>Object.assign(Blockly.Msg, window.__sancabotMsgNew); delete window.__sancabotMsgNew;</script>\n');
