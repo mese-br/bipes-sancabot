@@ -17,9 +17,13 @@ function sancabotPortOptions() {
   for (pin = 0; pin <= 21; pin++) out.push([byPin[pin] !== undefined ? String(byPin[pin]) : 'pino ' + pin, String(pin)]);
   return out;
 }
-function sancabotPortField(defaultPin) {
+// "papel" = left, right, trig ou echo. O pino padrão vem do robô escolhido no cabeçalho (sancabot_config.js, "robos").
+var SANCABOT_PINOS_FREE = { left: 0, right: 1, trig: 7, echo: 8 };
+function sancabotPortField(papel) {
+  var cf = window.SancaBotConfig, pin = SANCABOT_PINOS_FREE[papel];
+  if (cf && cf.pinoDe && cf.papeis) { var d = cf.pinoDe(cf.papeis[papel]); if (d !== undefined) pin = d; }
   var f = new Blockly.FieldDropdown(sancabotPortOptions);
-  try { f.setValue(String(defaultPin)); } catch (e) { /* fica no primeiro da lista */ }
+  try { f.setValue(String(pin)); } catch (e) { /* fica no primeiro da lista */ }
   return f;
 }
 
@@ -28,9 +32,9 @@ Blockly.Blocks['sancabot_config'] = {
     this.appendDummyInput()
         .appendField('Preparar motores')
         .appendField('esquerdo')
-        .appendField(sancabotPortField(0), 'LEFT_PIN')
+        .appendField(sancabotPortField('left'), 'LEFT_PIN')
         .appendField('direito')
-        .appendField(sancabotPortField(1), 'RIGHT_PIN');
+        .appendField(sancabotPortField('right'), 'RIGHT_PIN');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#168fd8');
@@ -209,9 +213,9 @@ Blockly.Blocks['sancabot_distance_sensor'] = {
         .appendField('Preparar sensor de distância');
     this.appendDummyInput()
         .appendField('emissor')
-        .appendField(sancabotPortField(7), 'TRIGGER_PIN')
+        .appendField(sancabotPortField('trig'), 'TRIGGER_PIN')
         .appendField('receptor')
-        .appendField(sancabotPortField(8), 'ECHO_PIN');
+        .appendField(sancabotPortField('echo'), 'ECHO_PIN');
     this.appendDummyInput()
         .appendField('ler a cada')
         .appendField(new Blockly.FieldNumber(0.2, 0.1, 5, 0.1), 'READ_INTERVAL')

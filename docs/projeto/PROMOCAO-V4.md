@@ -12,7 +12,7 @@ Atualizado em **2026-10-29**. A v4 (`/bipes-v4/`) ainda **não** substituiu a v3
 | 4 | Simulador, galeria e tradução do Console sem regressão | 🟡 | Galeria: `testar.sh galeria` (compartilhar, link, remix) ✅. Simulador: só o carregamento de exemplos e as missões (`paridade`); **▶ Jogar e as estrelas não têm teste automático**. Tradução do Console: só o erro de divisão por zero no roteiro do robô; o resto foi conferido à mão (F3) |
 | 5 | Telas em 390, 1024, 1440 e 2560 px; sem piscada; recarregar mantém aba, blocos e posição | ✅ | `testar.sh visual` (4 tamanhos, 0 diferenças novas), `carregamento` (nenhuma tela errada aparece, 50 verificações), `sessao` (blocos, zoom e posição) |
 | 6 | Nenhum texto em inglês visível ao aluno; nenhum rastreador | 🟡 | Rastreador: `carregamento` (só o próprio servidor, sem `gtag`) ✅. **Inglês: não há varredura automática**; a Referência foi auditada à mão |
-| 7 | Suítes de API e de interface passam | ✅ | `testar.sh` (111 verificações) |
+| 7 | Suítes de API e de interface passam | ✅ | `testar.sh` (122 verificações) |
 | 8 | **Teste com o robô real** | 🔴 | Depende do hardware e do responsável (M11). Roteiro-base: os 25 passos de `dev-local/lab/teste-robo-simulado.js` |
 
 **Lido assim:** os critérios 1, 2, 3, 5 e 7 estão provados por teste automático. 4 e 6 têm buracos conhecidos. **O 8 é o que de fato falta antes de levar a v4 aos alunos.**

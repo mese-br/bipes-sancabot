@@ -12,6 +12,8 @@ Não precisa saber programar. Em cada passo: **faça** o que está escrito, **co
 
 **Material:** o robô carregado e com o MicroPython gravado · cabo USB **de dados** (alguns cabos só carregam e não funcionam) · computador com **Chrome ou Edge** · uma superfície lisa e livre de pelo menos **120 × 80 cm** · trena ou régua grande · esquadro ou um canto de parede (para conferir 90°) · cronômetro (o do celular serve) · fita crepe para marcar a largada · um livro ou caixa para fazer de "parede".
 
+**No editor:** no cabeçalho, ao lado de "Conectar e rodar", escolha o robô que você tem: **SancaBot Free v1.0** (o atual) ou **SancaBot v2** (servo direito no pino 21, com contato e Hall). A escolha muda os nomes das portas e os pinos que os blocos novos trazem.
+
 **No computador:**
 1. Ligue o servidor de desenvolvimento: `dev-local/dev.sh up`.
 2. Abra no Chrome: **http://localhost:8090/bipes-v4/** (sem `?robo=simulado`: aquele é o robô de mentira). O endereço `localhost` conta como seguro, então a conexão USB funciona.
@@ -53,10 +55,11 @@ Não precisa saber programar. Em cada passo: **faça** o que está escrito, **co
 | **B2** | **Velocidade em linha reta a 50%** | *Mover para frente, 50%, por 2 s* (bloco *Mover* por tempo). Marque onde largou e onde parou; meça a distância. Divida por 2 → cm/s. | calculada: ≈ 7,9 cm/s | |
 | **B3** | **Tempo para girar 90° a 50%** (`turn90At50`) | *Girar para a direita, 50%, por T segundos*. Ajuste T até o robô virar exatamente 90° (confira no esquadro). Anote T. | 1,0 s | |
 | **B4** | **Desvio em linha reta** | *Mover para frente, 50%, por ~12 s* (≈ 100 cm). Meça o quanto saiu da linha (cm) e **para qual lado**. | sem desvio | |
-| **B5** | **Qual roda é a esquerda?** | No bloco *Preparar motores*, a porta "esquerdo" é **Servo 0**. Com o robô levantado, rode *Mover para frente* e veja se a roda da **esquerda** (de quem olha de trás) gira primeiro/igual. Se for a do lado contrário, anote. | Servo 0 = esquerda, Servo 1 = direita | |
-| **B6** | **Sensores IR** (se o robô tiver) | Anote em qual **pino** (5 ou 6) fica o sensor do lado **esquerdo** e qual do **direito**. | sem lado definido | |
-| **B7** | **Ultrassom: qual pino é Trig e qual é Echo** | O bloco *Preparar sensor de distância* usa emissor = Ultrassom 7, receptor = Ultrassom 8. Se na A10 o robô parou certo, está correto; se o sensor nunca "vê" nada, troque os dois e teste de novo. | 7 = emissor, 8 = receptor | |
+| **B5** | **Qual roda é a esquerda?** | No editor, escolha o robô certo no cabeçalho (**SancaBot Free v1.0** ou **SancaBot v2**). Com o robô levantado, rode *Mover para frente* e veja qual roda gira. O firmware diz: roda esquerda = Servo esquerdo (pino 0), direita = pino 1 no Free e 21 na v2. | conferido no firmware | |
+| **B6** | **Sensores IR** (se o robô tiver) | Passe a mão ou uma fita preta sob cada sensor e veja qual pino reage. O firmware diz: esquerdo = pino 5, direito = pino 6. | conferido no firmware | |
+| **B7** | **Ultrassom: qual pino é Trig e qual é Echo** | O firmware diz: Trig (emissor) = 7, Echo (receptor) = 8. Se na A10 o robô parou certo, está confirmado; se o sensor nunca "vê" nada, troque os dois e teste de novo. | 7 = Trig, 8 = Echo | |
 | **B8** | **Tamanho da pista** das aulas | Largura × altura da área livre de verdade, em cm. | 120 × 80 cm | |
+| **B9** | **Parado de verdade** | Rode o bloco *Parar* (ou *Mover* a 0%) com as rodas no ar. As duas rodas têm de ficar imóveis. Se uma ficar girando devagar, o ponto parado do servo está fora do centro: o firmware usa 1450 µs, e o MicroPython dos blocos usa um valor perto de 1505 µs (ver [ROBOS.md](ROBOS.md)). Anote qual roda e para que lado. | sem giro | |
 
 **Conta de conferência (B1, B2, B3):** o simulador calcula a velocidade a 50% por `v = (π/2 ÷ B3) × (B1 ÷ 2)`. Com B1 = 10 e B3 = 1,0 dá ≈ 7,85 cm/s. Se a **B2 medida** ficar mais de **10%** diferente disso, anote: significa que as três medidas não combinam entre si (por exemplo, a roda patina) e vamos ajustar o simulador para usar a velocidade medida em vez da calculada.
 
@@ -92,7 +95,7 @@ Dicas rápidas:
 ## Depois do teste
 
 1. **Entregue a folha** (foto ou transcrição) e as fotos.
-2. As **medidas** B1 a B8 vão para `bipes-sancabot/ui-v4/core/sancabot_config.js` (`robot.trackCm`, `robot.turn90At50`, `tablado`, `ports`). Os tempos dos 8 exemplos se recalculam sozinhos. Atualize também [MEDIDAS-DO-ROBO.md](MEDIDAS-DO-ROBO.md): troque "provisório" pelo valor medido, com data e quem mediu.
+2. As **medidas** B1 a B9 vão para `bipes-sancabot/ui-v4/core/sancabot_config.js` (`robot.trackCm`, `robot.turn90At50`, `tablado`; os pinos ficam em `robos`). Os tempos dos 8 exemplos se recalculam sozinhos. Atualize também [MEDIDAS-DO-ROBO.md](MEDIDAS-DO-ROBO.md): troque "provisório" pelo valor medido, com data e quem mediu.
 3. Rode `dev-local/testar.sh` (tudo deve continuar verde).
 4. Atualize o [STATUS.md](STATUS.md) (itens com 🔴 de robô real) e o checklist de [PROMOCAO-V4.md](PROMOCAO-V4.md), critério 8.
 5. Os ❌ viram correções antes de promover a v4. Se **A1 a A9** estiverem todos ✅, o critério mínimo do robô real está cumprido.
@@ -134,7 +137,8 @@ Dicas rápidas:
 
 | Confirmações | Resposta |
 |---|---|
-| B5 roda esquerda é o Servo ___ | |
+| Robô testado: Free v1.0 / v2 (circule). B5 roda esquerda é o Servo ___ | |
 | B6 IR esquerdo no pino ___ / IR direito no pino ___ | |
 | B7 ultrassom: Trig = pino ___ / Echo = pino ___ | |
 | B8 pista: ___ × ___ cm | |
+| B9 parado de verdade: as rodas ficam imóveis? (sim / não, qual roda) | |

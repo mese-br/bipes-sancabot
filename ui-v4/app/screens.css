@@ -117,3 +117,10 @@
 /* Linha do EasyMQTT: texto, ícone de engrenagem e interruptor alinhados no meio */
 #content_console label.checkswitch[for="EasyMQTT_bridge"] { display: inline-flex; align-items: center; gap: .6rem; padding: .3rem .5rem; }
 #content_console #settingsGeneric { display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; margin: 0; padding: 0; }
+
+/* aba "Meu robô": tabela de pinos do robô escolhido (gerada por SancaBotConfig.descricao) */
+#device_desc table.sancabot-pinos { margin: 0 auto; border-collapse: collapse; text-align: left; background: #fff; border-radius: .9rem; overflow: hidden; box-shadow: 0 0 0 1px var(--sb-line); }
+#device_desc table.sancabot-pinos th, #device_desc table.sancabot-pinos td { padding: .45rem .85rem; border-bottom: 1px solid var(--sb-line); font-size: 14px; }
+#device_desc table.sancabot-pinos th { background: var(--sb-soft); font-weight: 900; }
+#device_desc table.sancabot-pinos td:first-child { font-weight: 900; text-align: center; }
+#device_desc table.sancabot-pinos tr:last-child td { border-bottom: 0; }

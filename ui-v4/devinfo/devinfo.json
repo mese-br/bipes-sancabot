@@ -99,6 +99,16 @@
                                                 ],
                                      "serial_packet_size":  "500"
                                  },
+                    "SancaBotV2":  {
+                                         "title":  "\u003cb\u003eSancaBot v2 (ESP32-C3 Super Mini)\u003c/b\u003e\u003cbr\u003e",
+                                         "speed":  "115200",
+                                         "boardID":  "ESP32",
+                                         "img":  "devinfo/media/ESP32-C3-SuperMini-Pinout-SancaBot.png",
+                                         "description":  "",
+                                         "toolbox":  "sancabot.xml",
+                                         "pinout":  [],
+                                         "serial_packet_size":  "500"
+                                     },
                     "AmadoBoard":  {
                                        "title":  "\u003cb\u003eAmadoBoard\u003c/b\u003e\u003cbr\u003e",
                                        "speed":  "115200",

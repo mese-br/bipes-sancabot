@@ -45,6 +45,7 @@
     { t: '#sbSimPanel', h: 'O tablado virtual', p: 'Aperte Jogar e veja o robô andar. Escolha um exemplo pronto, uma trajetória-alvo (reta, quadrado, oito, curva em S), coloque obstáculos ou desenhe paredes e confira o desvio, o tempo e o sensor de distância. A velocidade (1×, 2×, 4×) é sua.',
       antes: function () { simulador(true); }, espera: 450 },
     { t: ['#channelButton', '#channel_connect'], h: 'Conectar o robô', p: 'Clique em Conectar e escolha como ligar: cabo USB (o mais fácil), Bluetooth ou Wi-Fi. Quando ficar verde, o robô está conectado.', antes: function () { simulador(false); } },
+    { t: '#deviceSelect', h: 'Escolha o seu robô', p: 'Há duas versões do SancaBot: a Free v1.0 (a atual) e a v2, com sensor de contato e odometria. Escolha a sua: os nomes das portas nos blocos mudam de acordo, e o projeto guarda o robô para o qual foi feito.' },
     { t: '#runButton', h: 'Conectar e rodar', p: 'Quando os blocos estiverem prontos, aperte aqui: o programa é enviado e o robô começa. Cada bloco acende no momento em que o robô o executa.' },
     { t: '#sancabotSlowToggle', h: 'Modo passo a passo 🐢', p: 'Liga a tartaruga para o programa rodar devagar, com uma pausa em cada bloco. Ótimo para entender o que acontece e achar erros.' },
     { t: '.sb-proj', h: 'Menu Projeto', p: 'Aqui ficam as ações do seu projeto. Vamos ver cada uma.', antes: function () { menuProjeto(false); } },

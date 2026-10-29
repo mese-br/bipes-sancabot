@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="app/panels.css?ver=f5-18">
   <link rel="stylesheet" href="app/blockly.css?ver=f5-18">
   <link rel="stylesheet" href="app/shell.css?ver=f7-1">
-  <link rel="stylesheet" href="app/screens.css?ver=f5-18">
+  <link rel="stylesheet" href="app/screens.css?ver=f8-1">
   <link rel="stylesheet" href="app/features.css?ver=f7-1">
 
   <link rel="preload" href="media/fonts/nunito/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -56,14 +56,14 @@
   <script src="core/blockly13/plugins/field-colour.js"></script>
   <script src="core/blockly13/plugins/field-angle.js"></script>
   <script src="core/sancabot_blockly_compat.js?ver=sancabot-v3-1"></script>
-  <script src="core/sancabot_config.js?ver=v4-1"></script>
+  <script src="core/sancabot_config.js?ver=f8-1"></script>
   <script src="core/sancabot_scratch_theme.js?ver=sancabot-v3-1"></script>
   <script src="app/code.js?ver=f2-2"></script>
   <!-- ?robo=simulado: porta serial de mentira (app/robo-simulado.js) para testar a conexão sem o robô -->
   <script>if (/[?&]robo=simulado/.test(location.search)) document.write('<script src="app/robo-simulado.js"><\/script>');</script>
   <script src="core/channel.js?ver=f3-1"></script>
   <script src="core/utils.js?ver=f5-18"></script>
-  <script src="app/ui.js?ver=f3-1"></script>
+  <script src="app/ui.js?ver=f8-3"></script>
   <script src="core/sancabot_console_ptbr.js?ver=sancabot-20261028-4"></script>
   <script src="core/queue.js"></script>
   <script src="core/FileSaver.js"></script>
@@ -75,7 +75,7 @@
   <script src="core/generator_stubs.js?ver=sancabot-20260703-21"></script> <!-- Rafael 24/03/2020 -->
 
   <!-- Blocos e geradores SancaBot (separados em 2026-07-05) -->
-  <script src="core/block_definitions_sancabot.js?ver=v4-1"></script>
+  <script src="core/block_definitions_sancabot.js?ver=f8-1"></script>
   <script src="core/generator_stubs_sancabot.js?ver=sancabot-20260705-19"></script>
   <script src="core/sancabot_i18n_ptbr_tips.js?ver=sancabot-20261027-1"></script>
   <script src="core/sancabot_i18n_ptbr.js?ver=sancabot-20261028-2"></script>
@@ -97,7 +97,7 @@
   <script src="core/sancabot_reference.js?ver=sancabot-20261028-1"></script>
   <script src="app/paineis.js?ver=f5-18"></script>
   <script src="core/sancabot_sim_examples.js?ver=sancabot-v3-3"></script>
-  <script src="core/sancabot_sim.js?ver=sancabot-v3-19"></script>
+  <script src="core/sancabot_sim.js?ver=f8-1"></script>
   <script src="core/sancabot_gallery.js?ver=f5-2"></script>
 
   <!-- Progressive Web Application: (F5) removido o componente pwa-update, que vinha de um CDN externo (jsdelivr) e registrava o service worker.
@@ -132,7 +132,8 @@
       </div>
       <div class="icon" id="deviceSelect">
         <select id="device_selector">
-          <option value="SancaBot" selected>SancaBot (ESP32-C3)</option>
+          <option value="SancaBot" selected>SancaBot Free v1.0</option>
+          <option value="SancaBotV2">SancaBot v2</option>
           <option hidden value="AmadoBoard">Amado Board</option>
           <option hidden value="ESP8266">ESP8266</option>
           <option hidden value="ESP32S2">Franzininho Wifi (ESP32S2+CircuitPython)</option>
@@ -729,7 +730,7 @@ Code.init ();
 <script src="app/recursos/rastro.js?ver=f4-1"></script>
 <script src="app/recursos/modo-lento.js?ver=f4-1"></script>
 <script src="app/recursos/medidor-distancia.js?ver=f4-1"></script>
-<script src="app/recursos/tour.js?ver=f7-5"></script>
+<script src="app/recursos/tour.js?ver=f8-1"></script>
 <script src="app/iniciar.js?ver=f5-18"></script>
 
 

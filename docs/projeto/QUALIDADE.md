@@ -20,7 +20,7 @@ dev-local/test-gallery-api.sh
 
 ## 1b. Testes automáticos de interface (um comando)
 ```bash
-dev-local/testar.sh                 # tudo (≈ 2,5 min, 111 verificações)
+dev-local/testar.sh                 # tudo (≈ 2,5 min, 122 verificações)
 dev-local/testar.sh console robo    # só algumas suítes
 ```
 Suítes: carregamento, console, acabamento, robo, paridade, visual, sessao, galeria, api. Usa o Chrome instalado. `--atualizar-baseline` aceita as diferenças visuais de agora (revise antes). Ver [MIGRACAO-V4.md](MIGRACAO-V4.md), seção 11.

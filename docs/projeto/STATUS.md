@@ -26,7 +26,7 @@ Atualizado em **2026-10-28** · versão **v3** · legenda em [README.md](README.
 | Blocos do Creator (publicados pelo Studio) | ✅ | auto (44) | — |
 | Salvar projetos no navegador e retomar a sessão (aba, zoom, posição) | ✅ | nav | — |
 | Laboratório Avançado (parte dos 193 tipos de bloco da caixa vem do BIPES) | 🟢 | carregam e geram código | Não testados com hardware; fora do foco da turma |
-| Portas com nome | 🟡 | nav (só na v4) | v4 usa os nomes do firmware (Servo 0 e 1, IR 5 e 6, Ultrassom 7 e 8); **confirmar com a placa** qual servo/IR é esquerdo/direito. Ver [MEDIDAS-DO-ROBO.md](MEDIDAS-DO-ROBO.md) |
+| Portas com nome e dois robôs | 🟡 | nav (só na v4) | Pinos conferidos no firmware (`sancabot-firmware`); cabeçalho escolhe **SancaBot Free v1.0** ou **v2**, com nomes de porta, padrões dos blocos, aba "Meu robô" e avisos próprios. Falta **confirmar na bancada** lados e pinos. Ver [ROBOS.md](ROBOS.md) |
 
 ## B. Português do Brasil
 
@@ -82,7 +82,7 @@ Atualizado em **2026-10-28** · versão **v3** · legenda em [README.md](README.
 | Contraste e foco por teclado | 🟡 | nav | Sem auditoria formal de acessibilidade (WCAG) |
 | Tour guiado de primeira abertura | ⚪ | — | Previsto no plano da plataforma |
 | Glossário "o que é isto?" | ⚪ | — | Previsto no plano da plataforma |
-| Camada antiga do BIPES (HTML/CSS/JS de interface) | 🟡 | CSS: auto (script de paridade); JS: pendente | **Troca completa na v4 (`/bipes-v4/`), com a v3 preservada.** F0 a **F5 concluídas** (CSS, núcleo, robô simulado, recursos em módulos, código antigo e rastreadores fora); **F6 concluída** (111 testes automáticos com um comando e checklist de promoção). Falta o **teste com o robô real** e a decisão de promover; ver [PROMOCAO-V4.md](PROMOCAO-V4.md). Ver [MIGRACAO-V4.md](MIGRACAO-V4.md) |
+| Camada antiga do BIPES (HTML/CSS/JS de interface) | 🟡 | CSS: auto (script de paridade); JS: pendente | **Troca completa na v4 (`/bipes-v4/`), com a v3 preservada.** F0 a **F5 concluídas** (CSS, núcleo, robô simulado, recursos em módulos, código antigo e rastreadores fora); **F6 concluída** (122 testes automáticos com um comando e checklist de promoção). Falta o **teste com o robô real** e a decisão de promover; ver [PROMOCAO-V4.md](PROMOCAO-V4.md). Ver [MIGRACAO-V4.md](MIGRACAO-V4.md) |
 
 ## F. Galeria de projetos
 
@@ -122,7 +122,7 @@ Atualizado em **2026-10-28** · versão **v3** · legenda em [README.md](README.
 | Versões congeladas (v1, v2) para comparar e voltar | ✅ | — | — |
 | Documentação técnica | ✅ | este conjunto | Manter atualizada |
 | Testes automáticos de API | 🟡 | 3 suítes de shell/PHP | Falta cobrir a interface |
-| Testes automáticos da interface (navegador) | ✅ | `dev-local/testar.sh`: 111 verificações (carregamento, console, acabamento, robô simulado, paridade com a v3, visual, sessão, galeria, API) | Faltam ▶ Jogar do simulador e varredura de inglês |
+| Testes automáticos da interface (navegador) | ✅ | `dev-local/testar.sh`: 122 verificações (carregamento, console, acabamento, robô simulado, paridade com a v3, visual, sessão, galeria, API) | Faltam ▶ Jogar do simulador e varredura de inglês |
 | Integração contínua (CI) e lint | ⚪ | — | — |
 | Controle de versão (git) para `bipes-sancabot` | ⚪ | — | A pasta não está num repositório; decidir quando começar a commitar |
 | Publicação e PWA offline | 🔴 | — | O service worker dá 404 no ambiente de dev; verificar em produção |

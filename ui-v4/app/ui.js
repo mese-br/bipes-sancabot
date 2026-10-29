@@ -350,6 +350,11 @@ class Workspace {
     this.devices = [];
     xhrGET('devinfo/devinfo.json', 'json', (response) => {
       this.devices = response.devices;
+      if (window.SancaBotConfig && SancaBotConfig.aplicarAosDispositivos) SancaBotConfig.aplicarAosDispositivos(this.devices);   // título, descrição e pinagem de cada robô
+      try {   // lembra o robô escolhido da última vez (um projeto aberto ainda manda no robô dele)
+        const guardado = localStorage.getItem('sancabot_robo');
+        if (guardado && guardado in this.devices && Array.prototype.some.call(this.selector.options, (o) => o.value === guardado)) this.selector.value = guardado;
+      } catch (e) { /* sem armazenamento: fica o padrão */ }
       if (!/#(.)/.test(window.location.href)) this.change();   // sem #arquivo na URL para carregar
     });
     this.selector.onchange = () => this.change();
@@ -427,6 +432,21 @@ class Workspace {
     }
     Channel['webserial'].packetSize = parseInt(selected.serial_packet_size);
     Channel['webserial'].speed = parseInt(selected.speed);
+    try { localStorage.setItem('sancabot_robo', this.selector.value); } catch (e) { /* ok */ }
+    this.updateRobotPorts();
+  }
+  /** Depois de trocar de robô: reescreve o nome das portas nos blocos (o valor, o número do pino, não muda) e avisa se algum pino não bate. */
+  updateRobotPorts() {
+    const CF = window.SancaBotConfig;
+    if (!CF || !CF.conferirPinos || !Code.workspace) return;
+    Code.workspace.getAllBlocks(false).forEach((block) => {
+      ['LEFT_PIN', 'RIGHT_PIN', 'TRIGGER_PIN', 'ECHO_PIN'].forEach((nome) => {
+        const f = block.getField(nome);
+        if (f && f.doValueUpdate_) { try { f.getOptions(false); f.doValueUpdate_(f.getValue()); f.forceRerender(); } catch (e) { /* o bloco refaz o texto na próxima vez que desenhar */ } }
+      });
+    });
+    const dif = CF.conferirPinos(Code.workspace);
+    if (dif.length) UI['notify'].send('Seus blocos usam pinos de outro robô. ' + dif[0].texto + (dif.length > 1 ? ' (e mais ' + (dif.length - 1) + ')' : '') + ' Ajuste nos blocos ou volte ao robô anterior.');
   }
   /** Escolhe um dispositivo pelo nome (se existir) e troca. */
   changeTo(device) {

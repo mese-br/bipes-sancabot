@@ -10,8 +10,8 @@
 | **Distância entre as rodas** (`trackCm`) | `ui*/core/sancabot_config.js` → `robot.trackCm` | **10 cm** | Quanto o robô gira e a que velocidade anda na simulação; **todos os tempos dos exemplos** (são calculados a partir dele) |
 | **Tempo para girar 90° a 50%** (`turn90At50`) | `sancabot_config.js` → `robot.turn90At50` | **1,0 s** (padrão do runtime, `generator_stubs_sancabot.js`) | Velocidade e giro simulados; tempo dos exemplos |
 | **Tamanho do tablado** (`tablado`) | `sancabot_config.js` → `tablado` | **120 × 80 cm** | Tamanho do cenário; confirmar com a pista real |
-| **Qual servo é a roda esquerda** e qual **sensor IR** fica de cada lado | `sancabot_config.js` → `ports`; padrões dos blocos | Servo 0 = esquerda, Servo 1 = direita; IR 5 e IR 6 sem lado definido | Menus de porta; sentido de giro |
-| **Trig e Echo do ultrassom** | padrão do bloco "Preparar sensor de distância" | Ultrassom 7 = emissor, Ultrassom 8 = receptor | Leitura do sensor |
+| **Qual servo é a roda esquerda** e qual **sensor IR** fica de cada lado | `sancabot_config.js` → `robos` (ver [ROBOS.md](ROBOS.md)) | Firmware: servo esquerdo 0 e direito 1 (Free) ou 21 (v2); IR esquerdo 5 e direito 6. **Conferido no firmware**, falta confirmar no robô | Menus de porta; sentido de giro |
+| **Trig e Echo do ultrassom** | padrão do bloco "Preparar sensor de distância" | Firmware: TRIG (emissor) 7, ECHO (receptor) 8. **Conferido no firmware**, falta confirmar no robô | Leitura do sensor |
 | **Desvio do mundo real** (puxar para um lado) | simulador, "Desvio" | 4 níveis: 0, 3%, 6%, 10% | Realismo do exemplo "o robô puxa para o lado" |
 
 ## O que medir (roteiro curto, com régua e cronômetro)

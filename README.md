@@ -14,7 +14,7 @@ O editor tem um tour dentro dele (menu Projeto, item "Conhecer a plataforma"). E
 
 A tela inicial é a área de montagem. A caixa da esquerda guarda os blocos por assunto. A categoria SancaBot, em laranja, tem tudo o que o robô sabe fazer: preparar os motores, mover, girar, medir distância e parar. Para começar aparecem só as categorias mais simples. A chave "Avançado" mostra as demais.
 
-Os blocos se encaixam de cima para baixo, e o robô obedece nessa ordem. Os nomes dos pinos são os do robô: Servo 0 e 1 para os motores, IR 5 e 6 para os sensores de linha, Ultrassom 7 e 8 para o sensor de distância.
+Os blocos se encaixam de cima para baixo, e o robô obedece nessa ordem. Os nomes das portas são os do firmware do robô, como "Servo esquerdo (0)" e "Ultrassom TRIG (7)".
 
 ### Código e referência
 
@@ -36,6 +36,12 @@ O botão Conectar oferece três caminhos. O cabo USB é o mais fácil. O Bluetoo
 
 Ao lado do botão há uma tartaruga. Ela liga o modo passo a passo, que faz uma pausa depois de cada bloco. É útil para entender o que o programa faz e para achar onde ele errou.
 
+### Escolher o robô
+
+Existem duas versões do SancaBot: a Free v1.0, que é a atual, e a v2, com sensor de contato e sensores Hall nas rodas. O menu no meio do cabeçalho troca de uma para a outra. A escolha muda o nome das portas nos blocos (por exemplo "Servo direito (1)" no Free e "Servo direito (21)" na v2), os pinos que um bloco novo já traz e a tabela da aba "Meu robô". O projeto guarda o robô para o qual foi feito. Se um bloco usar um pino que não é o do robô escolhido, o editor avisa antes de rodar. Os pinos vêm do firmware, e a tabela completa está em [docs/projeto/ROBOS.md](docs/projeto/ROBOS.md).
+
+![Aba Meu robô com a tabela de pinos do SancaBot v2](docs/img/07-robo.png)
+
 ### Console
 
 O Console é a conversa com o robô. O que ele escreve aparece ali, e o aluno também pode digitar comandos. Os erros do MicroPython chegam traduzidos para o português, e uma chave desliga a tradução para quem quiser ver o texto original. Abaixo do terminal ficam os botões para executar os blocos, parar o programa, reiniciar o robô, executar um arquivo Python e limpar a tela.
@@ -56,9 +62,7 @@ Os projetos da turma e da comunidade aparecem aqui. O aluno abre um projeto, faz
 
 ### Meu robô
 
-O esquema da placa ESP32-C3 Super Mini, com o nome de cada pino, e o link para a documentação. Serve de consulta na hora de ligar sensores e motores.
-
-![Esquema de pinos da placa do robô](docs/img/07-robo.png)
+Mostra o esquema da placa ESP32-C3 Super Mini e a tabela de pinos do robô escolhido, com a função de cada um. Serve de consulta na hora de ligar sensores e motores.
 
 ### Menu Projeto e perfil
 

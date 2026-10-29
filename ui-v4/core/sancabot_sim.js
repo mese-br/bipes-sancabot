@@ -236,6 +236,8 @@
       if (seen[x.p] && seen[x.p].n !== x.n) { add('erro', 'A porta ' + portName(x.p) + ' está sendo usada por duas coisas: ' + seen[x.p].n + ' e ' + x.n + '.', x.b); }
       seen[x.p] = seen[x.p] || x;
     });
+    // pinos que não batem com o robô escolhido no cabeçalho (firmware: ver SancaBotConfig.robos)
+    if (CFG.conferirPinos) CFG.conferirPinos(ws).forEach(function (d) { add('aviso', d.texto, d.bloco); });
     // movimentos suspeitos
     order.forEach(function (b, i) {
       if (b.type === 'sancabot_move_mode') {

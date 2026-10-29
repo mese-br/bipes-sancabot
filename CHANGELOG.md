@@ -8,6 +8,10 @@ Formato: [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). Versões d
 - **Nomes de porta** do firmware (Servo 0 e 1, IR 5 e 6, Ultrassom 7 e 8; "pino N" nas demais); os blocos deixam de dizer "porta" antes do menu. (2026-10-29)
 ### Documentação
 - **Roteiro de bancada** (`docs/projeto/ROTEIRO-DE-BANCADA.md`): passos A/B/C para testar a v4 com o robô real e medir, com folha de registro. (2026-10-29)
+### Removido (2026-10-29)
+- **Submódulo `blockly`** (apontava para um commit de setembro de 2024 do `google/blockly`, sem uso) e o alvo `git-clone` do `Makefile`; `make copy` só copia o `webrepl`. O Blockly 13.4.0 continua copiado em `core/blockly13/`. ADR-023.
+### Adicionado (dois robôs, 2026-10-29)
+- **Escolha entre SancaBot Free v1.0 e SancaBot v2** no cabeçalho, com os pinos conferidos no firmware (`mese-br/sancabot-firmware`): servo direito no 1 (Free) ou 21 (v2); contato 4 e Hall 2/3 só na v2. Nomes de porta nos blocos (`Servo direito (21)`), pinos padrão dos blocos novos, tabela na aba "Meu robô", nomes no bloco genérico de pinos e aviso (simulador e tela) quando um bloco usa pino de outro robô. O projeto guarda o robô (`DEVICE`) e o editor lembra a última escolha. Tabela única em `SancaBotConfig.robos`; ver `docs/projeto/ROBOS.md` e ADR-022. Suíte `robos` (11 verificações). Passo novo no tour.
 ### Adicionado (tour, 2026-10-29)
 - **Tour pela plataforma** (`ui-v4/app/recursos/tour.js`): 21 passos que apresentam todos os recursos (telas, caixa de blocos e modo Avançado, painel de código/referência, simulador, conectar, rodar, modo passo a passo, menu Projeto, Console, Arquivos, galeria, Robô, perfil), trocando de tela sozinho. Abre pelo item "Conhecer a plataforma" do menu Projeto, com `?tour=1` (o antigo `?tour=prep` continua valendo) e sozinho na primeira visita (uma vez; não em navegador automatizado). Teclas ← → Esc; botões Voltar/Próximo/Sair. Suíte `tour` (6 verificações).
 ### Adicionado (tour, 2026-10-29)
