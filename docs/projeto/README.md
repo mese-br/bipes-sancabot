@@ -6,7 +6,7 @@ Ponto de partida para quem entra no projeto (professor, designer, desenvolvedor 
 > O simulador usa medidas **provisórias** (10 cm entre as rodas, giro de 90° em 1 s). Elas precisam ser trocadas pelas medidas reais do robô. **Roteiro e onde colocar: [MEDIDAS-DO-ROBO.md](MEDIDAS-DO-ROBO.md).**
 
 ## O que é
-Plataforma de programação em blocos para o robô **SancaBot** (ESP32-C3, MicroPython), voltada a crianças do 6º e 7º ano. O aluno monta blocos, **simula** o percurso no computador, **conecta** o robô (USB, Bluetooth ou Wi-Fi), **roda** o programa e **compartilha** projetos com a turma e a comunidade. O editor é um derivado do BIPES (GPL-3.0) com Blockly 13, visual e português próprios.
+Plataforma educacional de programação em blocos para o robô **SancaBot** (ESP32-C3, MicroPython), voltada a alunos do ciclo básico. O aluno monta blocos, **simula** o percurso no computador, **conecta** o robô (USB, Bluetooth ou Wi-Fi), **roda** o programa e **compartilha** projetos com a turma e a comunidade. O editor é um derivado do BIPES (GPL-3.0) com Blockly 13, visual e português próprios.
 
 ## Como ler esta pasta
 
@@ -41,7 +41,7 @@ Documentos antigos que continuam valendo: [blockly13-e-visual.md](../blockly13-e
 ## Regras de trabalho combinadas
 - **Nada é commitado até o responsável testar.** Tudo roda em local (`dev-local`, porta 8090) e as versões antigas ficam congeladas (v1, v2) para comparar ou voltar.
 - Código lê como o código ao redor: nomes em português, comentários curtos que explicam o "porquê".
-- Textos para o aluno em português do Brasil, linguagem simples, voltada a crianças.
+- Textos para o aluno em português do Brasil, linguagem simples, voltada a estudantes do ciclo básico.
 
 ## Próximos passos sugeridos
 1. Responder as **perguntas em aberto** de [RISCOS.md](RISCOS.md) (principalmente a decisão do M8).

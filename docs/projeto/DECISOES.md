@@ -6,7 +6,7 @@ Formato: contexto → decisão → consequências. Status: **Aceita**, **Propost
 **Contexto:** precisávamos de conexão com o robô, envio de arquivos e salvamento prontos. **Decisão:** derivar do BIPES e manter a licença GPL-3.0 com atribuição. **Consequências:** ganhamos meses de trabalho; herdamos código antigo e a obrigação de licença. O editor único é o `bipes-sancabot` (D1 do plano da plataforma).
 
 ### ADR-002 — Migrar o Blockly de 6 para 13.4.0 com renderizador próprio · Aceita
-**Contexto:** visual do Blockly 6 inadequado para crianças; limite para blocos curtos e coloridos. **Decisão:** Blockly 13 com renderizador e tema `sancabot` e uma camada de compatibilidade. **Consequências:** Python gerado idêntico ao das versões anteriores (verificado); alguns eventos antigos mudaram (ex.: o destaque do bloco agora usa uma classe CSS própria).
+**Contexto:** visual do Blockly 6 inadequado para estudantes do ciclo básico; limite para blocos curtos e coloridos. **Decisão:** Blockly 13 com renderizador e tema `sancabot` e uma camada de compatibilidade. **Consequências:** Python gerado idêntico ao das versões anteriores (verificado); alguns eventos antigos mudaram (ex.: o destaque do bloco agora usa uma classe CSS própria).
 
 ### ADR-003 — Congelar versões em vez de usar git · Aceita (provisória)
 **Contexto:** o projeto não está em um repositório. **Decisão:** copiar a pasta `ui` para `dev-local/versoes/vN` e servir lado a lado. **Consequências:** é possível comparar e voltar; não há histórico fino nem revisão. **Substituir** quando o repositório existir (marco M16).

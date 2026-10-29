@@ -70,7 +70,7 @@ Não precisa saber programar. Em cada passo: **faça** o que está escrito, **co
 | **C2** | **Wi-Fi:** se o robô estiver na mesma rede, use **Rede Wi-Fi** com o endereço e a senha do robô. | Conecta e roda. Se não tiver como testar, marque ➖. | |
 | **C3** | **Tablet:** abra o endereço no tablet (o servidor tem de estar acessível na rede; ou use o computador com a janela estreita) e conecte por USB-C/OTG se o tablet permitir. | Os botões são fáceis de tocar; o Console cabe na tela. | |
 | **C4** | **Robô lento:** ligue o botão da **tartaruga** (modo passo a passo) e rode o quadrado. | O robô faz uma pausa curta depois de cada bloco e o destaque acompanha com calma. | |
-| **C5** | **Uma criança testa:** peça a um aluno para montar "andar e parar" sozinho. | Observe onde ele hesita ou erra (sem ajudar). Anote as dúvidas dele: valem ouro. | |
+| **C5** | **Um aluno testa:** peça a um aluno para montar "andar e parar" sozinho. | Observe onde ele hesita ou erra (sem ajudar). Anote as dúvidas dele: valem ouro. | |
 
 ---
 

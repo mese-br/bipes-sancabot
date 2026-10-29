@@ -50,7 +50,7 @@ Cabeçalho e responsividade (390, 820, 1024, 1400, 2560 px), menu Projeto, conec
 
 ## 4. Definição de pronto
 Um item só vira ✅ em [STATUS.md](STATUS.md) quando:
-1. Faz o que o responsável pediu, em português simples, para crianças.
+1. Faz o que o responsável pediu, em português simples, para estudantes do ciclo básico.
 2. Foi testado no navegador em pelo menos desktop e telefone (ou tem teste automático).
 3. Se mexe no servidor: tem teste em `dev-local/` e as suítes anteriores continuam passando.
 4. Não adiciona texto em inglês visível ao aluno.
