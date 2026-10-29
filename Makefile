@@ -1,18 +1,12 @@
 DIR=ui/core
-FILES_BLOCKLY1=blockly_compressed.js blocks_compressed.js javascript_compressed.js python_compressed.js media
 FILES_WEBREPL=FileSaver.js term.js
 
-git-clone:
-	if [ ! -d "blockly" ]; then \
-		git clone https://github.com/google/blockly.git; \
-	else \
-		echo "O diretório 'blockly' já existe, pulando clonagem."; \
-	fi
+# O Blockly NÃO vem mais de um submódulo nem de "git clone": a versão 13.4.0 está dentro do repositório,
+# em ui/core/blockly13/ e ui-v4/core/blockly13/ (ver docs/projeto/ARQUITETURA.md).
+# Para atualizar o Blockly, troque os arquivos dessas pastas por uma versão publicada (tag blockly-vX.Y.Z) e rode os testes.
 
+# Copia as dependências que ainda vêm do submódulo webrepl (inicialize com: git submodule update --init webrepl).
 copy:
-	cd blockly; cp -pr $(FILES_BLOCKLY1) ../$(DIR)/
-	cp -pr blockly/msg $(DIR)/b.msg
-	cp -p blockly/appengine/storage.js $(DIR)/
 	cd webrepl; cp -pr $(FILES_WEBREPL) ../$(DIR)/
 
 copy-bipes-blocks:

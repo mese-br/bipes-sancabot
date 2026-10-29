@@ -29,6 +29,8 @@ Ambiente local: `dev-local/dev.sh up` sobe um contêiner `php:8.3-cli` com rotea
 |---|---|---|
 | **Núcleo do BIPES (herdado)** | `core/code.js`, `ui.js`, `utils.js`, `channel.js`, `storage.js`, `style.css`, `index.html` | Conexão com o robô, arquivos, projetos, estrutura da página. **É o que o M8 pretende substituir.** |
 | **Blockly 13** | `core/blockly13/*`, `sancabot_blockly_compat.js` | Camada de compatibilidade para o código antigo continuar funcionando. |
+
+> **De onde vem o Blockly.** A versão 13.4.0 está copiada dentro do repositório (`ui/core/blockly13/` e `ui-v4/core/blockly13/`); não há submódulo nem download na hora de montar. O submódulo `blockly`, herdado do BIPES, apontava para um commit de setembro de 2024 do `google/blockly` e foi removido (ADR-023). Para atualizar, troque os arquivos dessas pastas por uma versão publicada (`blockly-vX.Y.Z`) e rode `dev-local/testar.sh`.
 | **Blocos e geração de Python** | `block_definitions*.js`, `generator_stubs*.js`, `sancabot_custom_*.js`, `toolbox/sancabot.xml` | 29 blocos do SancaBot + 739 definições herdadas (a caixa usa 193 tipos de bloco no total). |
 | **Aparência v3** | `sancabot_config.js` (parâmetros), `sancabot_scratch*.js/css`, `sancabot_icons.js`, `sancabot_block_roles.js` | Paleta, fonte, ícones e papéis de cor. |
 | **Camada de interface sobre o BIPES** | `sancabot_layout.css/js`, `sancabot_header_early.js`, `sancabot_panels.css/js`, `sancabot_empty.css`, `sancabot_session.js` | Redesenha cabeçalho, painéis e abas **por cima** do HTML antigo (muitas regras com `!important`). |
