@@ -35,7 +35,7 @@
   var passos = [
     { t: null, h: 'Bem-vindo ao SancaBot!', p: 'Aqui você monta programas juntando blocos, testa no simulador e manda para o robô. Este passeio mostra tudo o que a plataforma tem. Dá para sair quando quiser.',
       antes: function () { limpar(); aba('tab_blocks'); } },
-    { t: ['.tabs', '.sb-tabs-btn'], h: 'As telas', p: 'Estes botões trocam de tela: Blocos, Console, Arquivos, Projetos e Robô. Vamos visitar cada uma.' },
+    { t: ['.tabs', '.sb-tabs-btn'], h: 'As telas', p: 'Estes botões trocam de tela: Blocos, Console, Arquivos, Galeria e Meu robô. Vamos visitar cada uma.' },
     { t: '.blocklyToolboxDiv', h: 'Caixa de blocos', p: 'Cada categoria tem blocos de um assunto. Clique numa categoria para abrir e arraste os blocos que quiser.', antes: function () { aba('tab_blocks'); } },
     { t: '.sancabot-toolbox-sancabot', h: 'Os blocos do robô (laranja)', p: 'Em SancaBot estão os blocos que fazem o robô andar, girar, corrigir o caminho e parar. Comece por aqui.' },
     { t: '.sb-adv-switch', h: 'Modo Avançado', p: 'Para começar, só aparecem as categorias mais simples. Ligue o Avançado para ver todas as outras (sensores, repetições, textos, listas, comunicação…).' },
@@ -53,8 +53,8 @@
     { t: ['#tab_console', '.sb-tabs-btn'], h: 'Console', p: 'É a conversa com o robô: o que ele diz aparece aqui, e você também pode digitar comandos. Os erros chegam em português.', antes: function () { menuProjeto(false); aba('tab_console'); }, espera: 450 },
     { t: '#content_console', h: 'Executar, parar e reiniciar', p: 'Nesta tela estão os botões Executar meus blocos, Parar programa e Reiniciar o robô, o medidor de distância do sensor e as ferramentas de rede (EasyMQTT).' },
     { t: ['#tab_files', '.sb-tabs-btn'], h: 'Arquivos do robô', p: 'Veja, abra, edite, salve, execute e apague os arquivos que estão dentro do robô. Dá também para baixar um arquivo para o computador.', antes: function () { aba('tab_files'); }, espera: 450 },
-    { t: ['#tab_programs', '.sb-tabs-btn'], h: 'Projetos e galeria', p: 'A galeria mostra projetos da turma e da comunidade. Abra um, remixe e aprenda com ele; seus projetos aparecem aqui quando você compartilha.', antes: function () { aba('tab_programs'); }, espera: 450 },
-    { t: ['#tab_device', '.sb-tabs-btn'], h: 'Robô', p: 'Informações sobre a placa do robô e a documentação, para quando você quiser entender melhor o que está por dentro.', antes: function () { aba('tab_device'); }, espera: 450 },
+    { t: ['#tab_programs', '.sb-tabs-btn'], h: 'Galeria de projetos', p: 'A galeria mostra projetos da turma e da comunidade. Abra um, remixe e aprenda com ele; entre com a sua conta para ver a turma e os seus projetos.', antes: function () { aba('tab_programs'); }, espera: 450 },
+    { t: ['#tab_device', '.sb-tabs-btn'], h: 'Meu robô', p: 'O esquema da placa do robô, com o nome de cada pino, e a documentação, para quando você quiser entender o que está por dentro.', antes: function () { aba('tab_device'); }, espera: 450 },
     { t: '#accountButton', h: 'Seu perfil', p: 'Aqui ficam seus projetos guardados neste computador: dá para renomear, baixar ou apagar cada um.', antes: function () { aba('tab_blocks'); }, espera: 450 },
     { t: null, h: 'Pronto, é com você! 🚀', p: 'Já conhece a plataforma toda. Monte um programa, teste no simulador e mande para o robô. Para rever este passeio, abra Projeto → Conhecer a plataforma.' }
   ];
