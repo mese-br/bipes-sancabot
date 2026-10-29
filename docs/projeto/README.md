@@ -15,6 +15,8 @@ Plataforma educacional de programação em blocos para o robô **SancaBot** (ESP
 | [STATUS.md](STATUS.md) | O que está **concluído, quase pronto, em andamento, não iniciado ou bloqueado**, por área, com a evidência de cada item | Para saber "em que pé estamos" |
 | [ROADMAP.md](ROADMAP.md) | **Marcos já alcançados** e os **próximos marcos**, com critério de pronto, dependências e esforço | Para decidir o que fazer a seguir |
 | [../../CHANGELOG.md](../../CHANGELOG.md) | Histórico de mudanças por versão (formato Keep a Changelog) | Para ver o que mudou e quando |
+| [LIMPEZA.md](LIMPEZA.md) | Levantamento do que parece não usado ou legado, para decidir em grupo (nada foi apagado) | Antes de qualquer limpeza |
+| [ROBOS.md](ROBOS.md) | Os dois robôs (Free v1.0 e v2): tabela de pinos conferida no firmware e como o editor usa | Ao mexer em pinos ou no firmware |
 | [MEDIDAS-DO-ROBO.md](MEDIDAS-DO-ROBO.md) | **PENDENTE**: o que medir no robô, valores provisórios e onde colocar | Assim que o robô estiver em mãos |
 | [ROTEIRO-DE-BANCADA.md](ROTEIRO-DE-BANCADA.md) | Roteiro (~45 min) para testar a v4 com o robô real e medir | No dia em que o robô estiver em mãos |
 | [MIGRACAO-V4.md](MIGRACAO-V4.md) | Plano da interface própria (v4): como voltar, inventário e fases | Para acompanhar ou revisar a troca |
