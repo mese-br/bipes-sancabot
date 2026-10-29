@@ -1,0 +1,54 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot v4: BASE da página (substitui o que vinha de style.css e libs.css do BIPES).
+   Aqui: reset, corpo, formulários, e o SISTEMA DE TELAS (.content): qual tela aparece e onde.
+   O estado das telas é controlado por core/code.js (Code.handleLink) pelas classes: ani, on, pos1, pos2, _pos1, _pos2.
+   Quando o code.js for substituído (F2), este contrato de classes passa a ser do roteador novo. */
+
+/* (o BIPES não usa box-sizing global: cada componente declara o seu) */
+html, body { height: 100%; }
+body {
+  margin: 0; overflow: hidden; overscroll-behavior: none;   /* sem "puxar para atualizar" */
+  background: var(--sb-bg, #fff); color: var(--sb-ink, #1B2250);
+  font-family: var(--sb-font, "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif);
+}
+label { user-select: none; }
+input:focus, textarea:focus, select:focus, span:focus { outline: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+table { border-collapse: collapse; border-spacing: 0; }
+td { padding: 0; vertical-align: top; }
+[hidden] { display: none !important; }
+
+/* ---- Sistema de telas ---- */
+.content {
+  position: absolute; top: var(--sb-top, 3.5rem); left: 0; width: 100vw; margin: 0; opacity: 0; display: none;
+  height: calc(100vh - var(--sb-top, 3.5rem)); height: calc(100dvh - var(--sb-top, 3.5rem));
+}
+#content_blocks, #content_iot { display: block; visibility: hidden; }
+.content:not(#content_blocks) { transition: left .125s ease, opacity .125s ease, width .125s ease; }
+.content#content_blocks { margin-top: -1px; }
+.content.ani#content_blocks, .content.ani#content_iot { visibility: visible; }
+.content.ani:not(#content_console):not(#content_files) { display: block; }
+.content.ani#content_console { display: flex; }
+.content.ani#content_files { display: grid; }
+.content.ani.on { left: 0; opacity: 1; }
+/* tela dividida (clique direito numa aba coloca a tela à direita) */
+.content.pos1 { width: 50vw; }
+.content._pos1 { width: 50vw; left: -1em; }
+.content.pos2 { width: 50vw; left: 50vw; border-left: 1px solid var(--sb-line, #dce3f5); }
+.content._pos2 { width: 50vw; left: calc(50vw + 1em); }
+#content_device, #content_code, #content_console { overflow-y: auto; overflow-x: hidden; }
+#content_device #device_img { max-width: 75rem; width: 100%; }
+.blocklySvg { border-top: 0; }
+@media (prefers-reduced-motion: reduce) { .content:not(#content_blocks) { transition: none; } }
+
+/* ---- Tela lembrada ao recarregar (html[data-aba], definido no <head>): aparece já no primeiro desenho, sem animação e sem passar pelos Blocos.
+   Depois que o JavaScript liga a aplicação (app/iniciar.js), o atributo sai e as classes normais (ani/on) assumem. ---- */
+html[data-aba] .content { transition: none; }
+html[data-aba] #content_blocks { visibility: hidden; }
+html[data-aba="console"] #content_console { display: flex; left: 0; opacity: 1; }
+html[data-aba="files"] #content_files { display: grid; left: 0; opacity: 1; }
+html[data-aba="programs"] #content_programs { display: block; left: 0; opacity: 1; }
+html[data-aba="device"] #content_device { display: block; left: 0; opacity: 1; }
+/* o terminal só existe depois do JavaScript: reserva o espaço dele para o Console não "crescer" no meio do carregamento */
+html[data-aba="console"] #content_console #term { min-height: calc(100vh - 24rem); min-height: calc(100dvh - 24rem); }

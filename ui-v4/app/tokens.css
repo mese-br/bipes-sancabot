@@ -1,0 +1,26 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot v4: TOKENS de design. Única fonte de cores, tipografia, espaços, raios, sombras e movimento.
+   As cores dos BLOCOS ficam em core/sancabot_config.js (palette); aqui ficam as cores da INTERFACE. */
+:root {
+  /* marca */
+  --sb-blue: #3F6BFF; --sb-blue-600: #2F55E8; --sb-blue-100: #dce9ff; --sb-sun: #FFD23F;
+  /* texto e superfícies */
+  --sb-ink: #1B2250; --sb-text-2: #3f4670; --sb-dim: #5d6590; --sb-mute: #8a93b8;
+  --sb-bg: #ffffff; --sb-soft: #eef2ff; --sb-soft-2: #f3f6ff; --sb-line: #dce3f5; --sb-line-2: #c9d6ff;
+  /* estados */
+  --sb-ok: #2ea44f; --sb-ok-600: #23883f; --sb-warn: #FF9A3C; --sb-bad: #c2402f; --sb-bad-soft: #fff0ee; --sb-bad-line: #f3b9b1;
+  /* tipografia */
+  --sb-font: "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --sb-mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  --sb-fs-1: .78rem; --sb-fs-2: .9rem; --sb-fs-3: 1rem; --sb-fs-4: 1.2rem; --sb-fs-5: 1.55rem;
+  /* espaços, raios, sombras */
+  --sb-s-1: .25rem; --sb-s-2: .5rem; --sb-s-3: .75rem; --sb-s-4: 1rem; --sb-s-5: 1.5rem;
+  --sb-r-1: .5rem; --sb-r-2: .8rem; --sb-r-3: 1.2rem; --sb-r-pill: 999px;
+  --sb-sh-1: 0 2px 0 rgba(27, 34, 80, .18); --sb-sh-2: 0 10px 24px rgba(27, 34, 80, .18); --sb-sh-3: 0 24px 60px rgba(27, 34, 80, .45);
+  /* movimento */
+  --sb-t: .15s ease;
+  /* camadas */
+  --sb-z-panel: 40; --sb-z-header: 90; --sb-z-menu: 95; --sb-z-overlay: 998; --sb-z-modal: 999;
+  /* altura do cabeçalho (medida em JS; ver cabecalho.js) */
+  --sb-top: 3.5rem;
+}

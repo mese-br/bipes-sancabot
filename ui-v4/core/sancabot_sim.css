@@ -1,0 +1,92 @@
+/* SancaBot: aba Simulador (painel da direita). Mesma família visual do painel: claro, Nunito, cantos redondos. */
+.sb-sim { overflow: auto; padding: .7rem .75rem 1rem; gap: .65rem; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.sim-top { display: grid; gap: .5rem; }
+.sim-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+.sb-sim button { font: 800 13.5px/1 "Nunito", system-ui, sans-serif; color: var(--sb-text); background: #fff; border: 2px solid var(--sb-line); border-radius: 999px; padding: .55rem .85rem; min-height: 40px; cursor: pointer; }
+.sb-sim button:hover { background: #eaf0ff; }
+.sb-sim button[aria-pressed="true"] { background: var(--sb-blue); border-color: var(--sb-blue); color: #fff; }
+.sim-imp { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: 13px; color: var(--sb-dim); font-weight: 700; }
+.sim-imp input[type=number] { width: 5.5rem; font: 800 13px "Nunito", sans-serif; color: var(--sb-text); border: 2px solid var(--sb-line); border-radius: .7rem; padding: .35rem .5rem; background: var(--sb-bg2); }
+.sb-sim canvas { width: 100%; height: auto; border-radius: 1rem; border: 2px solid var(--sb-line); background: #f5f8ff; touch-action: none; display: block; cursor: crosshair; }
+.sim-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.sb-sim .sim-run { background: #2ea44f; border-color: #2ea44f; color: #fff; }
+.sb-sim .sim-run:hover { background: #278a43; }
+.sim-speed { display: inline-flex; gap: .25rem; margin-left: auto; }
+.sim-bias { display: grid; gap: .3rem; font-size: 13px; font-weight: 700; color: var(--sb-dim); }
+.sim-bias b { color: var(--sb-text); }
+.sim-bias input { width: 100%; accent-color: var(--sb-blue); }
+.sim-note { margin: 0; font-size: 12.5px; color: var(--sb-dim); font-weight: 600; }
+.sim-read { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; }
+.sim-read div { background: var(--sb-bg2); border-radius: .85rem; padding: .5rem .7rem; font-size: 12.5px; font-weight: 700; color: var(--sb-dim); }
+.sim-read b { display: block; font-size: 1.2rem; color: var(--sb-text); font-weight: 900; font-variant-numeric: tabular-nums; }
+.sim-msg { font-size: 13px; font-weight: 600; color: var(--sb-text); }
+.sim-msg p, .sim-msg ul { margin: .2rem 0; } .sim-msg ul { padding-left: 1.1rem; color: #7a4a00; }
+.sim-msg.sim-bad p { color: #b42318; font-weight: 800; }
+
+/* verificação do programa */
+.sim-lab { font: 800 13px "Nunito", sans-serif; color: var(--sb-dim); align-self: center; margin-right: .1rem; }
+.sim-imp select { font: 800 13px "Nunito", sans-serif; color: var(--sb-text); border: 2px solid var(--sb-line); border-radius: .7rem; padding: .35rem .5rem; background: var(--sb-bg2); }
+.sim-check { border: 2px solid var(--sb-line); border-radius: 1rem; padding: .55rem .7rem; background: #fff; }
+.sim-check-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; font-size: 14px; }
+.sim-pill { font: 800 12px/1 "Nunito", sans-serif; padding: .3rem .6rem; border-radius: 999px; }
+.sim-pill-ok { background: #dff6e6; color: #14672d; } .sim-pill-warn { background: #fff0c9; color: #7a4a00; } .sim-pill-bad { background: #ffe0dd; color: #a3201a; }
+.sim-check ul { list-style: none; margin: .45rem 0 0; padding: 0; display: grid; gap: .3rem; }
+.sim-check li { font-size: 13px; font-weight: 700; line-height: 1.35; padding: .35rem .5rem; border-radius: .6rem; cursor: pointer; }
+.sim-check li.sim-bad { background: #fff1ef; color: #a3201a; } .sim-check li.sim-warn { background: #fff8e1; color: #7a4a00; }
+.sim-check li:hover { filter: brightness(.97); }
+
+/* ---- Painel próprio do simulador (à direita; o painel de código fica ao lado dele) ---- */
+:root { --sb-sim-w: 0px; }
+.sb-sim-panel {
+  position: fixed; z-index: 41; top: var(--sb-top, 4.1rem); right: 0; bottom: 0; width: 380px; max-width: 92vw;
+  display: flex; flex-direction: column; background: #fff; color: #1b2250; border-left: 2px solid #dce3f5;
+  font: 600 15px/1.45 "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  transform: translateX(calc(100% + 16px)); opacity: 0; visibility: hidden; pointer-events: none; box-shadow: 0 0 0 rgba(27, 34, 80, 0);
+  transition: transform .4s cubic-bezier(.4, 0, .2, 1), opacity .4s cubic-bezier(.4, 0, .2, 1), box-shadow .4s cubic-bezier(.4, 0, .2, 1), visibility 0s linear .4s;
+}
+.sb-sim-panel.sb-open { transform: none; opacity: 1; visibility: visible; pointer-events: auto; box-shadow: -10px 0 32px rgba(27, 34, 80, .16); transition-delay: 0s; }
+.sb-sim-panel, .sb-sim-panel * { box-sizing: border-box; }
+.sim-head { display: flex; align-items: center; gap: .4rem; padding: .6rem .75rem; border-bottom: 2px solid #dce3f5; }
+.sim-head h2 { margin: 0 auto 0 0; font-size: 18px; font-weight: 900; }
+.sim-head button { font: 800 13.5px/1 "Nunito", system-ui, sans-serif; border: 2px solid #dce3f5; background: #fff; color: #1b2250; border-radius: 999px; padding: .5rem .8rem; min-height: 40px; cursor: pointer; }
+.sim-head button:hover { background: #eaf0ff; }
+.sim-head .sim-run { background: #2ea44f; border-color: #2ea44f; color: #fff; } .sim-head .sim-run:hover { background: #278a43; }
+.sim-head .sim-close { font-size: 22px; padding: .3rem .75rem; }
+.sim-scene > summary { font-weight: 900; cursor: pointer; padding: .25rem 0; } .sim-scene { border-top: 2px solid #eef1fb; padding-top: .4rem; display: grid; gap: .5rem; }
+.sim-scene[open] > summary { margin-bottom: .2rem; }
+.sim-speed { display: flex; gap: .3rem; align-items: center; }
+/* o painel de código, o botão da borda e a zona de hover ficam ao lado do simulador */
+.sb-panel { right: var(--sb-sim-w, 0px); transition-property: transform, opacity, box-shadow, visibility, right; }
+.sb-edge--right, .sb-hover--right { right: var(--sb-sim-w, 0px); }
+
+/* botão "Simular" no cabeçalho */
+.sim-open { display: inline-flex; align-items: center; gap: .45rem; font: 900 14px/1 "Nunito", system-ui, sans-serif; color: #1b2250; background: #fff; border: 0; border-radius: 999px; padding: .62rem 1rem; cursor: pointer; box-shadow: 0 2px 0 rgba(27, 34, 80, .22); white-space: nowrap; }
+.sim-open svg { width: 16px; height: 16px; fill: #2ea44f; flex: none; }
+.sim-open:hover { background: #eaf0ff; }
+.sim-open[aria-pressed="true"] { background: #2ea44f; color: #fff; } .sim-open[aria-pressed="true"] svg { fill: #fff; }
+.sim-open:focus-visible { outline: 3px solid #ffd23f; outline-offset: 2px; }
+@media (max-width: 767.98px) {
+  .sb-sim-panel { top: auto; left: 0; right: 0; width: 100%; max-width: none; height: 62vh; border-left: 0; border-top: 2px solid #dce3f5; transform: translateY(calc(100% + 16px)); }
+  .sb-sim-panel.sb-open { transform: none; }
+  .sim-open span { display: none; } .sim-open { padding: .62rem .75rem; }
+}
+@media (prefers-reduced-motion: reduce) { .sb-sim-panel { transition: none; } }
+
+.sim-examples { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; font: 900 13.5px "Nunito", sans-serif; }
+.sim-examples select { flex: 1 1 12rem; min-width: 0; font: 800 13.5px "Nunito", sans-serif; color: var(--sb-text); border: 2px solid var(--sb-blue); border-radius: .8rem; padding: .5rem .6rem; background: #fff; }
+
+/* Bloco que o robô está executando agora na simulação */
+.blocklyDraggable.sb-running > .blocklyPath { stroke: #1B2250 !important; stroke-width: 4px !important; filter: drop-shadow(0 0 6px rgba(255, 255, 255, .95)) drop-shadow(0 0 10px #FFD23F) !important; }
+
+/* ---- Missão: objetivo, estrelas e dicas ---- */
+.sim-mission { border-radius: 16px; background: #fff8dc; border: 2px solid #ffd23f; padding: .6rem .75rem; display: grid; gap: .35rem; }
+.sim-mission[hidden] { display: none; }
+.sim-mtop { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.sim-mission h3 { margin: 0; font: 900 15px "Nunito", sans-serif; color: #1B2250; }
+.sim-stars { display: inline-flex; gap: 2px; flex: none; font-size: 22px; line-height: 1; }
+.sim-stars span { color: #d9d4bd; }
+.sim-stars span.on { color: #FFB400; text-shadow: 0 1px 0 rgba(27, 34, 80, .25); }
+.sim-mstatus { margin: 0; font: 800 13px "Nunito", sans-serif; color: #1B2250; }
+.sim-hint-btn { justify-self: start; border: 2px solid #ffd23f; background: #fff; color: #1B2250; border-radius: 999px; padding: .3rem .8rem; font: 800 13px "Nunito", sans-serif; cursor: pointer; }
+.sim-hint-btn:hover { background: #ffeeb0; }
+.sim-hints { margin: 0; padding-left: 1.2rem; font: 700 13px/1.4 "Nunito", sans-serif; color: #1B2250; }
