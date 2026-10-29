@@ -126,3 +126,45 @@ e visualmente que a categoria "Repetição e decisão" aparece roxa no menu late
 **5. Ainda pendente**
 Criar os blocos técnicos novos da Missão 4 (a definir) dentro da categoria "Experimental" —
 só depois que Marcos validar que esta reorganização está publicada e funcionando bem.
+
+## Painéis laterais, código ao vivo e Referência (2026-10-22)
+
+Arquivos novos (carregados em `ui/index.html`, depois do CodeMirror): `ui/core/sancabot_panels.js`, `ui/core/sancabot_panels.css`,
+`ui/core/sancabot_reference.js` (motor) e `ui/core/sancabot_reference_data.js` (textos em português). Não alteram blocos, geradores, envio ao robô nem o trace (`SANCABOT_TRACE` / `SANCABOT_PANEL`).
+
+- **Código ao vivo** à direita: "Meu programa" (só o que o aluno montou) ou "Código completo" (igual ao que vai para o robô).
+  Copiar e "Baixar .py" (`sancabot.py`) usam sempre o código completo.
+- **Painéis como camadas:** o painel de código (direita) e a caixa de blocos (esquerda) ficam **por cima** da área de desenho; abrir,
+  fechar ou fixar nunca empurra nem redimensiona os blocos. **Alfinete** (só ícone: contorno inclinado = solto; preenchido, reto e azul
+  = fixado). Solto, o painel abre ao passar o mouse na borda (depois de ~160 ms de intenção), desliza e esmaece, e recolhe ~650 ms
+  depois de o mouse sair (Esc recolhe na hora). Painel direito redimensionável (arrastar, setas, Home/End, duplo clique). Estado em
+  `localStorage` (`sancabot.panels.v1`), por faixa de tela. Tempos e curva: variáveis `--sb-*` em `sancabot_panels.css`; `prefers-reduced-motion` respeitado.
+- **Responsivo:** abaixo de 1050 px os painéis começam recolhidos; abaixo de 768 px o código vira folha inferior; em telas sem
+  mouse (`hover: none`) só os botões de borda.
+- **Referência ligada à caixa de blocos:** ao escolher uma categoria à esquerda, a aba Referência abre o tópico equivalente
+  (opção "Seguir a caixa de blocos"). É **completa por construção**: os tópicos e os blocos vêm do toolbox ativo (uma categoria
+  = um tópico, um bloco = uma linha, hoje 53 categorias e 258 blocos), com descrição em português, o Python **gerado pelo gerador
+  real** (nunca digitado à mão, então acompanha pinos e código reais) e busca em toda a referência. Bloco novo no toolbox aparece
+  sozinho; falta só, se quiser, a descrição em `sancabot_reference_data.js` (sem ela usa o tooltip do bloco).
+- **Do código para os blocos:** cada linha tem "Usar bloco" e pode ser arrastada para a área de blocos; entra o bloco (ou o
+  programa pronto, com todos os blocos encaixados) equivalente ao trecho de Python mostrado. Não interpreta Python digitado livremente.
+- Se houver sessão do Studio no mesmo domínio, o painel de conta mostra o nome (somente leitura, nada é gravado).
+
+**Atribuição (GPL-3.0):** o comportamento dos painéis (zona de hover, alça de redimensionar, recolher/fixar, apresentação da
+referência) foi inspirado em `obsat-oficial/satblocks` (`index.html`, `css/satblocks_theme.css`, `js/satblocks_app.js`,
+`js/sat_reference.js`). O código foi escrito para o SancaBot e não copia esses arquivos. Todo arquivo novo declara
+`SPDX-License-Identifier: GPL-3.0-or-later`.
+
+**Pendências:** `ui/index_offline.html` (cópia com tudo embutido) ainda não recebeu esses arquivos; a cor da categoria "Ajustes" em
+`ui/toolbox/sancabot.xml` (`#c88a00`) difere da convenção deste README (`#f4b000`), não alterada aqui.
+
+
+## Blocos criados no SancaBot Studio Creator (2026-10-23)
+
+Ferramenta do **administrador** (no repositório `sancabot-studio`, em `/studio/creator/`; não confundir com o Studio de missões nem com o Studio Pro do SatBlocks, que serviu de inspiração) para criar blocos **declarativos** (JSON: texto com `{CAMPOS}` + modelo de MicroPython, sem JavaScript digitado).
+
+- **Experimental dinâmica:** em `ui/toolbox/sancabot.xml`, a categoria Experimental (`#94a3b8`) agora é `custom="SANCABOT_EXPERIMENTAL"`. O carregador (`ui/core/sancabot_custom_loader.js`) coloca ali os blocos **publicados**; com `?creator=1` entram também os rascunhos do navegador do administrador ("Testar no editor"). Os blocos criados têm o prefixo `sancabot_x_` e usam `sancabotTraceLine` (o destaque durante a execução funciona).
+- **Mesmo código na prévia e no editor:** `ui/core/sancabot_custom_blocks.js` (validação, registro, geração). Valores dos campos nunca viram código solto (número preso à faixa, texto escapado, lista só entre as opções).
+- **Promover** (convenção acima): o Creator gera `Definição`, `Gerador` e `Toolbox` no formato deste repositório; cole em `block_definitions_sancabot.js`, `generator_stubs_sancabot.js` e na categoria certa de `sancabot.xml` (com a cor da categoria) e **despublique** o bloco no Creator.
+- **Atribuição:** a ideia de formulário + prévia + saídas de código + importar/exportar vem do Studio Pro do SatBlocks (`obsat-oficial/satblocks`, GPL-3.0); o código é próprio.
+- Pendente: pinos (GPIO 0 a 21) a confirmar no ESP32-C3.

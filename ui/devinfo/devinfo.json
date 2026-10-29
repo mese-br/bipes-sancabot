@@ -5,7 +5,7 @@
                                      "speed":  "115200",
                                      "boardID":  "ESP32",
                                      "img":  "devinfo/media/ESP32-C3-SuperMini-Pinout-SancaBot.png",
-                                     "description":  "SancaBot com ESP32-C3 Super Mini e MicroPython. Use Bluetooth para programar em blocos nas missoes do SancaBot Studio.\u003cbr\u003e\u003cbr\u003e\u003ca class=\u0027sancabot-pinout-link\u0027 href=\u0027devinfo/media/ESP32-C3-SuperMini-Pinout-SancaBot.png\u0027 target=\u0027_blank\u0027 rel=\u0027noopener\u0027\u003eVer pinagem ESP32-C3 Super Mini\u003c/a\u003e\u003cbr\u003e\u003csmall\u003eNo curso, cada missao indica quais pinos conectar.\u003c/small\u003e",
+                                     "description":  "SancaBot com ESP32-C3 Super Mini e MicroPython. Use Bluetooth para programar em blocos nas missões do SancaBot Studio.\u003cbr\u003e\u003cbr\u003e\u003ca class=\u0027sancabot-pinout-link\u0027 href=\u0027devinfo/media/ESP32-C3-SuperMini-Pinout-SancaBot.png\u0027 target=\u0027_blank\u0027 rel=\u0027noopener\u0027\u003eVer pinagem ESP32-C3 Super Mini\u003c/a\u003e\u003cbr\u003e\u003csmall\u003eNo curso, cada missão indica quais pinos conectar.\u003c/small\u003e",
                                      "toolbox":  "sancabot.xml",
                                      "pinout":  [
                                                     [

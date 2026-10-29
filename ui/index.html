@@ -5,8 +5,21 @@
   <meta name="google" value="notranslate">
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <title>SancaBot by BIPES</title>
+  <!-- Sem "piscada" ao carregar: a página fica invisível (fundo da cor da marca) até o cabeçalho, as traduções e a aba lembrada estarem prontos.
+       sancabot_session.js chama window.sancabotPronto(); se algo falhar, o cronômetro abaixo libera a página em 4 s. -->
+  <style>html.sb-boot { background: #3F6BFF; } html.sb-boot body { visibility: hidden; } </style>
+  <script>
+    (function () {
+      var h = document.documentElement; h.classList.add('sb-boot');
+      window.sancabotPronto = function () { if (h.classList.contains('sb-boot')) { h.classList.remove('sb-boot'); try { performance.mark('sb-pronto'); } catch (e) { /* ok */ } } };
+      // Se o aluno estava em outra aba (Console, Arquivos...), a página espera abrir essa aba para não mostrar os Blocos por um instante
+      try { var a = JSON.parse(sessionStorage.getItem('sancabot_aba')); window.sancabotAguardaAba = ['tab_console', 'tab_files', 'tab_programs', 'tab_device'].indexOf(a) >= 0; } catch (e) { window.sancabotAguardaAba = false; }
+      setTimeout(window.sancabotPronto, 4000);
+    })();
+  </script>
   <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="media/icon/favicon-32x32.png">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="media/icon/favicon-32x32.png?v=3">
   <link rel="mask-icon" href="media/icon/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#14161A">
 
@@ -64,27 +77,50 @@ function checkCookie() {
 </script>
   <link rel="stylesheet" href="style.css?ver=sancabot-20260705-19">
   <link rel="stylesheet" href="core/libs.css">
-  <script src="core/storage.js?ver=0.2.2.1125"></script>
-  <script src="core/blockly_compressed.js?ver=0.2.1.8260042"></script>
-  <script src="core/blocks_compressed.js?ver=0.2.1.8260042"></script>
-  <script src="core/javascript_compressed.js?ver=0.2.1.8260042"></script>
-  <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
-  <script src="core/code.js?ver=sancabot-20260702-3"></script>
-  <script src="core/channel.js?ver=sancabot-20260703-3"></script>
-  <script src="core/utils.js?ver=0.2.3.1125"></script>
-  <script src="core/ui.js?ver=0.2.3.1125"></script>
+  <link rel="stylesheet" href="core/sancabot_panels.css?ver=sancabot-v3-2">
+  <link rel="preload" href="media/fonts/nunito/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="core/sancabot_sim.css?ver=sancabot-v3-9">
+  <link rel="stylesheet" href="core/sancabot_gallery.css?ver=sancabot-g-4">
+  <link rel="stylesheet" href="core/sancabot_scratch.css?ver=sancabot-v3-7">
+  <link rel="stylesheet" href="core/sancabot_empty.css?ver=sancabot-v3-9">
+  <link rel="stylesheet" href="core/sancabot_layout.css?ver=sancabot-v3-31">
+  <script src="core/storage.js?ver=sancabot-20261028-1"></script>
+  <!-- Blockly 13.4.0 (vendorizado em core/blockly13/; o Blockly 6.2021 antigo continua em core/ até a migração ser aceita) -->
+  <script src="core/blockly13/blockly_compressed.js"></script>
+  <script src="core/blockly13/blocks_compressed.js"></script>
+  <script src="core/blockly13/javascript_compressed.js"></script>
+  <script src="core/blockly13/python_compressed.js"></script>
+  <script src="core/blockly13/plugins/field-colour.js"></script>
+  <script src="core/blockly13/plugins/field-angle.js"></script>
+  <script src="core/sancabot_blockly_compat.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_config.js?ver=sancabot-v3-7"></script>
+  <script src="core/sancabot_scratch_theme.js?ver=sancabot-v3-1"></script>
+  <script src="core/code.js?ver=sancabot-20261028-1"></script>
+  <script src="core/channel.js?ver=sancabot-20261028-2"></script>
+  <script src="core/utils.js?ver=sancabot-20261028-6"></script>
+  <script src="core/ui.js?ver=sancabot-20261028-2"></script>
+  <script src="core/sancabot_console_ptbr.js?ver=sancabot-20261028-4"></script>
   <script src="core/queue.js"></script>
   <script src="core/FileSaver.js"></script>
   <script src="core/shortcut.js"></script>
 
 
   <!-- Custom Blocks for BIPES Project --> 
-  <script src="core/block_definitions.js?ver=sancabot-20260703-21"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/block_definitions.js?ver=sancabot-20261027-3"></script> <!-- Rafael 24/03/2020 -->
   <script src="core/generator_stubs.js?ver=sancabot-20260703-21"></script> <!-- Rafael 24/03/2020 -->
 
   <!-- Blocos e geradores SancaBot (separados em 2026-07-05) -->
-  <script src="core/block_definitions_sancabot.js?ver=sancabot-20260705-19"></script>
+  <script src="core/block_definitions_sancabot.js?ver=sancabot-v3-6"></script>
   <script src="core/generator_stubs_sancabot.js?ver=sancabot-20260705-19"></script>
+  <script src="core/sancabot_i18n_ptbr_tips.js?ver=sancabot-20261027-1"></script>
+  <script src="core/sancabot_i18n_ptbr.js?ver=sancabot-20261028-2"></script>
+  <script src="core/sancabot_icons.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_block_roles.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_layout.js?ver=sancabot-v3-9"></script>
+  <script src="core/sancabot_session.js?ver=sancabot-s-4"></script>
+  <script src="core/sancabot_polish.js?ver=sancabot-v3-5"></script>
+  <script src="core/sancabot_custom_blocks.js?ver=sancabot-20261027-1"></script>
+  <script src="core/sancabot_custom_loader.js?ver=sancabot-20261027-1"></script>
 
   <!-- xterm part -->
   <script src="core/xterm.js?ver=4.13.0"></script>
@@ -92,6 +128,12 @@ function checkCookie() {
   <!-- Codemirror -->
   <script src="core/codemirror/codemirror.js"></script>
   <script src="core/codemirror/mode/python/python.js"></script>
+  <script src="core/sancabot_reference_data.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_reference.js?ver=sancabot-20261028-1"></script>
+  <script src="core/sancabot_panels.js?ver=sancabot-v3-5"></script>
+  <script src="core/sancabot_sim_examples.js?ver=sancabot-v3-3"></script>
+  <script src="core/sancabot_sim.js?ver=sancabot-v3-19"></script>
+  <script src="core/sancabot_gallery.js?ver=sancabot-g-4"></script>
 
   <!-- Progressive Web Application setup -->
   <script type="module">
@@ -140,27 +182,27 @@ document.body.appendChild(el);
       <button id="toolbarButton" class="notext icon medium" title="..."></button>
       <div class="toolbar">
       <div id="channel_connect">
-        <button class="icon" id="channelButton" title="Choose connection channel"></button>
-        <button class="icon" id="connectButton" title="Connect/Disconnect"></button>
+        <button class="icon" id="channelButton" title="Escolher como conectar"></button>
+        <button class="icon" id="connectButton" title="Conectar / desconectar"></button>
       </div>
       <div class="icon" id="deviceSelect">
         <select id="device_selector">
           <option value="SancaBot" selected>SancaBot (ESP32-C3)</option>
-          <option value="AmadoBoard">Amado Board</option>
-          <option value="ESP8266">ESP8266</option>
-          <option value="ESP32S2">Franzininho Wifi (ESP32S2+CircuitPython)</option>
-          <option value="ESP8266">Wemos D1 mini</option>
-          <option value="ESP32">ESP32</option>
-          <option value="ESP32basic">ESP32 (Basic)</option>
-          <option value="M5STICK">m5stick (ESP32)</option>
-          <option value="Nucleo">ST Nucleo (mBed)</option>
-          <option value="BBBlack">Beagle Bone Black</option>
-          <option value="BBC">BBC Microbit</option>
-          <option value="RPI4">Raspberry Pi (any Linux)</option>
-          <option value="RPI_Pico">Raspberry Pi Pico</option>
-          <option value="UNO">Arduino UNO or MEGA (Snek @ 38400)</option>
-          <option value="UNO2">Arduino UNO or MEGA (Snek @ 115200)</option>
-          <option value="EV3">Lego EV3</option>
+          <option hidden value="AmadoBoard">Amado Board</option>
+          <option hidden value="ESP8266">ESP8266</option>
+          <option hidden value="ESP32S2">Franzininho Wifi (ESP32S2+CircuitPython)</option>
+          <option hidden value="ESP8266">Wemos D1 mini</option>
+          <option hidden value="ESP32">ESP32</option>
+          <option hidden value="ESP32basic">ESP32 (Basic)</option>
+          <option hidden value="M5STICK">m5stick (ESP32)</option>
+          <option hidden value="Nucleo">ST Nucleo (mBed)</option>
+          <option hidden value="BBBlack">Beagle Bone Black</option>
+          <option hidden value="BBC">BBC Microbit</option>
+          <option hidden value="RPI4">Raspberry Pi (any Linux)</option>
+          <option hidden value="RPI_Pico">Raspberry Pi Pico</option>
+          <option hidden value="UNO">Arduino UNO or MEGA (Snek @ 38400)</option>
+          <option hidden value="UNO2">Arduino UNO or MEGA (Snek @ 115200)</option>
+          <option hidden value="EV3">Lego EV3</option>
         </select>
         <button id="runButton" class="notext primary icon" title="..."></button>
       </div>
@@ -181,30 +223,56 @@ document.body.appendChild(el);
         <button id="accountButton" class="notext icon" title="..."></button>
       </div>
     </div>
+  <script src="core/sancabot_header_early.js?ver=sancabot-h-1"></script>
+  <script>if (!window.sancabotAguardaAba && window.sancabotPronto) sancabotPronto();</script>
 
-  <div class='channel-panel'>
-    <button class='icon' id="bluetoothButton">Bluetooth</button>
-    <div>
-      <button class='icon' id="serialButton">Serial</button>
-      <label for="resetBoard" class="checkswitch">
-        Reset on connect
-        <input type="checkbox" id="resetBoard" class="checkswitch" value="off">
-        <span></span>
-      </label>
-    </div>
-    <div>
-      <button class='icon' id="networkButton">Network</button>
-      <span>
-      Address: <input type="text" name="webrepl_url" id="url" value="ws://192.168.0.35:8266/" />
-      Password: <input type="password" name="webrepl_pass" id="password" value="bipes" />
-      </span>
-      <button class="icon" value="Scan boards" id="scanButton" onclick="window.open('ports.html','popup','width=600,height=600'); return false;" target="popup">Scan devices</button>
-    </div>
+  <div class='channel-panel' role="dialog" aria-modal="true" aria-labelledby="chTitle">
+    <header class="ch-head">
+      <span class="ch-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v5M15 3v5M7 8h10v4a5 5 0 0 1-10 0V8zM12 17v4"/></svg></span>
+      <div><h2 id="chTitle">Conectar o robô</h2><p>Escolha como o computador vai conversar com o robô.</p></div>
+      <button type="button" class="ch-x" id="channelClose" aria-label="Fechar">×</button>
+    </header>
+    <section class="ch-card ch-rec">
+      <span class="ch-ci ch-usb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v5M15 3v5M7 8h10v4a5 5 0 0 1-10 0V8zM12 17v4"/></svg></span>
+      <div class="ch-body">
+        <h3>Cabo USB <em>Recomendado</em></h3>
+        <p>Liga o robô direto no computador. É o jeito mais fácil e firme.</p>
+        <label for="resetBoard" class="checkswitch">
+          Reiniciar o robô ao conectar
+          <input type="checkbox" id="resetBoard" class="checkswitch" value="off">
+          <span></span>
+        </label>
+      </div>
+      <button class='icon ch-go' id="serialButton">Conectar →</button>
+    </section>
+    <section class="ch-card">
+      <span class="ch-ci ch-ble"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></span>
+      <div class="ch-body">
+        <h3>Bluetooth <em class="ch-tag2">Sem fio</em></h3>
+        <p>Conecta sem cabos, com o robô por perto.</p>
+      </div>
+      <button class='icon ch-go' id="bluetoothButton">Parear →</button>
+    </section>
+    <section class="ch-card">
+      <span class="ch-ci ch-wifi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.8 16a5 5 0 0 1 6.4 0"/><circle cx="12" cy="19.5" r="1.1"/></svg></span>
+      <div class="ch-body">
+        <h3>Rede Wi-Fi <em class="ch-tag3">Rede local</em></h3>
+        <p>O robô e o computador precisam estar na mesma rede.</p>
+        <div class="ch-fields">
+          <label>Endereço <input type="text" name="webrepl_url" id="url" value="ws://192.168.0.35:8266/" /></label>
+          <label>Senha <input type="password" name="webrepl_pass" id="password" value="bipes" /></label>
+          <button class="icon ch-scan" value="Scan boards" id="scanButton" onclick="window.open('ports.html','popup','width=600,height=600'); return false;" target="popup">Buscar robôs na rede</button>
+        </div>
+      </div>
+      <button class='icon ch-go' id="networkButton">Conectar →</button>
+    </section>
+    <footer class="ch-foot"><span>💡 USB e Bluetooth funcionam no Chrome e no Edge.</span><button type="button" id="channelClose2">Fechar</button></footer>
   </div>
 
   <div id="content_blocks" class="content"></div>
   <div id="content_console" class="content">
-       <span class="icon" id="tipsGeneric"><tt>Ctrl+Insert</tt> to copy and <tt>Shift+Insert</tt> to paste</span>
+       <div class="sb-hint"><img src="media/sancabot-face.svg" alt=""><p>Conecte o robô (botão <b>Serial</b> ou <b>Bluetooth</b>), depois aperte <b>Executar meus blocos</b>. O que o robô disser aparece aqui.</p></div>
+       <span class="icon" id="tipsGeneric"><tt>Ctrl+Insert</tt> copia e <tt>Shift+Insert</tt> cola</span>
     <tr height="25%" id="termTR">
      <td>
         <div style="display:inline-block; vertical-align:top; ">
@@ -215,17 +283,17 @@ document.body.appendChild(el);
      <td>
         <div id="file-boxes" >
 
-            <button onclick="Tool.runPython(); return false;">Run block based program</button>
+            <button onclick="Tool.runPython(); return false;">Executar meus blocos</button>
       <br>
       <br>
-            <button onclick="Tool.stopPython(); return false;">Stop running program</button>
-            <button onclick="Tool.softReset(); return false;">Soft reset device</button>
+            <button onclick="Tool.stopPython(); return false;">Parar programa</button>
+            <button onclick="Tool.softReset(); return false;">Reiniciar o robô</button>
       <br>
       <br>
-      <button  onclick="Files.run(UI ['workspace'].content_file_name.value); return false;">Run edited Python File</button>
+      <button  onclick="Files.run(UI ['workspace'].content_file_name.value); return false;">Executar o arquivo Python editado</button>
       <br>
       <br>
-      <button onclick="term.write('\x1bc');  ">Clear terminal output</button>
+      <button onclick="term.write('\x1bc');  ">Limpar o console</button>
 
       <!--
             <div class="file-box">
@@ -243,9 +311,9 @@ document.body.appendChild(el);
       -->
     </div>
     <label for="EasyMQTT_bridge" class="checkswitch">
-        Bridge data to EasyMQTT
+        Enviar dados para o EasyMQTT
         <input type="checkbox" id="EasyMQTT_bridge" class="checkswitch" value="off">
-        <button id="settingsGeneric" class="notext icon" title="Configure EasyMQTT bridge" style="height: 1.5rem; padding: 0 0.25rem;" onclick="window.open('easymqtt_bridge.html','popup','width=600,height=600'); return false;" target="popup"></button>
+        <button id="settingsGeneric" class="notext icon" title="Configurar o EasyMQTT" style="height: 1.5rem; padding: 0 0.25rem;" onclick="window.open('easymqtt_bridge.html','popup','width=600,height=600'); return false;" target="popup"></button>
         <span></span>
       </label>
     </td>
@@ -259,7 +327,7 @@ document.body.appendChild(el);
 	    <!--
     <iframe src="https://bipes-271213.appspot.com/list" width="100%" height="500" frameBorder="0"></iframe>
 	    -->
-    <iframe src="shared.html" width="100%" height="500" frameBorder="0"></iframe>
+    <iframe src="shared.html" width="100%" height="500" title="Galeria de projetos" frameBorder="0"></iframe>
     </center>
   </div>
 
@@ -289,8 +357,8 @@ document.body.appendChild(el);
 
   <div id="file-boxes">
   <div id="file-header">
-    <span>File manager</span>
-    <label id="putFileButton" for="put-file-select"  class="noteaxt button icon" title="Upload script to device"></label>
+    <span>Arquivos do robô</span>
+    <label id="putFileButton" for="put-file-select"  class="noteaxt button icon" title="Enviar arquivo para o robô"></label>
     <input name="PutFileList" id="put-file-select" type="file" accept=".md,.py" required="">
     <!--<input type="button" value="Run Blocks" onclick="Tool.runPython(); return false;" />-->
 
@@ -304,23 +372,23 @@ document.body.appendChild(el);
   <div id="put-file-list"></div>
   <input type="button" value="Send to device" id="put-file-button" onclick="Files.put_file(); return false;" />
   </div>-->
-  <div id="file-status">...</div>
+  <div id="file-status">Conecte o robô para ver e enviar arquivos.</div>
   <span id='filesPanel'>
   <details open>
   <summary>
-  <h2>On device</h2>
-  <button type="button" value="List Files" id="refreshFilesList" class="notext button icon" title="Refresh device file list" onclick="event.preventDefault(); event.stopPropagation(); Files.listFiles(); return false;"></button>
+  <h2>No robô</h2>
+  <button type="button" value="List Files" id="refreshFilesList" class="notext button icon" title="Atualizar a lista de arquivos do robô" onclick="event.preventDefault(); event.stopPropagation(); Files.listFiles(); return false;"></button>
   </summary>
-  <span id='fileList'>...</span>
+  <span id='fileList'><div class="sb-empty-line">Nenhum arquivo por aqui ainda. Conecte o robô e aperte o botão de atualizar.</div></span>
   </details>
   <details open>
-  <summary><h2>Blocks to code</h2></summary>
+  <summary><h2>Blocos em código</h2></summary>
   <span id='blocks2Code'>
-    <div id='blocks2codePython' title="Code generated by the blocks with Blockly."></div>
-    <div id='blocks2codeXML' title="BIPES files with all blocks and configuration, like freeboard workspace.">workspace.bipes.xml<span>internal</span></div>
+    <div id='blocks2codePython' title="Código Python gerado pelos seus blocos."></div>
+    <div id='blocks2codeXML' title="Arquivo com todos os blocos e ajustes do projeto.">workspace.bipes.xml<span>interno</span></div>
   </span></details>
   <details>
-  <summary><h2>Templates</h2></summary>
+  <summary><h2>Modelos</h2></summary>
   <span id='fileTemplate'>
     <div onclick="Tool.getText('main.py');">main.py</div>
     <div onclick="Tool.getText('ssd1306.py');">ssd1306.py</div>
@@ -332,10 +400,15 @@ document.body.appendChild(el);
   <div>
 
   <div id="file_save_as" class="py">
-  <input type=text id=content_file_name placeholder="Filename">
-  <button id="editor2DeviceButton" class="button icon text" onclick="Files.files_save_as();">Save</button>
-  <button id="generated2DeviceButton" class="button icon text" onclick="Files.file_save_as.className = 'py';  Files.files_save_as ();">Save a copy</button>
-  <button id="updateXMLButton"  class="button icon text" onclick="Files.editedXML2Workspace();">Push to workspace</button>
+  <input type=text id=content_file_name placeholder="Nome do arquivo">
+  <button id="editor2DeviceButton" class="button icon text" onclick="Files.files_save_as();">Salvar</button>
+  <button id="generated2DeviceButton" class="button icon text" onclick="Files.file_save_as.className = 'py';  Files.files_save_as ();">Salvar uma cópia</button>
+  <button id="updateXMLButton"  class="button icon text" onclick="Files.editedXML2Workspace();">Enviar para os blocos</button>
+  <span class="sb-fa-group" role="group" aria-label="Ações do arquivo aberto do robô">
+    <button type="button" class="sb-fa sb-fa-run" disabled onclick="Files.openFileAction('run')" title="Executar este arquivo no robô">▶ Executar</button>
+    <button type="button" class="sb-fa" disabled onclick="Files.openFileAction('download')" title="Baixar este arquivo para o computador">⬇ Baixar para o PC</button>
+    <button type="button" class="sb-fa sb-fa-del" disabled onclick="Files.openFileAction('delete')" title="Apagar este arquivo do robô">🗑 Excluir do robô</button>
+  </span>
   </div>
   <textarea id="content_file_code" wrap="off"></textarea>
 
@@ -369,18 +442,18 @@ document.body.appendChild(el);
 <div class="notify-panel"></div>
 <div class="account-panel">
   <span>
-    <span id="account_header">Hello, <span id="account_user" role="textbox" contenteditable>User</span>!</span>
+    <span id="account_header">Olá, <span id="account_user" role="textbox" contenteditable>User</span>!</span>
     <details open>
     <summary>
-    <h2>Projects</h2>
-    <button value="New Project" id="newProjectButton" class="notext button icon" title="Create new project" onclick="/*UI ['workspace'].newProject();*/" /></button>
+    <h2>Meus projetos</h2>
+    <button value="New Project" id="newProjectButton" class="notext button icon" title="Criar novo projeto" onclick="/*UI ['workspace'].newProject();*/" /></button>
     </summary>
     <span id='ProjectList'></span>
     </details>
   </span>
   <details open>
   <summary>
-  <h2>Settings</h2>
+  <h2>Ajustes</h2>
   </summary>
   <span class="icon" id="languageIcon">
   <select id="languageMenu"></select>
@@ -501,7 +574,7 @@ document.body.appendChild(el);
     <div class="mission-block-list">
       <div class="mission-block mission-block--setup">1. preparar motores</div>
       <div class="mission-block mission-block--sensor">2. preparar sensor de dist&acirc;ncia (ultrassom)</div>
-      <div class="mission-block mission-block--move">3. SancaBot movimenta para frente cont&iacute;nuo</div>
+      <div class="mission-block mission-block--move">3. Mover para frente, cont&iacute;nuo</div>
       <div class="mission-block mission-block--repeat">4. repetir medi&ccedil;&atilde;o de dist&acirc;ncia</div>
       <div class="mission-block mission-block--console">&nbsp;&nbsp;&nbsp;mostrar dist&acirc;ncia no console</div>
       <div class="mission-block mission-block--decision">&nbsp;&nbsp;&nbsp;se dist&acirc;ncia menor que 15 cm: parar e sair da repeti&ccedil;&atilde;o</div>
@@ -570,9 +643,9 @@ document.body.appendChild(el);
     <h3>2. Monte no BIPES</h3>
     <div class="mission-block-list">
       <div class="mission-block mission-block--setup">1. preparar motores</div>
-      <div class="mission-block mission-block--sensor">2. preparar sensor ultrassom acima da guia frontal</div>
-      <div class="mission-block mission-block--move">3. SancaBot movimenta para frente velocidade 25% por tempo 2 segundos</div>
-      <div class="mission-block mission-block--decision">4. se detectar objeto a menos de 12 cm: parar SancaBot</div>
+      <div class="mission-block mission-block--sensor">2. preparar sensor de dist&acirc;ncia acima da guia frontal</div>
+      <div class="mission-block mission-block--move">3. Mover para frente a 25%, por tempo, durante 2 segundos</div>
+      <div class="mission-block mission-block--decision">4. se o sensor v&ecirc; objeto a menos de 12 cm: Parar</div>
       <div class="mission-block mission-block--console">5. registrar o que aconteceu no teste</div>
     </div>
   </section>
@@ -649,10 +722,10 @@ document.body.appendChild(el);
     <h3>2. Monte no BIPES</h3>
     <div class="mission-block-list">
       <div class="mission-block mission-block--setup">1. preparar motores</div>
-      <div class="mission-block mission-block--sensor">2. preparar ultrassom</div>
+      <div class="mission-block mission-block--sensor">2. preparar sensor de dist&acirc;ncia</div>
       <div class="mission-block mission-block--console">3. iniciar cron&ocirc;metro</div>
-      <div class="mission-block mission-block--move">4. SancaBot movimenta para frente cont&iacute;nuo</div>
-      <div class="mission-block mission-block--repeat">5. SancaBot repete enquanto o tempo for menor que o limite</div>
+      <div class="mission-block mission-block--move">4. Mover para frente, cont&iacute;nuo</div>
+      <div class="mission-block mission-block--repeat">5. Repetir enquanto o tempo for menor que o limite</div>
       <div class="mission-block mission-block--decision">&nbsp;&nbsp;&nbsp;se ultrassom detectar parede: parar, girar e testar de novo</div>
       <div class="mission-block mission-block--move">&nbsp;&nbsp;&nbsp;sen&atilde;o: seguir em frente devagar</div>
       <div class="mission-block mission-block--console">&nbsp;&nbsp;&nbsp;mostrar dist&acirc;ncia e tempo no painel</div>
@@ -703,44 +776,41 @@ document.body.appendChild(el);
 // Init blockly
 Code.init ();
 function applySancaBotToolboxColors() {
-  const colors = [
-    [/^sancabot$/i, '#e86f1a'],
-    [/experimental/i, '#94a3b8'],
-    [/preparacao/i, '#168fd8'],
-    [/movimento/i, '#d96a1c'],
-    [/ajustes|calibr/i, '#c88a00'],
-    [/sensores e leituras|sensores|leituras/i, '#00a7c7'],
-    [/condicoes|condicao/i, '#14b8a6'],
-    [/controle|decisao|repeticao e decisao|repet/i, '#6d5bd0'],
-    [/tempo|cronometro|duracao/i, '#7b61ff'],
-    [/laboratorio avancado/i, '#334155'],
-    [/logic|logica/i, '#5b80a5'],
-    [/math|matem/i, '#5b67a5'],
-    [/text|texto/i, '#5ba58c'],
-    [/list|lista/i, '#745ba5'],
-    [/variable|vari|contador/i, '#a55b80'],
-    [/function|fun/i, '#995ba5'],
-    [/bipes/i, '#2597ff'],
-    [/python/i, '#3776ab'],
-    [/timing/i, '#7b61ff'],
-    [/machine|maquina|cpu|pins|pinos/i, '#4b9a7d'],
-    [/display|led|oled|neopixel/i, '#00a7a7'],
-    [/sensor|ultra|gps|camera/i, '#00a7c7'],
-    [/output|saida|motor|servo|buzzer|som/i, '#c05a42'],
-    [/comm|uart|spi|i2c|bluetooth/i, '#5b6fa5'],
-    [/file|arquivo/i, '#8a6f3d'],
-    [/net|http|wifi|mqtt/i, '#2f8f46']
+  // Cor e ícone de cada categoria pelo PAPEL (paleta em core/sancabot_config.js, ícones em core/sancabot_icons.js).
+  // Blockly 13: a linha é .blocklyToolboxCategory; a cor vai na variável --cat e o CSS (sancabot_scratch.css) faz o resto.
+  const CF = window.SancaBotConfig || {}, P = CF.palette || {}, INK = CF.ink || '#1B2250', I = window.SancaBotIcons;
+  const rules = [
+    [/^sancabot$/, 'robot'],
+    [/preparacao|ajustes|calibr/, 'prep'], [/movimento/, 'move'], [/sensores e leituras/, 'sense'], [/condicoes|condicao/, 'calc'],
+    [/^decidir/, 'decide'], [/^repetir/, 'repeat'], [/^variavel$|contador/, 'store'], [/^tempo$|cronometro|duracao/, 'time'],
+    [/modelos/, 'star'], [/experimental/, 'more'],
+    [/logica e matematica/, 'calc'], [/laboratorio avancado/, 'more'],
+    [/^logic|^logica/, 'decide'], [/^loop|^laco/, 'repeat'], [/^math|^matem/, 'calc'], [/^variable|^variaveis/, 'store'],
+    [/^text|^texto/, 'text'], [/^list/, 'lists'], [/^function|^funcoes|^bipes|^python/, 'more'],
+    [/temporizacao|timing/, 'time'], [/maquina|cpu|processador|pinos/, 'prep'],
+    [/display|tela|led|neopixel|oled|matriz|fita|st7789/, 'text'],
+    [/saidas|atuadores|motor|servo|rele/, 'move'], [/^sons/, 'time'],
+    [/sensor|ultra|gps|camera|oximetro|inercial|rfid|encoder|onewire|dht|anemometro|pluviometro/, 'sense'],
+    [/rede|http|wifi|mqtt|e-mail|email|comunic|uart|spi|i2c|gsm|socket|cliente|servidor|ntp|bluetooth/, 'net'], [/arquivo/, 'more']
   ];
-  document.querySelectorAll('.blocklyTreeLabel').forEach(label => {
-    const row = label.closest('.blocklyTreeRow');
+  document.querySelectorAll('.blocklyToolboxCategoryLabel').forEach(label => {
+    const row = label.closest('.blocklyToolboxCategory');
     if (!row) return;
-    const text = (label.textContent || '').trim();
-    const key = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    const found = colors.find(([pattern]) => pattern.test(key));
-    const color = found ? found[1] : '#94a3b8';
+    const key = (label.textContent || '').trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const hit = rules.find(([re]) => re.test(key));
+    const role = hit ? hit[1] : 'more';
+    const color = role === 'robot' ? INK : (P[role] || P.more || '#A9B6D8');
+    row.style.setProperty('--cat', color);
     row.classList.add('sancabot-toolbox-row');
-    row.style.setProperty('--sancabot-cat-color', color);
-    if (/sancabot/i.test(key)) row.classList.add('sancabot-toolbox-sancabot');
+    if (role === 'robot') row.classList.add('sancabot-toolbox-sancabot');
+    const box = row.querySelector('.blocklyTreeRowContentContainer');
+    if (box && !box.querySelector('.sb-cat-ico') && I) {
+      const ico = document.createElement('span');
+      ico.className = 'sb-cat-ico'; ico.setAttribute('aria-hidden', 'true');
+      const glyph = role === 'robot' ? 'robot' : role === 'star' ? 'star' : I.forRole(role);
+      ico.innerHTML = I.svg(glyph, role === 'robot' ? '#FFFFFF' : INK, 20);
+      box.insertBefore(ico, box.firstChild);
+    }
   });
 }
 let sancabotToolboxColorTimer;
@@ -981,7 +1051,7 @@ function initSancaBotMission2Panel() {
       saveMissionDraft();
       return;
     }
-    const action = reading <= stop ? 'ENT\u00c3O parar SancaBot' : `ENT\u00c3O seguir devagar com ${speed || 0}%`;
+    const action = reading <= stop ? 'ENT\u00c3O parar' : `ENT\u00c3O seguir devagar com ${speed || 0}%`;
     const compare = reading <= stop ? '<=' : '>';
     result.textContent = `SE ${reading.toFixed(1)} cm ${compare} ${stop.toFixed(1)} cm, ${action}.`;
     saveMissionDraft();
@@ -1854,6 +1924,8 @@ Channel ['mux'] = new mux ();
 //global terminal variable
 var terminal = new Terminal ();
 term.init('#term') //init expanded class;
+// SancaBot v3: console em azul-marinho da marca (em vez de preto), letra maior e cursor amarelo
+try { terminal.setOption('theme', { background: '#1B2250', foreground: '#EAF0FF', cursor: '#FFD23F', cursorAccent: '#1B2250', selection: 'rgba(76,159,255,.45)' }); terminal.setOption('fontSize', 14); term.resize(); } catch (e) { /* ok */ }
 
 //global Utilities variable and functions (see core/utils.js)
 var Files = new files ('#fileList');

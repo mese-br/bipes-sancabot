@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google" value="notranslate">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>SancaBot by BIPES</title>
+  <!-- Sem "piscada" ao carregar: o cabeçalho é montado antes do primeiro desenho (app/cabecalho-estrutura.js) e a TELA LEMBRADA (Blocos, Console,
+       Arquivos...) já nasce visível, por CSS (atributo data-aba em <html>, ver app/base.css). Nada de tela azul nem de trocar de aba depois.
+       Fica só uma cobertura curta enquanto o cabeçalho não existe; se algo falhar, o cronômetro libera a página em 4 s. -->
+  <style>html.sb-boot { background: #3F6BFF; } html.sb-boot body { visibility: hidden; } </style>
+  <script>
+    (function () {
+      var h = document.documentElement; h.classList.add('sb-boot');
+      window.sancabotPronto = function () { if (h.classList.contains('sb-boot')) { h.classList.remove('sb-boot'); try { performance.mark('sb-pronto'); } catch (e) { /* ok */ } } };
+      // aba lembrada nesta janela (só as que não dependem de conexão ou iframe): vira o atributo data-aba, que o CSS usa para mostrar essa tela de cara
+      try { var a = JSON.parse(sessionStorage.getItem('sancabot_aba')); if (['tab_console', 'tab_files', 'tab_programs', 'tab_device'].indexOf(a) >= 0) h.setAttribute('data-aba', a.replace('tab_', '')); } catch (e) { /* ok */ }
+      setTimeout(window.sancabotPronto, 4000);
+    })();
+  </script>
+  <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="media/icon/favicon-32x32.png?v=3">
+  <link rel="mask-icon" href="media/icon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#14161A">
+
+  <!-- Progressive Web Application setup -->
+  <link rel="manifest" href="manifest.json"></link>
+  <script src="core/manup.js"></script>
+  <!-- End of Progressive Web Application setup -->
+
+
+
+  <!-- (F5) Removidos: Google Analytics do BIPES e o cookie do último IP. O editor não chama rastreadores de terceiros. -->
+  <!-- F1: style.css e libs.css antigos removidos (ver app/*.css) -->
+  <link rel="stylesheet" href="app/tokens.css?ver=f5-18">
+  <link rel="stylesheet" href="app/base.css?ver=f5-18">
+  <link rel="stylesheet" href="app/icons.css?ver=f5-18">
+  <link rel="stylesheet" href="app/components.css?ver=f5-18">
+  <link rel="stylesheet" href="app/vendor-xterm.css?ver=f5-18">
+  <link rel="stylesheet" href="app/panels.css?ver=f5-18">
+  <link rel="stylesheet" href="app/blockly.css?ver=f5-18">
+  <link rel="stylesheet" href="app/shell.css?ver=f7-1">
+  <link rel="stylesheet" href="app/screens.css?ver=f5-18">
+  <link rel="stylesheet" href="app/features.css?ver=f7-1">
+
+  <link rel="preload" href="media/fonts/nunito/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="core/sancabot_sim.css?ver=sancabot-v3-9">
+  <link rel="stylesheet" href="core/sancabot_gallery.css?ver=f5-2">
+  <script src="core/storage.js?ver=sancabot-20261028-1"></script>
+  <!-- Blockly 13.4.0 (vendorizado em core/blockly13/; o Blockly 6.2021 antigo continua em core/ até a migração ser aceita) -->
+  <script src="core/blockly13/blockly_compressed.js"></script>
+  <script src="core/blockly13/blocks_compressed.js"></script>
+  <script src="core/blockly13/javascript_compressed.js"></script>
+  <script src="core/blockly13/python_compressed.js"></script>
+  <script src="core/blockly13/plugins/field-colour.js"></script>
+  <script src="core/blockly13/plugins/field-angle.js"></script>
+  <script src="core/sancabot_blockly_compat.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_config.js?ver=v4-1"></script>
+  <script src="core/sancabot_scratch_theme.js?ver=sancabot-v3-1"></script>
+  <script src="app/code.js?ver=f2-2"></script>
+  <!-- ?robo=simulado: porta serial de mentira (app/robo-simulado.js) para testar a conexão sem o robô -->
+  <script>if (/[?&]robo=simulado/.test(location.search)) document.write('<script src="app/robo-simulado.js"><\/script>');</script>
+  <script src="core/channel.js?ver=f3-1"></script>
+  <script src="core/utils.js?ver=f5-18"></script>
+  <script src="app/ui.js?ver=f3-1"></script>
+  <script src="core/sancabot_console_ptbr.js?ver=sancabot-20261028-4"></script>
+  <script src="core/queue.js"></script>
+  <script src="core/FileSaver.js"></script>
+  <script src="core/shortcut.js"></script>
+
+
+  <!-- Custom Blocks for BIPES Project --> 
+  <script src="core/block_definitions.js?ver=sancabot-20261027-3"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/generator_stubs.js?ver=sancabot-20260703-21"></script> <!-- Rafael 24/03/2020 -->
+
+  <!-- Blocos e geradores SancaBot (separados em 2026-07-05) -->
+  <script src="core/block_definitions_sancabot.js?ver=v4-1"></script>
+  <script src="core/generator_stubs_sancabot.js?ver=sancabot-20260705-19"></script>
+  <script src="core/sancabot_i18n_ptbr_tips.js?ver=sancabot-20261027-1"></script>
+  <script src="core/sancabot_i18n_ptbr.js?ver=sancabot-20261028-2"></script>
+  <script src="core/sancabot_icons.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_block_roles.js?ver=sancabot-v3-1"></script>
+  <script src="app/cabecalho.js?ver=f5-18"></script>
+  <script src="app/sessao.js?ver=f5-18"></script>
+  <script src="core/sancabot_polish.js?ver=sancabot-v3-5"></script>
+  <script src="core/sancabot_custom_blocks.js?ver=sancabot-20261027-1"></script>
+  <script src="core/sancabot_custom_loader.js?ver=sancabot-20261027-1"></script>
+
+  <!-- xterm part -->
+  <script src="core/xterm.js?ver=4.13.0"></script>
+
+  <!-- Codemirror -->
+  <script src="core/codemirror/codemirror.js"></script>
+  <script src="core/codemirror/mode/python/python.js"></script>
+  <script src="core/sancabot_reference_data.js?ver=sancabot-v3-1"></script>
+  <script src="core/sancabot_reference.js?ver=sancabot-20261028-1"></script>
+  <script src="app/paineis.js?ver=f5-18"></script>
+  <script src="core/sancabot_sim_examples.js?ver=sancabot-v3-3"></script>
+  <script src="core/sancabot_sim.js?ver=sancabot-v3-19"></script>
+  <script src="core/sancabot_gallery.js?ver=f5-2"></script>
+
+  <!-- Progressive Web Application: (F5) removido o componente pwa-update, que vinha de um CDN externo (jsdelivr) e registrava o service worker.
+       O service worker (pwabuilder-sw.js) também carrega o Workbox de um CDN do Google. O modo offline será refeito sem CDN no marco M16. -->
+  <!-- End of Progressive Web Application setup -->
+
+
+  <!-- (F5) Removidos os blocos de OpenCV (jsCv): a caixa do SancaBot não os usa e o script dava erro ao carregar. -->
+
+
+</head>
+<body>
+
+  <div class="top-menu">
+
+    <div class="logo sancabot-logo"><span>Sanca</span><strong>Bot</strong><small>by BIPES</small></div>
+      <div class="tabs">
+        <div id="tab_blocks" class="tabon">Blocos</div>
+        <div id="tab_console" class="taboff">Console</div>
+        <div id="tab_files" class="taboff">Arquivos</div>
+        <div id="tab_programs" class="taboff">Projetos</div>
+        <div id="tab_device" class="taboff">Robô</div>
+        <div id="tab_iot" class="taboff">IOT</div>
+        <div id="tab_mqtt" class="taboff" onclick='document.getElementById("easymqtt_iframe").contentWindow.startEasyMQTT(window.easyMQTT_session);'>EasyMQTT</div>
+        <div id="tab_databoard" class="taboff">Databoard</div>
+      </div>
+      <button id="toolbarButton" class="notext icon medium" title="..."></button>
+      <div class="toolbar">
+      <div id="channel_connect">
+        <button class="icon" id="channelButton" title="Escolher como conectar"></button>
+        <button class="icon" id="connectButton" title="Conectar / desconectar"></button>
+      </div>
+      <div class="icon" id="deviceSelect">
+        <select id="device_selector">
+          <option value="SancaBot" selected>SancaBot (ESP32-C3)</option>
+          <option hidden value="AmadoBoard">Amado Board</option>
+          <option hidden value="ESP8266">ESP8266</option>
+          <option hidden value="ESP32S2">Franzininho Wifi (ESP32S2+CircuitPython)</option>
+          <option hidden value="ESP8266">Wemos D1 mini</option>
+          <option hidden value="ESP32">ESP32</option>
+          <option hidden value="ESP32basic">ESP32 (Basic)</option>
+          <option hidden value="M5STICK">m5stick (ESP32)</option>
+          <option hidden value="Nucleo">ST Nucleo (mBed)</option>
+          <option hidden value="BBBlack">Beagle Bone Black</option>
+          <option hidden value="BBC">BBC Microbit</option>
+          <option hidden value="RPI4">Raspberry Pi (any Linux)</option>
+          <option hidden value="RPI_Pico">Raspberry Pi Pico</option>
+          <option hidden value="UNO">Arduino UNO or MEGA (Snek @ 38400)</option>
+          <option hidden value="UNO2">Arduino UNO or MEGA (Snek @ 115200)</option>
+          <option hidden value="EV3">Lego EV3</option>
+        </select>
+        <button id="runButton" class="notext primary icon" title="..."></button>
+        <button id="sancabotSlowToggle" type="button" title="Modo passo a passo: roda o programa devagar para ver cada bloco acender">🐢</button>
+      </div>
+
+        <button id="linkButton" class="notext icon" title="..."></button>
+
+        <button id="saveButton" class="notext icon" title="..."></button>
+
+        <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
+        <input name="XML" id="loadXML" type="file" accept=".xml" required="">
+
+        <!--<button id="trashButton" class="notext icon" title="..."></button>-->
+
+        <button id="notificationButton" class="notext icon" title="..."></button>
+
+        <button id="forumButton" class="notext icon" title="..."></button>
+
+        <button id="accountButton" class="notext icon" title="..."></button>
+      </div>
+    </div>
+  <script src="app/cabecalho-estrutura.js?ver=f5-18"></script>
+  <script>if (window.sancabotPronto) sancabotPronto();</script>
+
+  <div class='channel-panel' role="dialog" aria-modal="true" aria-labelledby="chTitle">
+    <header class="ch-head">
+      <span class="ch-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v5M15 3v5M7 8h10v4a5 5 0 0 1-10 0V8zM12 17v4"/></svg></span>
+      <div><h2 id="chTitle">Conectar o robô</h2><p>Escolha como o computador vai conversar com o robô.</p></div>
+      <button type="button" class="ch-x" id="channelClose" aria-label="Fechar">×</button>
+    </header>
+    <section class="ch-card ch-rec">
+      <span class="ch-ci ch-usb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v5M15 3v5M7 8h10v4a5 5 0 0 1-10 0V8zM12 17v4"/></svg></span>
+      <div class="ch-body">
+        <h3>Cabo USB <em>Recomendado</em></h3>
+        <p>Liga o robô direto no computador. É o jeito mais fácil e firme.</p>
+        <label for="resetBoard" class="checkswitch">
+          Reiniciar o robô ao conectar
+          <input type="checkbox" id="resetBoard" class="checkswitch" value="off">
+          <span></span>
+        </label>
+      </div>
+      <button class='icon ch-go' id="serialButton">Conectar →</button>
+    </section>
+    <section class="ch-card">
+      <span class="ch-ci ch-ble"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></span>
+      <div class="ch-body">
+        <h3>Bluetooth <em class="ch-tag2">Sem fio</em></h3>
+        <p>Conecta sem cabos, com o robô por perto.</p>
+      </div>
+      <button class='icon ch-go' id="bluetoothButton">Parear →</button>
+    </section>
+    <section class="ch-card">
+      <span class="ch-ci ch-wifi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.8 16a5 5 0 0 1 6.4 0"/><circle cx="12" cy="19.5" r="1.1"/></svg></span>
+      <div class="ch-body">
+        <h3>Rede Wi-Fi <em class="ch-tag3">Rede local</em></h3>
+        <p>O robô e o computador precisam estar na mesma rede.</p>
+        <div class="ch-fields">
+          <label>Endereço <input type="text" name="webrepl_url" id="url" value="ws://192.168.0.35:8266/" /></label>
+          <label>Senha <input type="password" name="webrepl_pass" id="password" value="bipes" /></label>
+          <button class="icon ch-scan" value="Scan boards" id="scanButton" onclick="window.open('ports.html','popup','width=600,height=600'); return false;" target="popup">Buscar robôs na rede</button>
+        </div>
+      </div>
+      <button class='icon ch-go' id="networkButton">Conectar →</button>
+    </section>
+    <footer class="ch-foot"><span>💡 USB e Bluetooth funcionam no Chrome e no Edge.</span><button type="button" id="channelClose2">Fechar</button></footer>
+  </div>
+
+  <div id="content_blocks" class="content"></div>
+  <div id="content_console" class="content">
+       <div class="sb-hint"><img src="media/sancabot-face.svg" alt=""><p>Conecte o robô (botão <b>Serial</b> ou <b>Bluetooth</b>), depois aperte <b>Executar meus blocos</b>. O que o robô disser aparece aqui.</p></div>
+       <span class="icon" id="tipsGeneric"><tt>Ctrl+Insert</tt> copia e <tt>Shift+Insert</tt> cola</span>
+    <tr height="25%" id="termTR">
+     <td>
+        <div style="display:inline-block; vertical-align:top; ">
+    <div id="term" class="xterm">
+            </div>
+        </div>
+     </td>
+     <td>
+        <div id="file-boxes" >
+
+            <button onclick="Tool.runPython(); return false;">Executar meus blocos</button>
+      <br>
+      <br>
+            <button onclick="Tool.stopPython(); return false;">Parar programa</button>
+            <button onclick="Tool.softReset(); return false;">Reiniciar o robô</button>
+      <br>
+      <br>
+      <button  onclick="Files.run(UI ['workspace'].content_file_name.value); return false;">Executar o arquivo Python editado</button>
+      <br>
+      <br>
+      <button onclick="term.write('\x1bc');  ">Limpar o console</button>
+
+      <!--
+            <div class="file-box">
+                <strong>Send a file</strong>
+                <input type="file" id="put-file-select" />
+                <div id="put-file-list"></div>
+                <input type="button" value="Send to device" id="put-file-button" onclick="Files.put_file(); return false;" />
+            </div>
+          <div class="file-box">
+            <strong>Get a file</strong>
+            <input type="text" name="get_filename" id="get_filename" value="" size="13" />
+            <input type="button" value="Get from device" onclick="get_file(); return false;" />
+        </div>
+        <div class="file-box" id="file-status"><span style="color:#707070">(file operation status)</span></div>
+      -->
+    </div>
+    <label for="EasyMQTT_bridge" class="checkswitch">
+        Enviar dados para o EasyMQTT
+        <input type="checkbox" id="EasyMQTT_bridge" class="checkswitch" value="off">
+        <button id="settingsGeneric" class="notext icon" title="Configurar o EasyMQTT" style="height: 1.5rem; padding: 0 0.25rem;" onclick="window.open('easymqtt_bridge.html','popup','width=600,height=600'); return false;" target="popup"></button>
+        <span></span>
+      </label>
+    </td>
+   </tr>
+</div>
+
+<!-- ################################################## -->
+
+  <div id="content_programs" class="content">
+    <center>
+    <iframe src="shared.html" width="100%" height="500" title="Galeria de projetos" frameBorder="0"></iframe>
+    </center>
+  </div>
+
+
+<!-- ################################################## -->
+
+  <div id="content_device" class="content">
+    <center>
+      <label id="device_title"><b>ESP8266</b><br></label>
+    <br>
+    <img id="device_img" alt="Esquema da placa">
+    <br>
+
+    <label id="device_desc">
+	      <BR><BR><input type='button' onclick='loadDoc();' value='Open Documentation' /> <BR><BR>To use ESP8266, simply connecto to MicroPython board using Wifi. Micropython must be previously installed on the board. Follow these instructions to install it.
+    </label>
+
+    </center>
+
+  </div>
+
+
+<!-- ################################################## -->
+
+  <div id="content_files" class="content">
+
+
+  <div id="file-boxes">
+  <div id="file-header">
+    <span>Arquivos do robô</span>
+    <label id="putFileButton" for="put-file-select"  class="noteaxt button icon" title="Enviar arquivo para o robô"></label>
+    <input name="PutFileList" id="put-file-select" type="file" accept=".md,.py" required="">
+    <!--<input type="button" value="Run Blocks" onclick="Tool.runPython(); return false;" />-->
+
+  </div>
+  <!--<input type="button" value="Blocks to editable Python (here)" onclick="Tool.blocksToPython(); return false;" />-->
+
+
+  <!--<div class="file-box">
+  <strong>Send a file</strong>
+  <input type="file" id="put-file-select" />
+  <div id="put-file-list"></div>
+  <input type="button" value="Send to device" id="put-file-button" onclick="Files.put_file(); return false;" />
+  </div>-->
+  <div id="file-status">Conecte o robô para ver e enviar arquivos.</div>
+  <span id='filesPanel'>
+  <details open>
+  <summary>
+  <h2>No robô</h2>
+  <button type="button" value="List Files" id="refreshFilesList" class="notext button icon" title="Atualizar a lista de arquivos do robô" onclick="event.preventDefault(); event.stopPropagation(); Files.listFiles(); return false;"></button>
+  </summary>
+  <span id='fileList'><div class="sb-empty-line">Nenhum arquivo por aqui ainda. Conecte o robô e aperte o botão de atualizar.</div></span>
+  </details>
+  <details open>
+  <summary><h2>Blocos em código</h2></summary>
+  <span id='blocks2Code'>
+    <div id='blocks2codePython' title="Código Python gerado pelos seus blocos."></div>
+    <div id='blocks2codeXML' title="Arquivo com todos os blocos e ajustes do projeto.">workspace.bipes.xml<span>interno</span></div>
+  </span></details>
+  <details>
+  <summary><h2>Modelos</h2></summary>
+  <span id='fileTemplate'>
+    <div onclick="Tool.getText('main.py');">main.py</div>
+    <div onclick="Tool.getText('ssd1306.py');">ssd1306.py</div>
+  </span>
+  </details>
+  </div>
+
+
+  <div>
+
+  <div id="file_save_as" class="py">
+  <input type=text id=content_file_name placeholder="Nome do arquivo">
+  <button id="editor2DeviceButton" class="button icon text" onclick="Files.files_save_as();">Salvar</button>
+  <button id="generated2DeviceButton" class="button icon text" onclick="Files.file_save_as.className = 'py';  Files.files_save_as ();">Salvar uma cópia</button>
+  <button id="updateXMLButton"  class="button icon text" onclick="Files.editedXML2Workspace();">Enviar para os blocos</button>
+  <span class="sb-fa-group" role="group" aria-label="Ações do arquivo aberto do robô">
+    <button type="button" class="sb-fa sb-fa-run" disabled onclick="Files.openFileAction('run')" title="Executar este arquivo no robô">▶ Executar</button>
+    <button type="button" class="sb-fa" disabled onclick="Files.openFileAction('download')" title="Baixar este arquivo para o computador">⬇ Baixar para o PC</button>
+    <button type="button" class="sb-fa sb-fa-del" disabled onclick="Files.openFileAction('delete')" title="Apagar este arquivo do robô">🗑 Excluir do robô</button>
+  </span>
+  </div>
+  <textarea id="content_file_code" wrap="off"></textarea>
+
+  <link rel="stylesheet" href="core/codemirror/codemirror.css">
+  </div>
+</div>
+
+<!-- ################################################## -->
+
+  <div id="content_iot" class="content">
+     <!-- aba IOT desligada: para ligar, trocar data-src por src --><iframe id="content_iot" data-src="freeboard/index.html" loading="lazy" width="100%" height="100%" frameBorder="0"></iframe>
+  </div>
+
+<!-- ################################################## -->
+
+<div id="content_mqtt" class="content" style="padding: 0;">
+  <iframe id="easymqtt_iframe" src="../easymqtt/index.html" loading="lazy" width="100%" height="100%" frameBorder="0"></iframe>
+</div>
+
+<!-- ################################################## -->
+
+<div id="content_databoard" class="content" style="padding: 0;">
+  <iframe id="databoard_iframe" src="../databoard/index.html" loading="lazy" width="100%" height="100%" frameBorder="0"></iframe>
+</div>
+
+<!-- ################################################## -->
+
+</div>
+<div class='progress-bar'></div>
+<div class="notify"></div>
+<div class="notify-panel"></div>
+<div class="account-panel">
+  <span>
+    <span id="account_header">Olá, <span id="account_user" role="textbox" contenteditable>User</span>!</span>
+    <details open>
+    <summary>
+    <h2>Meus projetos</h2>
+    <button value="New Project" id="newProjectButton" class="notext button icon" title="Criar novo projeto" onclick="/*UI ['workspace'].newProject();*/" /></button>
+    </summary>
+    <span id='ProjectList'></span>
+    </details>
+  </span>
+  <!-- Escolha de idioma (desativada: por enquanto o SancaBot é só em português). Para voltar numa versão futura: tirar o comentário e
+       reativar a montagem do menu em Code.initLanguage (app/code.js; a versão antiga está em dev-local/versoes/v3/ui/core/code.js).
+  <details open>
+  <summary>
+  <h2>Ajustes</h2>
+  </summary>
+  <span class="icon" id="languageIcon">
+  <select id="languageMenu"></select>
+  </span>
+  </details>
+  -->
+</div>
+
+
+<!-- SancaBot Mission 1 helper panel. Hidden unless URL contains ?mission=1. -->
+<button id="missionPanelButton" class="mission-fab" type="button" hidden>Miss&atilde;o 1</button>
+<aside id="missionPanel" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 1</span>
+      <h2>Acerto ao Alvo</h2>
+      <p>Monte uma rota curta para sair de um ponto de partida e chegar o mais perto poss&iacute;vel do alvo.</p>
+    </div>
+    <button id="missionPanelClose" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Prepare a pista</h3>
+    <ul class="mission-mini-list">
+      <li>Marque o in&iacute;cio no ch&atilde;o.</li>
+      <li>Coloque uma folha ou fita como alvo.</li>
+      <li>Deixe uma r&eacute;gua ou trena por perto.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Regrinha do teste</h3>
+    <p>Primeiro fa&ccedil;a o SancaBot andar para frente. Me&ccedil;a a dist&acirc;ncia e use o resultado para planejar a pr&oacute;xima tentativa.</p>
+    <div class="mission-grid">
+      <label>Velocidade (%)<input id="missionSpeed" type="number" min="0" max="100" step="1" value="50"></label>
+      <label>Tempo (s)<input id="missionTime" type="number" min="0.1" max="30" step="0.1" value="2"></label>
+      <label>Dist&acirc;ncia medida (cm)<input id="missionDistance" type="number" min="0" max="1000" step="0.5" placeholder="ex: 30"></label>
+      <label>Dist&acirc;ncia at&eacute; o alvo (cm)<input id="missionTarget" type="number" min="0" max="1000" step="0.5" placeholder="ex: 45"></label>
+    </div>
+    <div class="mission-result" id="missionResult">Preencha a dist&acirc;ncia medida para calcular.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">preparar motores</div>
+      <div class="mission-block mission-block--move">SancaBot anda frente velocidade 50% por tempo 2 segundos</div>
+      <div class="mission-block mission-block--tune">corrigir desvio, se ele n&atilde;o andar reto</div>
+      <div class="mission-block mission-block--move">SancaBot gira direita ou esquerda velocidade 40% por angulo 45 graus</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Desafio final</h3>
+    <p>Agora crie uma rota com pelo menos um giro antes de chegar ao alvo.</p>
+    <ul class="mission-checklist">
+      <li>Testei andar para frente.</li>
+      <li>Ajustei o tempo com a regrinha.</li>
+      <li>Corrigi o desvio se precisou.</li>
+      <li>Usei direita ou esquerda para ajustar o giro.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte o que aconteceu: ficou longe, passou do alvo, desviou ou chegou perto?</p>
+    <textarea id="missionEvidence" rows="5" placeholder="Ex: Testei 50% por 2 s. O SancaBot andou 30 cm, desviou um pouco para a esquerda e depois ajustei a rota com um giro..."></textarea>
+    <div class="mission-actions">
+      <button id="missionDraftEvidence" type="button">Gerar resumo</button>
+      <button id="missionSendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="missionClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="missionSaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+<!-- SancaBot Mission 2 helper panel. Hidden unless URL contains ?mission=2. -->
+<button id="missionPanelButton2" class="mission-fab" type="button" hidden>Miss&atilde;o 2</button>
+<aside id="missionPanel2" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 2</span>
+      <h2>SancaBot Explorador</h2>
+      <p>Monte uma regra SE... ent&atilde;o... para o SancaBot medir, decidir e parar antes de encostar.</p>
+    </div>
+    <button id="missionPanelClose2" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Monte a cena</h3>
+    <ul class="mission-mini-list">
+      <li>Coloque uma caixa, livro ou copo como obst&aacute;culo.</li>
+      <li>Deixe o SancaBot a uma dist&acirc;ncia segura para testar.</li>
+      <li>Comece devagar: velocidade baixa deixa o teste melhor.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Crie a regra de decis&atilde;o</h3>
+    <p>Prepare o SancaBot e o sensor. A ideia &eacute; simples: <b>repetir a medi&ccedil;&atilde;o de dist&acirc;ncia</b> e usar <b>SE a dist&acirc;ncia for menor que o limite, ENT&Atilde;O parar</b>.</p>
+    <div class="mission-grid">
+      <label>Velocidade (%)<input id="mission2Speed" type="number" min="0" max="100" step="1" value="30"></label>
+      <label>Limite da regra (cm)<input id="mission2Stop" type="number" min="3" max="100" step="1" value="15"></label>
+      <label>Dist&acirc;ncia medida (cm)<input id="mission2Reading" type="number" min="0" max="400" step="0.5" placeholder="vem do console"></label>
+    </div>
+    <div class="distance-display" id="sancabotDistanceDisplay" aria-live="polite">
+      <div class="distance-display__top">
+        <span class="distance-display__label" id="sancabotPanelLabel">Dist&acirc;ncia agora</span>
+        <strong id="sancabotDistanceValue">-- cm</strong>
+      </div>
+      <div class="distance-display__track"><span id="sancabotDistanceBar"></span></div>
+      <div class="distance-display__status" id="sancabotDistanceStatus">Aguardando leitura do console</div>
+    </div>
+    <div class="mission-result" id="mission2Result">SE a dist&acirc;ncia medida ficar menor que o limite, ENT&Atilde;O o SancaBot deve parar.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">1. preparar motores</div>
+      <div class="mission-block mission-block--sensor">2. preparar sensor de dist&acirc;ncia (ultrassom)</div>
+      <div class="mission-block mission-block--move">3. Mover para frente, cont&iacute;nuo</div>
+      <div class="mission-block mission-block--repeat">4. repetir medi&ccedil;&atilde;o de dist&acirc;ncia</div>
+      <div class="mission-block mission-block--console">&nbsp;&nbsp;&nbsp;mostrar dist&acirc;ncia no console</div>
+      <div class="mission-block mission-block--decision">&nbsp;&nbsp;&nbsp;se dist&acirc;ncia menor que 15 cm: parar e sair da repeti&ccedil;&atilde;o</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Desafio final</h3>
+    <p>Fa&ccedil;a o SancaBot andar, repetir a medi&ccedil;&atilde;o da dist&acirc;ncia e parar quando a regra SE... ent&atilde;o... for verdadeira.</p>
+    <ul class="mission-checklist">
+      <li>Testei uma velocidade baixa.</li>
+      <li>Vi a leitura do ultrassom mudar.</li>
+      <li>Usei uma regra SE... ent&atilde;o... para decidir parar.</li>
+      <li>Mudei a dist&acirc;ncia de seguran&ccedil;a e comparei.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte qual limite voc&ecirc; usou, qual leitura apareceu no console e se a decis&atilde;o fez sentido.</p>
+    <textarea id="mission2Evidence" rows="5" placeholder="Ex: Usei velocidade 30% e dist&acirc;ncia de seguran&ccedil;a de 15 cm. Quando o obst&aacute;culo chegou perto, o SancaBot parou antes de encostar..."></textarea>
+    <div class="mission-actions">
+      <button id="mission2DraftEvidence" type="button">Gerar resumo</button>
+      <button id="mission2SendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="mission2ClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="mission2SaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+
+<!-- SancaBot Mission 3 helper panel. Hidden unless URL contains ?mission=3. -->
+<button id="missionPanelButton3" class="mission-fab" type="button" hidden>Miss&atilde;o 3</button>
+<aside id="missionPanel3" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 3</span>
+      <h2>Entrega Especial</h2>
+      <p>Use a guia frontal para levar um objeto especial at&eacute; a zona de entrega, com teste devagar e rota planejada.</p>
+    </div>
+    <button id="missionPanelClose3" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Prepare o transporte</h3>
+    <ul class="mission-mini-list">
+      <li>Acople a guia frontal no SancaBot e coloque o sensor ultrassom logo acima dela.</li>
+      <li>A abertura da guia fica voltada para frente, para o objeto entrar, ser empurrado e sair.</li>
+      <li>O sensor precisa ficar desbloqueado, sem o objeto especial cobrindo a medi&ccedil;&atilde;o.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Plano de empurrar</h3>
+    <p>Comece com pouca velocidade. A miss&atilde;o n&atilde;o &eacute; correr: &eacute; controlar o objeto especial sem deixar ele escapar.</p>
+    <div class="mission-grid">
+      <label>Objeto especial<input id="mission3Cargo" type="text" value="bola geom&eacute;trica"></label>
+      <label>Velocidade (%)<input id="mission3Speed" type="number" min="0" max="100" step="1" value="25"></label>
+      <label>Tempo do empurr&atilde;o (s)<input id="mission3Time" type="number" min="0.1" max="30" step="0.1" value="2"></label>
+      <label>Limite de seguran&ccedil;a (cm)<input id="mission3SafeDistance" type="number" min="3" max="100" step="1" value="12"></label>
+    </div>
+    <div class="mission-result" id="mission3Result">Teste curto: empurre devagar, observe o objeto especial e ajuste tempo ou velocidade.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">1. preparar motores</div>
+      <div class="mission-block mission-block--sensor">2. preparar sensor de dist&acirc;ncia acima da guia frontal</div>
+      <div class="mission-block mission-block--move">3. Mover para frente a 25%, por tempo, durante 2 segundos</div>
+      <div class="mission-block mission-block--decision">4. se o sensor v&ecirc; objeto a menos de 12 cm: Parar</div>
+      <div class="mission-block mission-block--console">5. registrar o que aconteceu no teste</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Desafio final</h3>
+    <p>Leve o objeto especial de um ponto de partida at&eacute; a zona de entrega. Se escapar, reduza a velocidade ou encurte o tempo do empurr&atilde;o.</p>
+    <ul class="mission-checklist">
+      <li>Acoplei a guia frontal e deixei o ultrassom logo acima.</li>
+      <li>Escolhi um objeto especial que cabe na guia sem bloquear o sensor.</li>
+      <li>Marquei partida e zona de entrega.</li>
+      <li>Testei devagar antes da tentativa final.</li>
+      <li>Ajustei a rota se o objeto especial escapou.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte qual objeto especial voc&ecirc; escolheu, qual velocidade usou e o que ajustou para conseguir entregar.</p>
+    <textarea id="mission3Evidence" rows="5" placeholder="Ex: Usei a bola geom&eacute;trica como objeto especial. Comecei com 25% por 2 s, ela escapou um pouco para a direita, ent&atilde;o reduzi a velocidade e alinhei melhor a guia..."></textarea>
+    <div class="mission-actions">
+      <button id="mission3DraftEvidence" type="button">Gerar resumo</button>
+      <button id="mission3SendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="mission3ClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="mission3SaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+
+<!-- SancaBot Mission 4 helper panel. Hidden unless URL contains ?mission=4. -->
+<button id="missionPanelButton4" class="mission-fab" type="button" hidden>Miss&atilde;o 4</button>
+<aside id="missionPanel4" class="mission-panel" aria-hidden="true" hidden>
+  <div class="mission-panel__header">
+    <div>
+      <span class="mission-kicker">Miss&atilde;o 4</span>
+      <h2>O Desafio do Labirinto</h2>
+      <p>Monte um labirinto, programe uma regra aut&ocirc;noma e teste se o SancaBot consegue decidir o caminho.</p>
+    </div>
+    <button id="missionPanelClose4" class="mission-close" type="button" aria-label="Fechar painel da miss&atilde;o">Fechar</button>
+  </div>
+
+  <section class="mission-card mission-card--intro">
+    <h3>Prepare o labirinto</h3>
+    <ul class="mission-mini-list">
+      <li>Use caixas, livros, fita ou papel&atilde;o dobrado para criar paredes baixas.</li>
+      <li>Deixe espa&ccedil;o para o SancaBot virar sem prender nas paredes.</li>
+      <li>Teste o ultrassom antes: parede perto precisa mudar a leitura.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card mission-card--warm">
+    <h3>1. Plano aut&ocirc;nomo</h3>
+    <p>A regra base &eacute; medir, decidir e agir: se houver parede perto, parar e girar; se estiver livre, seguir em frente.</p>
+    <div class="mission-grid">
+      <label>Velocidade (%)<input id="mission4Speed" type="number" min="0" max="100" step="1" value="35"></label>
+      <label>Parede perto (cm)<input id="mission4WallLimit" type="number" min="3" max="100" step="1" value="15"></label>
+      <label>Tempo de giro (s)<input id="mission4TurnTime" type="number" min="0.1" max="5" step="0.1" value="1"></label>
+      <label>Tempo m&aacute;ximo (s)<input id="mission4MaxTime" type="number" min="5" max="300" step="1" value="60"></label>
+      <label>Tentativas planejadas<input id="mission4Attempts" type="number" min="1" max="20" step="1" value="3"></label>
+    </div>
+    <div class="distance-display" id="sancabotMission4Display" aria-live="polite">
+      <div class="distance-display__top">
+        <span class="distance-display__label" id="sancabotMission4PanelLabel">Dist&acirc;ncia agora</span>
+        <strong id="sancabotMission4Value">-- cm</strong>
+      </div>
+      <div class="distance-display__track"><span id="sancabotMission4Bar"></span></div>
+      <div class="distance-display__status" id="sancabotMission4Status">Aguardando leitura do console</div>
+    </div>
+    <div class="mission-result" id="mission4Result">Regra base: repetir enquanto o tempo n&atilde;o acabar. Se detectar parede perto, parar e girar. Sen&atilde;o, seguir em frente.</div>
+  </section>
+
+  <section class="mission-card">
+    <h3>2. Monte no BIPES</h3>
+    <div class="mission-block-list">
+      <div class="mission-block mission-block--setup">1. preparar motores</div>
+      <div class="mission-block mission-block--sensor">2. preparar sensor de dist&acirc;ncia</div>
+      <div class="mission-block mission-block--console">3. iniciar cron&ocirc;metro</div>
+      <div class="mission-block mission-block--move">4. Mover para frente, cont&iacute;nuo</div>
+      <div class="mission-block mission-block--repeat">5. Repetir enquanto o tempo for menor que o limite</div>
+      <div class="mission-block mission-block--decision">&nbsp;&nbsp;&nbsp;se ultrassom detectar parede: parar, girar e testar de novo</div>
+      <div class="mission-block mission-block--move">&nbsp;&nbsp;&nbsp;sen&atilde;o: seguir em frente devagar</div>
+      <div class="mission-block mission-block--console">&nbsp;&nbsp;&nbsp;mostrar dist&acirc;ncia e tempo no painel</div>
+    </div>
+  </section>
+
+  <section class="mission-card">
+    <h3>3. Estrat&eacute;gia</h3>
+    <textarea id="mission4Strategy" rows="4">Se encontrar parede, parar, girar para a esquerda e testar de novo.</textarea>
+    <ul class="mission-checklist">
+      <li>Montei um labirinto com espa&ccedil;o para virar.</li>
+      <li>Testei o ultrassom antes da tentativa aut&ocirc;noma.</li>
+      <li>Usei repeti&ccedil;&atilde;o, decis&atilde;o e cron&ocirc;metro.</li>
+      <li>Ajustei velocidade, dist&acirc;ncia da parede e tempo de giro.</li>
+    </ul>
+  </section>
+
+  <section class="mission-card">
+    <h3>4. Registro da miss&atilde;o</h3>
+    <p>Conte como era o labirinto, qual regra voc&ecirc; usou, onde o SancaBot errou e qual ajuste melhorou a tentativa.</p>
+    <textarea id="mission4Evidence" rows="5" placeholder="Ex: Montei um labirinto com caixas. Usei parede perto em 15 cm, velocidade 35% e giro de 1 s. Na primeira tentativa ele virou pouco, ent&atilde;o ajustei o tempo de giro..."></textarea>
+    <div class="mission-actions">
+      <button id="mission4DraftEvidence" type="button">Gerar resumo</button>
+      <button id="mission4SendStudio" class="mission-actions__primary" type="button">Concluir no Studio</button>
+      <button id="mission4ClearEvidence" type="button">Limpar</button>
+    </div>
+    <p class="mission-note" id="mission4SaveNote">Salvo apenas neste navegador.</p>
+  </section>
+</aside>
+
+
+<!-- SancaBot BIPES first-use tour. Opens from Projeto menu, ?tour=1, or first visit. -->
+<div id="sancabotTourOverlay" class="sancabot-tour-overlay" hidden></div>
+<div id="sancabotTourSpotlight" class="sancabot-tour-spotlight" hidden></div>
+<section id="sancabotTour" class="sancabot-tour" aria-hidden="true" hidden>
+  <div class="sancabot-tour__arrow" aria-hidden="true"></div>
+  <div class="sancabot-tour__step" id="sancabotTourStep">Passo 1 / 4</div>
+  <h2 id="sancabotTourTitle">Bem-vindo ao SancaBot by BIPES</h2>
+  <p id="sancabotTourText">Aqui voc&ecirc; monta os blocos e envia para o rob&ocirc;.</p>
+  <div class="sancabot-tour__actions">
+    <button id="sancabotTourSkip" type="button">Sair</button>
+    <button id="sancabotTourBack" type="button" hidden>Voltar</button>
+    <button id="sancabotTourNext" type="button">Pr&oacute;ximo</button>
+  </div>
+</section>
+
+<script>
+
+// Init blockly
+Code.init ();
+</script>
+<!-- Recursos do SancaBot (F4): antes eram trechos dentro do index.html -->
+<script src="app/recursos/categorias.js?ver=f4-1"></script>
+<script src="app/recursos/missoes.js?ver=f4-1"></script>
+<script src="app/recursos/rastro.js?ver=f4-1"></script>
+<script src="app/recursos/modo-lento.js?ver=f4-1"></script>
+<script src="app/recursos/medidor-distancia.js?ver=f4-1"></script>
+<script src="app/recursos/tour.js?ver=f7-5"></script>
+<script src="app/iniciar.js?ver=f5-18"></script>
+
+
+</body>
+</html>

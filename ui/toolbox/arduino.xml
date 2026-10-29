@@ -294,7 +294,7 @@
     <sep></sep>
     <!--
     <category name="Python" colour="%{BKY_LOGIC_HUE}">
-    <category name="Machine" colour="%{BKY_VARIABLES_HUE}">
+    <category name="Máquina" colour="%{BKY_VARIABLES_HUE}">
     -->
 
   <category name="Python">
@@ -321,8 +321,8 @@
   </category>
 
 
-  <category name="Timing">
-    <label text="Snek Timing"></label>
+  <category name="Temporização">
+    <label text="Temporização do Snek"></label>
     <block type="snek_delay">
        <value name="time">
         <shadow type="math_number">
@@ -333,8 +333,8 @@
     <block type="snek_uptime"></block>
   </category>
     
-  <category name="In/Out Pins">
-    <label text="Snek GPIO Pins"></label>
+  <category name="Pinos de entrada e saída">
+    <label text="Pinos GPIO do Snek"></label>
     <block type="pinout"></block>
 
     <block type="snek_gpio_set">

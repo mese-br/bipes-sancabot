@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html>
-
-	<br>
-	<br>
-
-	<center>
-	<a href="https://bipes-271213.appspot.com/list">Click here to view shared programs</a> 
-
-	<BR>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galeria de projetos</title>
+<link rel="stylesheet" href="core/sancabot_gallery.css?ver=sancabot-g-4">
+</head>
+<body class="sbg-page">
+<div class="sbg-wrap">
+  <header class="sbg-head">
+    <img src="media/sancabot-face.svg" alt="" width="52" height="52">
+    <div class="sbg-grow"><h1>Galeria de projetos</h1><p>Veja o que a turma e a comunidade criaram. Curta, aprenda e faça o seu remix!</p></div>
+    <button type="button" class="sbg-share-top" id="gShare">＋ Compartilhar meu projeto</button>
+  </header>
+  <div class="sbg-tabs" role="tablist" aria-label="Galeria">
+    <button class="sbg-tab" role="tab" data-aba="turma" aria-selected="true"><span class="sbg-ico" aria-hidden="true">👥</span>Da turma</button>
+    <button class="sbg-tab" role="tab" data-aba="comunidade" aria-selected="false"><span class="sbg-ico" aria-hidden="true">🌎</span>Da comunidade</button>
+    <button class="sbg-tab" role="tab" data-aba="meus" aria-selected="false"><span class="sbg-ico" aria-hidden="true">🙂</span>Meus projetos</button>
+    <button class="sbg-tab" role="tab" data-aba="pendentes" aria-selected="false" hidden><span class="sbg-ico" aria-hidden="true">⏳</span>Para aprovar <span class="sbg-n" id="gN">0</span></button>
+  </div>
+  <main id="gLista" class="sbg-grid" aria-live="polite"></main>
+  <div class="sbg-demo">
+    <span>Versão de demonstração: os projetos ficam só neste navegador.</span>
+    <label><input type="checkbox" id="gProf"> Ver como professor</label>
+  </div>
+</div>
+<script src="core/sancabot_config.js?ver=sancabot-v3"></script>
+<script src="core/sancabot_sim_examples.js?ver=sancabot-v3-3"></script>
+<script src="core/sancabot_gallery.js?ver=sancabot-g-4"></script>
+<script src="core/sancabot_gallery_page.js?ver=sancabot-g-2"></script>
+</body>
 </html>
-
-
-

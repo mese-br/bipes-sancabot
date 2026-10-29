@@ -2,8 +2,8 @@ var MSG = {
   title: "BIPES Beta",
   blocks: "Blocos",
   files: "Arquivos",
-  shared: "Compartilhado",
-  device: "Dispositivo",
+  shared: "Galeria",
+  device: "Meu robô",
   linkTooltip: "Salvar e ligar aos blocos.",
   runTooltip: "Execute o programa definido pelos blocos na área de trabalho.",
   badCode: "Erro no programa:\n%1",
@@ -39,12 +39,12 @@ var MSG = {
   editAsFileValue: "Editar como arquivo",
   editAsFileTooltip: "Editar código python e salvar para a memória do aparelho.",
   forumTooltip: "Fórum de ajuda.",
-  accountTooltip: "Tus proyectos y escenarios.",
+  accountTooltip: "Seus projetos.",
   blocksLoadedFromFile: "Blocos carregados do arquivo '%1'.",
   deviceUnavailable: "Aparelho '%1' indisponível.",
-  notConnected: "No connection to send data.",
-  serialFroozen: "Serial connection is unresponsive.",
-  notAvailableFlag: "$1 is not available on your browser.\r\nPlease make sure the $1 flag is enabled.",
+  notConnected: "Sem conexão com o robô. Conecte o robô para enviar.",
+  serialFroozen: "A conexão serial não está respondendo. Desligue e ligue o robô e conecte de novo.",
+  notAvailableFlag: "$1 não está disponível neste navegador.\r\nUse o Chrome ou o Edge e confira se o recurso $1 está ativado.",
 
 //Blocos
   block_delay: "esperar",
@@ -130,7 +130,7 @@ var MSG = {
 //Categorias da caixa de ferramentas
 Blockly.Msg['CAT_TIMING'] = "Temporização";
 Blockly.Msg['CAT_MACHINE'] = "Máquina";
-Blockly.Msg['CAT_DISPLAYS'] = "Displays";
+Blockly.Msg['CAT_DISPLAYS'] = "Telas e displays";
 Blockly.Msg['CAT_SENSORS'] = "Sensores";
 Blockly.Msg['CAT_OUTPUTS'] = "Saidas e atuadores";
 Blockly.Msg['CAT_COMM'] = "Comunicação";

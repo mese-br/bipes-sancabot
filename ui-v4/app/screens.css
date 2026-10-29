@@ -1,0 +1,119 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot v4: ESTRUTURA das telas (Console, Arquivos, Dispositivo, Projetos). Aparência vem dos tokens; nada de !important contra CSS antigo. */
+
+/* ---- Console ---- */
+#content_console { flex-direction: column; align-items: center; }
+#content_console #term { padding: .5em; margin: .75rem 0; overflow: hidden; border-radius: var(--sb-r-1); background: #000; transition: box-shadow var(--sb-t); overscroll-behavior: none; }
+#content_console > div, #content_console > div > span { display: inline-flex; align-items: center; }
+#content_console button { line-height: 1.5rem; font-size: .8rem; }
+#tipsGeneric { display: inline-flex; align-items: center; margin: .5rem 0; padding: .5rem; border: 1px solid var(--sb-mute); border-radius: var(--sb-r-pill); opacity: .85; }
+#content_console #file-boxes { display: flex; flex-wrap: wrap; justify-content: center; user-select: none; }
+
+/* ---- Arquivos: lista à esquerda, editor à direita ---- */
+#content_files { grid-template-columns: clamp(15rem, 26vw, 19rem) minmax(0, 1fr); }
+#file-boxes { user-select: none; }
+#fileList > div, #fileTemplate > div, #blocks2Code > div, #ProjectList > div { display: flex; align-items: stretch; justify-content: space-between; margin: .25rem 0; padding: .25rem; min-height: 2rem; border: 1px solid var(--sb-line); border-radius: var(--sb-r-1); font-size: .9rem; cursor: pointer; }
+#fileList > div > div, #ProjectList > div > div { display: inline-flex; align-items: center; word-break: break-word; }
+#fileList .runText, #ProjectList .runText { width: 100%; font-family: var(--sb-mono); }
+#fileTemplate > div, #blocks2Code > div { align-items: center; word-break: break-word; font-family: var(--sb-mono); }
+#fileList .runText > span, #blocks2Code > div > span { margin-left: .25rem; padding: .175rem .5rem; border-radius: var(--sb-r-pill); background: #e7edff; color: var(--sb-blue-600); font: 800 .78rem var(--sb-font); word-break: keep-all; }
+#file_save_as.py #updateXMLButton, #file_save_as.py #generated2DeviceButton { display: none; }
+#file_save_as.bipes-xml #editor2DeviceButton, #file_save_as.bipes-xml #generated2DeviceButton { display: none; }
+#file_save_as.bipes-py #editor2DeviceButton, #file_save_as.bipes-py #updateXMLButton { display: none; }
+@media (max-width: 759.98px) { #content_files { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); overflow-y: auto; } }
+
+/* ---- Projetos (galeria): a página da galeria ocupa a tela inteira ---- */
+#content_programs { background: var(--sb-soft); }
+#content_programs > center { display: block; height: 100%; }
+#content_programs iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+/* ---- Dispositivo ---- */
+
+/* ===== Estados vazios, Console e Compartilhado no visual v3 (de sancabot_empty.css) ===== */
+
+.sb-empty-page { margin: 0; min-height: 100vh; height: 100vh; box-sizing: border-box; display: grid; place-items: center; background: #eef2ff; font-family: "Nunito", "Trebuchet MS", "Segoe UI", system-ui, sans-serif; color: #1B2250; }
+.sb-empty { text-align: center; max-width: 420px; padding: 24px 20px; }
+.sb-empty img { display: block; margin: 0 auto 8px; }
+.sb-empty h2 { margin: 0 0 6px; font-weight: 800; font-size: 22px; }
+.sb-empty p { margin: 0 0 16px; font-weight: 700; font-size: 15px; line-height: 1.4; color: #3f4670; }
+.sb-empty-btn { display: inline-block; padding: 10px 20px; border-radius: 999px; background: #3F6BFF; color: #fff; font-weight: 800; text-decoration: none; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); }
+.sb-empty-btn:hover { background: #2F55E8; }
+/* dentro do editor */
+.sb-hint { display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 8px 12px; border-radius: 14px; background: #eef2ff; color: #1B2250; font: 800 14px/1.3 "Nunito", system-ui, sans-serif; }
+.sb-hint img { width: 36px; height: 36px; flex: none; }
+.sb-empty-line { margin: 6px 0; padding: 10px 12px; border-radius: 12px; background: #eef2ff; color: #3f4670; font: 700 13px/1.35 "Nunito", system-ui, sans-serif; }
+.sb-hint p { margin: 0; }
+
+/* ---- Console no estilo v3: terminal azul-marinho, botões em pílula, o principal em destaque ---- */
+#content_console { background: #fff; }
+#content_console #term { background: #1B2250; border-radius: 16px; padding: .75rem; box-shadow: 0 6px 0 rgba(27, 34, 80, .18); }
+#content_console #term .xterm-viewport { background-color: #1B2250; }
+#content_console #term.on { box-shadow: 0 0 0 3px #4C9FFF, 0 8px 18px rgba(27, 34, 80, .25); }
+#content_console #tipsGeneric { border-color: #d5dcf2; background: #f3f6ff; color: #3f4670; font: 700 13px "Nunito", system-ui, sans-serif; opacity: 1; }
+#content_console #tipsGeneric tt { background: #e3e8f7; border-radius: 6px; padding: 1px 6px; }
+#content_console #file-boxes { gap: .4rem .1rem; }
+#content_console #file-boxes button { font: 800 14px "Nunito", system-ui, sans-serif; color: #2F55E8; border: 2px solid #c9d6ff; background: #fff; padding: .55rem 1rem; }
+#content_console #file-boxes button:hover { background: #eef2ff; border-color: #4C9FFF; }
+#content_console #file-boxes button:first-of-type { background: #3F6BFF; border-color: #3F6BFF; color: #fff; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); }
+#content_console #file-boxes button:first-of-type:hover { background: #2F55E8; }
+#content_console label.checkswitch { font: 700 14px "Nunito", system-ui, sans-serif; color: #3f4670; }
+
+/* ---- Aba Compartilhado: a página ocupa a aba inteira, sem faixa branca embaixo ---- */
+#content_programs { background: #eef2ff; }
+#content_programs > center { display: block; height: 100%; }
+#content_programs iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+/* Interruptor do Console: mensagens do robô em português / como o robô envia */
+.sb-conpt { display: inline-flex; align-items: center; gap: .55rem; margin: .3rem 0; cursor: pointer; font: 800 13px "Nunito", system-ui, sans-serif; color: #3f4670; }
+.sb-conpt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.sb-conpt-track { position: relative; width: 2.4rem; height: 1.4rem; border-radius: 999px; background: #cfd8f3; flex: none; transition: background .15s ease; }
+.sb-conpt-track::after { content: ""; position: absolute; top: .15rem; left: .15rem; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(27, 34, 80, .3); transition: transform .15s ease; }
+.sb-conpt input:checked + .sb-conpt-track { background: #3F6BFF; }
+.sb-conpt input:checked + .sb-conpt-track::after { transform: translateX(1rem); }
+.sb-conpt input:focus-visible + .sb-conpt-track { outline: 2px solid #4C9FFF; outline-offset: 2px; }
+
+/* ---- Arquivos: estrutura (a aparência final está em shell.css) ---- */
+#file-boxes #file-header { display: flex; align-items: center; justify-content: space-between; }
+#file-boxes #file-header > span { flex-grow: 2; }
+#putFileButton { display: inline-flex; align-items: center; }
+#filesPanel { display: block; overflow-y: auto; }
+#file_save_as { display: flex; align-items: center; flex-wrap: wrap; }
+#file_save_as .sb-fa-group { display: inline-flex; margin-left: auto; }
+
+/* ---- Perfil: lista de projetos ---- */
+#ProjectList { display: block; padding: 8px; }
+
+/* O Console rola por dentro: nenhum bloco dele pode encolher para caber (o terminal e a dica ficariam amassados) */
+#content_console > * { flex: none; }
+
+#file_save_as input { box-sizing: border-box; }
+#content_device #device_img { padding: .75rem; box-shadow: 0 18px 45px rgba(15, 23, 42, .12); }
+
+/* ===== Acabamento (2026-10-29): botões redondos, Arquivos alinhados, ícones do menu Projeto, caixa de blocos ===== */
+/* Botões do Console: pílulas, como no resto da interface */
+#content_console #file-boxes button { border-radius: var(--sb-r-pill); }
+
+/* Arquivos: o cabeçalho da lista (esquerda) e a barra do editor (direita) têm a MESMA altura e linha de baixo; a mensagem de andamento vai para o rodapé da lista */
+#content_files { --sb-fa-h: 3.4rem; }
+#content_files #file-boxes { display: flex; flex-direction: column; min-height: 0; height: calc(100vh - var(--sb-top)); height: calc(100dvh - var(--sb-top)); }
+#content_files #file-boxes #file-header { order: 1; flex: none; height: var(--sb-fa-h); min-height: var(--sb-fa-h); box-sizing: border-box; padding: 0 .75rem; border-bottom: 1px solid var(--sb-line); }
+#content_files #file-boxes #filesPanel { order: 2; flex: 1 1 auto; min-height: 0; height: auto; }
+#content_files #file-boxes #file-status { order: 3; flex: none; min-height: 2.2rem; border-top: 1px solid var(--sb-line); border-bottom: 0; }
+#file_save_as { box-sizing: border-box; height: var(--sb-fa-h); min-height: var(--sb-fa-h); flex-wrap: nowrap; overflow-x: auto; padding: 0 .75rem; border-bottom: 1px solid var(--sb-line); }
+#file_save_as > * { flex: none; }
+#file_save_as .sb-fa-group { margin-left: auto; }
+#content_files .CodeMirror { height: calc(100vh - var(--sb-top) - var(--sb-fa-h)); height: calc(100dvh - var(--sb-top) - var(--sb-fa-h)); }
+@media (max-width: 759.98px) { #content_files #file-boxes { height: auto; max-height: 45vh; } }
+
+/* Diálogo Conectar: o texto dos botões fica no meio da pílula */
+.channel-panel .ch-go { align-items: center; justify-content: center; line-height: 1; padding-top: 0; padding-bottom: 0; }
+
+/* Menu Projeto: o ícone de cada item aparece (o mapa de posição do sprite antigo tirava o desenho do lugar) */
+.sb-actions-menu > #linkButton:before, .sb-actions-menu > #saveButton:before, .sb-actions-menu > #loadButton:before,
+.sb-actions-menu > #forumButton:before, .sb-actions-menu > #notificationButton:before, .sb-actions-menu > #galleryShareButton:before { background-position: 50% 50%; background-repeat: no-repeat; }
+
+/* Console: tudo cabe na tela (o terminal usa a altura que sobra, ver term.resize em utils.js) e sobra um respiro embaixo */
+#content_console { box-sizing: border-box; padding-bottom: 1.2rem; }
+/* Linha do EasyMQTT: texto, ícone de engrenagem e interruptor alinhados no meio */
+#content_console label.checkswitch[for="EasyMQTT_bridge"] { display: inline-flex; align-items: center; gap: .6rem; padding: .3rem .5rem; }
+#content_console #settingsGeneric { display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; margin: 0; padding: 0; }

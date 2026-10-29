@@ -299,7 +299,7 @@
     <sep></sep>
     <!--
     <category name="Python" colour="%{BKY_LOGIC_HUE}">
-    <category name="Machine" colour="%{BKY_VARIABLES_HUE}">
+    <category name="Máquina" colour="%{BKY_VARIABLES_HUE}">
     -->
 
   <category name="Python">
@@ -381,8 +381,8 @@
 
   <category name="%{BKY_CAT_MACHINE}">
       <label text="%{BKY_CAT_MACHINE}"></label>
-      <category name="CPU">
-      <label text="Raspberry Pi Pico CPU"></label>
+      <category name="Processador (CPU)">
+      <label text="CPU do Raspberry Pi Pico"></label>
 
     <block type="get_freq"></block>
     <block type="set_freq">
@@ -401,8 +401,8 @@
     <block type="reset_cause_wdt"></block>
     <block type="reset_cause_deep"></block>
       </category>
-      <category name="In/Out Pins">
-      <label text="In/Out Pins"></label>
+      <category name="Pinos de entrada e saída">
+      <label text="Pinos de entrada e saída"></label>
     <block type="pinout"></block>
     <block type="gpio_set">
       <value name="pin">
@@ -496,13 +496,13 @@
   </category>
 
 
-  <category name="Displays">
+  <category name="Telas e displays">
 
-  <category name="Character display">
-      <label text="PCF8574 Display controller"></label>
+  <category name="Display de caracteres">
+      <label text="Controlador de display PCF8574"></label>
 
-      <label text="Library: https://github.com/dhylands/python_lcd"></label>
-      <button text="Install I2CLCD library" callbackKey="installPyLib"></button>
+      <label text="Biblioteca: https://github.com/dhylands/python_lcd"></label>
+      <button text="Instalar biblioteca I2CLCD" callbackKey="installPyLib"></button>
 	<block type="char_lcd_init">
         <value name="scl">
           <shadow type="pinout">
@@ -540,9 +540,9 @@
 
   </category>
 
-    <category name="OLED Display">
-      <label text="SSD1306 OLED I2C Display"></label>
-      <button text="Install ssd1306 library" callbackKey="installPyLib"></button>
+    <category name="Display OLED">
+      <label text="Display OLED SSD1306 (I2C)"></label>
+      <button text="Instalar biblioteca ssd1306" callbackKey="installPyLib"></button>
 
 
 
@@ -595,12 +595,12 @@
 
     </category>
 
-  <category name="LED Matrix">
-      <label text="TM1640 LED Matrix"></label>
-      <label text="Library: https://github.com/mcauser/micropython-tm1640"></label>
-        <button text="Install tm1640 library" callbackKey="installPyLib"></button>
-        <button text="Load example: tm1640" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: tm1640" callbackKey="loadDoc"></button>
+  <category name="Matriz de LED">
+      <label text="Matriz de LED TM1640"></label>
+      <label text="Biblioteca: https://github.com/mcauser/micropython-tm1640"></label>
+        <button text="Instalar biblioteca tm1640" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: tm1640" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: tm1640" callbackKey="loadDoc"></button>
 
     <block type="tm1640_init">
 
@@ -720,9 +720,9 @@
 
   </category>
 
-  <category name="Sensors">
-    <category name="DHT11/22 Sensor">
-      <label text="DHT11/11 Temperature and Humidity Sensor"></label>
+  <category name="Sensores">
+    <category name="Sensor DHT11/22">
+      <label text="Sensor de temperatura e umidade DHT11/22"></label>
       <block type="dht_init">
         <field name="BLOCK_DHT_INIT">Start DHT11/22 sensor</field>
         <value name="pin">
@@ -743,10 +743,10 @@
     </category>
 
 
-  <category name="Ultrasound">
-      <label text="HCSR04 ultrasound distance sensor"></label>
-      <label text="Library: https://github.com/rsc1975/micropython-hcsr04"></label>
-        <button text="Install HCSR04 library" callbackKey="installPyLib"></button>
+  <category name="Ultrassom">
+      <label text="Sensor de distância ultrassônico HC-SR04"></label>
+      <label text="Biblioteca: https://github.com/rsc1975/micropython-hcsr04"></label>
+        <button text="Instalar biblioteca HCSR04" callbackKey="installPyLib"></button>
 
 
       <block type="hcsr_init">
@@ -773,9 +773,9 @@
   </category>
 
   <category name="GPS">
-      <label text="Global Positioning System sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install GPS library" callbackKey="installPyLib"></button>
+      <label text="Sensor de posicionamento global (GPS)"></label>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca GPS" callbackKey="installPyLib"></button>
 
 	<block type="gps_init">
       </block>
@@ -795,10 +795,10 @@
 
   </category>
 
-  <category name="Oximeter">
-      <label text="MAX30100 pulse oximeter sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
+  <category name="Oxímetro">
+      <label text="Sensor oxímetro de pulso MAX30100"></label>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca MAX30100" callbackKey="installPyLib"></button>
 
 	<block type="max30100_init">
       </block>
@@ -814,13 +814,13 @@
 
   </category>
 
-  <category name="Inertial Measurement">
+  <category name="Medição inercial">
       <label text="MPU6050 IMU"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install imu library (MPU6050)" callbackKey="installPyLib"></button>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca imu (MPU6050)" callbackKey="installPyLib"></button>
 
-        <button text="Load example: mpu6050" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mpu6050" callbackKey="loadDoc"></button>
+        <button text="Carregar exemplo: mpu6050" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: mpu6050" callbackKey="loadDoc"></button>
 
 
 
@@ -854,8 +854,8 @@
       <category name="OneWire">
       <label text="OneWire"></label>
 
-        <button text="Load example: ds1820" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: ds1820" callbackKey="loadDoc"></button>
+        <button text="Carregar exemplo: ds1820" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: ds1820" callbackKey="loadDoc"></button>
 
       <block type="onewire_ds18x20_init">
         <value name="pin">
@@ -877,12 +877,12 @@
       </category>
 
 
-  <category name="RFID Reader">
-      <label text="RC522 13.56MHz RFID Reader"></label>
-      <label text="Library: https://github.com/wendlers/micropython-mfrc522"></label>
-        <button text="Install mfrc522 library" callbackKey="installPyLib"></button>
-        <button text="Load example: mfrc522" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mfrc522" callbackKey="loadDoc"></button>
+  <category name="Leitor RFID">
+      <label text="Leitor RFID RC522 13,56 MHz"></label>
+      <label text="Biblioteca: https://github.com/wendlers/micropython-mfrc522"></label>
+        <button text="Instalar biblioteca mfrc522" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: mfrc522" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: mfrc522" callbackKey="loadDoc"></button>
 
       <block type="rfid_rc522_init">
         <value name="sck">
@@ -926,11 +926,11 @@
   </category>
 
 
-  <category name="Actuators">
+  <category name="Atuadores">
 
 
-    <category name="Relay">
-      <label text="Relay"></label>
+    <category name="Relé">
+      <label text="Relé"></label>
       <block type="relay_switch">
         <value name="pin">
           <shadow type="pinout">
@@ -940,8 +940,8 @@
       </block>
     </category>
 
-  <category name="RC Servo">
-      <label text="Hobby RC Servo Motor"></label>
+  <category name="Servomotor">
+      <label text="Servomotor de hobby (RC)"></label>
     <block type="init_servo">
         <value name="pin">
           <shadow type="pinout">
@@ -962,10 +962,10 @@
 
   </category>
 
-  <category name="Communication">
-      <label text="Communication"></label>
+  <category name="Comunicação">
+      <label text="Comunicação"></label>
       <category name="UART">
-      <label text="UART Serial Port"></label>
+      <label text="Porta serial UART"></label>
 <block type="uart_init">
 </block>
 
@@ -998,7 +998,7 @@
 
       </category>
 
-      <category name="GSM Modem">
+      <category name="Modem GSM">
 
       <block type="gsm_modem_init">
 </block>
@@ -1015,7 +1015,7 @@
 
       </category>
       <category name="I2C">
-      <label text="I2c"></label>
+      <label text="I2C"></label>
 <block type="machine.I2C_I2C.init">
 </block>
 <block type="machine.I2C_I2C.deinit">
@@ -1049,8 +1049,8 @@
   </category>
 
 
-  <category name="Files">
-      <label text="Read and write files"></label>
+  <category name="Arquivos">
+      <label text="Ler e escrever arquivos"></label>
 <block type="file_open_write">
 
   <value name="filename">
@@ -1107,7 +1107,7 @@
 
 </block>
 
-      <label text="Disk file operations"></label>
+      <label text="Operações de arquivos em disco"></label>
 <block type="files_list">
 </block>
 <block type="uos_mkdir">
@@ -1177,7 +1177,7 @@
 
 
 
-  <category name="Network">
+  <category name="Rede">
     <block type="wifi_client_connect">
       <field name="NAME">Connect to Wifi network</field>
       <value name="wifi_client_essid">
@@ -1220,8 +1220,8 @@
     <block type="net_wiznet5k_ifconfig">
     </block>
 
-    <category name="HTTP Client">
-      <label text="HTTP Client"></label>
+    <category name="Cliente HTTP">
+      <label text="Cliente HTTP"></label>
 
     <block type="net_get_request">
       <field name="BLOCK_NET_GET">Make HTTP GET Request URL</field>
@@ -1233,10 +1233,10 @@
 
     </category>
 
-    <category name="HTTP Server">
-      <label text="HTTP Web Server"></label>
-      <button text="Load example: webserver" callbackKey="loadExample"></button>
-      <button text="Documentation: webserver" callbackKey="loadDoc"></button>
+    <category name="Servidor HTTP">
+      <label text="Servidor HTTP (web)"></label>
+      <button text="Carregar exemplo: webserver" callbackKey="loadExample"></button>
+      <button text="Documentação: webserver" callbackKey="loadDoc"></button>
 
     <block type="net_http_server_start">
         <value name="port">
@@ -1262,11 +1262,11 @@
 
     </category>
 
-    <category name="EMAIL">
-      <label text="Email sender using uMail"></label>
-      <label text="Library: https://github.com/shawwwn/uMail"></label>
-        <button text="Install umail library" callbackKey="installPyLib"></button>
-        <button text="Documentation: uMail" callbackKey="loadDoc"></button>
+    <category name="E-mail">
+      <label text="Envio de e-mail com uMail"></label>
+      <label text="Biblioteca: https://github.com/shawwwn/uMail"></label>
+        <button text="Instalar biblioteca umail" callbackKey="installPyLib"></button>
+        <button text="Documentação: uMail" callbackKey="loadDoc"></button>
 
       <block type="umail_init">
 	  <value name="host">
@@ -1299,23 +1299,23 @@
         </value>
         <value name="subject">
           <shadow type="text">
-            <field name="TEXT">Email from BIPES!</field>
+            <field name="TEXT">E-mail do SancaBot!</field>
           </shadow>
         </value>
         <value name="contents">
           <shadow type="text">
-            <field name="TEXT">BIPES is nice!</field>
+            <field name="TEXT">O SancaBot é legal!</field>
           </shadow>
         </value>
       </block>
     </category>
 
 
-    <category name="NTP Time">
-     <label text="Network Time Protocol (NTP)"></label>
-     <label text="Adjusts RTC using Internet"></label>
-        <button text="Load example: ntp" callbackKey="loadExample"></button>
-        <button text="Documentation: ntp" callbackKey="loadDoc"></button>
+    <category name="Hora (NTP)">
+     <label text="Protocolo de hora na rede (NTP)"></label>
+     <label text="Ajusta o relógio (RTC) pela Internet"></label>
+        <button text="Carregar exemplo: ntp" callbackKey="loadExample"></button>
+        <button text="Documentação: ntp" callbackKey="loadDoc"></button>
 
 
     <block type="net_ntp_sync">
@@ -1329,10 +1329,10 @@
     </block>
     </category>
 
-    <category name="TCP/IP Socket">
-      <label text="TCP/IP Socket"></label>
-        <button text="Load example: starwars" callbackKey="loadExample"></button>
-        <button text="Documentation: sockets" callbackKey="loadDoc"></button>
+    <category name="Socket TCP/IP">
+      <label text="Socket TCP/IP"></label>
+        <button text="Carregar exemplo: starwars" callbackKey="loadExample"></button>
+        <button text="Documentação: sockets" callbackKey="loadDoc"></button>
 
 
     <block type="net_socket_connect">
@@ -1371,7 +1371,7 @@
     </category>
 
     <category name="MQTT">
-      <label text="MQTT (Message Queue Telemetry Transport)"></label>
+      <label text="MQTT (transporte de telemetria por fila de mensagens)"></label>
       <block type="mqtt_init">
         <field name="BLOCK_MQTT_INIT">Start MQTT Client</field>
         <value name="server">

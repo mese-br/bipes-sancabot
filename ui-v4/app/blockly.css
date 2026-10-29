@@ -1,0 +1,128 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot v4: aparência do BLOCKLY: caixa de categorias, bandeja de blocos, blocos, campos e menus.
+   Vem de sancabot_scratch.css (v3), sem a parte do cabeçalho (agora em shell.css) e sem !important desnecessário. */
+
+
+/* Fonte dos blocos: Nunito (OFL), servida localmente para funcionar sem internet. Parâmetros em core/sancabot_config.js */
+@font-face {
+  font-family: "Nunito";
+  src: url("../media/fonts/nunito/nunito-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 1000; font-style: normal; font-display: block;
+}
+
+/* ---- Caixa de categorias: pílulas claras com bolinha colorida e ícone; selecionada = cartão branco com anel da cor ---- */
+.blocklyToolboxDiv {
+  background: #ffffff;
+  border-right: 2px solid #e3e8f7;
+  box-shadow: 6px 0 24px rgba(31, 42, 90, .12);
+  padding: 8px 8px 12px;
+  font-family: "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+}
+.blocklyToolboxCategoryContainer { margin: 3px 0; }
+/* O Blockly pinta a linha selecionada com a cor da categoria e texto branco (por estilo inline); aqui tudo é para valer a nossa regra. */
+.blocklyToolboxCategory {
+  --cat: #A9B6D8;
+  box-sizing: border-box; min-height: 42px; margin: 0; padding: 0 10px 0 6px;
+  display: flex; align-items: center;
+  border-radius: 16px; border: 0; border-left: 0;
+  background: color-mix(in srgb, var(--cat) 16%, #ffffff);
+  color: #1B2250; cursor: pointer;
+  transition: background .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.blocklyToolboxCategory:hover { background: color-mix(in srgb, var(--cat) 30%, #ffffff); transform: translateX(2px); }
+.blocklyToolboxSelected > .blocklyToolboxCategory, .blocklyToolboxCategory.blocklyToolboxSelected, .blocklyToolboxCategory[aria-selected="true"] {
+  background: #ffffff; color: #1B2250;
+  box-shadow: 0 0 0 3px var(--cat), 0 8px 18px rgba(27, 34, 80, .16);
+}
+.blocklyTreeRowContentContainer { display: flex; align-items: center; gap: 9px; }
+.blocklyToolboxCategoryLabel {
+  font: 800 14.5px/1.1 "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  color: #1B2250; padding-left: 0;
+}
+.blocklyToolboxSelected .blocklyToolboxCategoryLabel { color: #1B2250; }
+.sb-cat-ico { width: 32px; height: 32px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--cat); box-shadow: inset 0 -2px 0 rgba(27, 34, 80, .14); }
+.sb-cat-ico svg { width: 20px; height: 20px; display: block; }
+.blocklyToolboxCategoryIcon { margin-right: 2px; opacity: .6; }
+.blocklyToolboxCategoryGroup { padding-left: 14px; margin-top: 2px; }
+/* Raiz da lista (Blockly 13): desce abaixo da faixa Fixar/Recolher e não recua */
+.blocklyToolboxDiv > .blocklyToolboxCategoryGroup { margin-top: 3rem; padding-left: 0; }
+.blocklyToolboxCategoryGroup .blocklyToolboxCategory { min-height: 38px; }
+.blocklyToolboxCategoryGroup .blocklyToolboxCategoryLabel { font-size: 14px; }
+.blocklyToolboxCategoryGroup .sb-cat-ico { width: 28px; height: 28px; } .blocklyToolboxCategoryGroup .sb-cat-ico svg { width: 18px; height: 18px; }
+.blocklyToolboxDelete { opacity: .5; }
+
+/* Faixa Fixar/Recolher no topo (continua escura nos botões; só ajusta ao fundo claro) */
+.sb-tb-head { background: #f3f6ff; border-bottom: 1px solid #e3e8f7; }
+.sb-tb-btn { color: #3f4670; background: #ffffff; border: 1px solid #d5dcf2; }
+.sb-tb-btn:hover { background: #e7edff; }
+
+/* ---- Bandeja de blocos e área de desenho ---- */
+.blocklyFlyoutBackground { fill: #eef2ff; fill-opacity: 1; }
+.blocklyFlyout { filter: drop-shadow(6px 0 12px rgba(31, 42, 90, .10)); }
+.blocklyFlyoutLabelText { font-weight: 800; fill: #575e75; }
+.blocklyMainBackground { stroke: none; }
+.blocklyScrollbarHandle { fill: #8a93b8; fill-opacity: .45; rx: 6; }
+
+/* ---- Blocos: texto, sombras suaves, realce amigável ---- */
+.blocklyText, .blocklyFlyoutLabelText { font-family: "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif; font-weight: 800; }  /* sem letter-spacing: o Blockly mede o texto sem ele e os rótulos ficariam colados */
+.blocklyDraggable:not(.blocklyDisabled) > .blocklyPath { filter: drop-shadow(0 2px 0 rgba(31, 42, 90, .18)); }
+.blocklySelected > .blocklyPath { filter: drop-shadow(0 0 0 transparent); stroke: #ffffff; stroke-width: 3px; }
+.blocklyDragging > .blocklyPath { filter: drop-shadow(0 10px 14px rgba(31, 42, 90, .28)); }
+.blocklyEditableField > rect, .blocklyEditableField > .blocklyFieldRect { rx: 12; }
+.blocklyHtmlInput { font-family: "Nunito", "Trebuchet MS", system-ui, sans-serif; font-weight: 800; border-radius: 10px; }
+.blocklyWidgetDiv .blocklyDropDownDiv, .blocklyDropDownDiv { border-radius: 14px; }
+.blocklyContextMenu { border-radius: 12px; }
+
+/* Zoom e lixeira em tom da paleta */
+.blocklyZoom > image, .blocklyTrash > image { opacity: .85; }
+
+@media (prefers-reduced-motion: reduce) {
+  .blocklyToolboxCategory { transition: none; }
+  .blocklyToolboxCategory:hover { transform: none; }
+}
+
+/* ---- Modo iniciante: categorias técnicas escondidas; chave "Avançado" na faixa da caixa de blocos ---- */
+html.sb-beginner .blocklyToolboxCategoryContainer.sb-adv { display: none; }
+/* A faixa do topo precisa de largura mínima: com poucas categorias a caixa ficava estreita e espremia o botão de fixar */
+.blocklyToolboxDiv { min-width: 208px; }
+.sb-tb-head { flex-wrap: wrap; row-gap: .3rem; }
+.sb-tb-head .sb-tb-btn { flex: none; }
+.sb-tb-head .sb-adv-switch { flex: 0 1 auto; min-width: 0; white-space: nowrap; }
+.sb-adv-switch { display: inline-flex; align-items: center; gap: .4rem; cursor: pointer; user-select: none; margin-left: .35rem; }
+.sb-adv-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.sb-adv-track { position: relative; width: 30px; height: 18px; border-radius: 999px; background: #c9d1ee; transition: background .18s ease; flex: none; }
+.sb-adv-track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(31, 42, 90, .3); transition: transform .18s ease; }
+.sb-adv-switch input:checked + .sb-adv-track { background: #4c97ff; }
+.sb-adv-switch input:checked + .sb-adv-track::after { transform: translateX(12px); }
+.sb-adv-switch input:focus-visible + .sb-adv-track { outline: 2px solid #4c97ff; outline-offset: 2px; }
+.sb-adv-text { font: 800 12px/1 "Nunito", system-ui, sans-serif; color: #3f4670; }
+@media (prefers-reduced-motion: reduce) { .sb-adv-track, .sb-adv-track::after { transition: none; } }
+
+/* ---- Texto e ícones dos blocos: sempre azul-marinho (todas as cores da paleta são claras e vivas).
+   A repetição de classe sobe a especificidade acima da regra do renderizador (.sancabot-renderer.sancabot-theme .blocklyDropdownText). ---- */
+.blocklyDraggable.blocklyDraggable.blocklyDraggable > g[class*="Field"] text.blocklyText { fill: #1B2250; }
+.blocklyDraggable.blocklyDraggable > g.blocklyDropdownField > image { filter: brightness(0) opacity(.7); }
+
+/* ---- Menus suspensos dos blocos (as cores agora são claras): texto azul-marinho, opção em foco com realce branco ---- */
+.blocklyDropDownDiv .blocklyMenuItem, .blocklyDropDownDiv .blocklyMenuItemContent, .blocklyDropDownDiv .blocklyMenuItemCheckbox { color: #1B2250; font-weight: 800; }
+.blocklyDropDownDiv .blocklyMenuItem.blocklyMenuItemHighlight, .blocklyDropDownDiv .blocklyMenuItem:hover { background: rgba(255, 255, 255, .55); }
+.blocklyDropDownDiv .blocklyMenuItemSelected .blocklyMenuItemCheckbox { color: #1B2250; }
+.blocklyDropDownDiv .blocklyMenuItemDisabled { color: rgba(27, 34, 80, .45); }
+
+/* Fixar (caixa de blocos): o estado "fixado" tem que aparecer igual ao do painel da direita (azul, alfinete cheio e reto).
+   As regras com acima (.sb-tb-btn) escondiam esse estado só no painel da esquerda. */
+.sb-tb-btn.sb-pinbtn[aria-pressed="true"] { background: #dce9ff; border-color: var(--sb-blue, #3F6BFF); color: var(--sb-blue, #3F6BFF); box-shadow: 0 0 0 2px rgba(63, 107, 255, .18); }
+.sb-tb-btn.sb-pinbtn[aria-pressed="true"]:hover { background: #cfe0ff; }
+.sb-tb-btn.sb-pinbtn[aria-pressed="false"] svg { opacity: .8; }
+
+/* Caixa de categorias: mais ar entre a "meia-lua" colorida da esquerda e o ícone redondo */
+.blocklyToolboxCategory > .blocklyTreeRowContentContainer { padding-left: .85rem; }
+
+/* Contraste do ícone: a bolinha era da mesma cor do fundo da linha. Agora é branca, com um anel da cor da categoria (a cor da linha e da "meia-lua" continua a mesma). */
+.sb-cat-ico { background: #fff; box-shadow: 0 0 0 2.5px var(--cat), 0 2px 0 rgba(27, 34, 80, .14); }
+.sancabot-toolbox-sancabot .sb-cat-ico { background: var(--cat); box-shadow: 0 2px 0 rgba(27, 34, 80, .2); }
+
+/* Sem contorno azul em volta dos grupos da caixa de blocos: o Blockly 13 desenha um anel de foco no grupo inteiro; a categoria escolhida já tem o seu anel colorido.
+   (!important: o CSS do Blockly entra depois, de dentro do JavaScript.) */
+.blocklyToolboxDiv :focus, .blocklyToolboxDiv :focus-visible, .blocklyToolboxDiv .blocklyActiveFocus, .blocklyToolboxDiv .blocklyPassiveFocus,
+.blocklyToolboxDiv.blocklyActiveFocus, .blocklyToolboxDiv.blocklyPassiveFocus { outline: none !important; }

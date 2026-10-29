@@ -1,0 +1,511 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot v4: CASCA da página: cabeçalho (logo, abas, Simular, Conectar, robô + Rodar, Projeto, perfil), menus e janelas flutuantes
+   (diálogo Conectar, perfil, avisos). Consolidado de sancabot_layout.css e da parte "cabeçalho" de sancabot_scratch.css (v3),
+   sem os !important que só existiam para vencer o style.css antigo. Medidas e cores vêm de tokens.css. */
+
+/* ---- Base do cabeçalho (vinha do style.css antigo) ---- */
+.top-menu { box-sizing: border-box; width: 100%; user-select: none; color: #fff; }
+.top-menu > .logo { display: flex; align-items: center; font-size: 1.58rem; font-weight: 900; gap: .06rem; line-height: 1.125; color: #fff; letter-spacing: 0; white-space: nowrap; }
+.top-menu > .logo:before { content: ""; display: inline-block; width: 3rem; height: 3rem; margin-right: .55rem; border-radius: 50%; background: url(../media/sancabot-face.svg) center / contain no-repeat; }
+.top-menu > .logo.sancabot-logo span { color: #fff; }
+.top-menu > .logo.sancabot-logo small { align-self: flex-end; margin: 0 0 .38rem .42rem; font-size: .66rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.top-menu > .tabs { display: flex; width: auto; flex: 0 1 auto; gap: .25rem; margin: 0 .5rem; padding: .32rem; border-radius: var(--sb-r-pill); overflow: visible; }
+.tabs > div { cursor: pointer; margin: 0; padding: .5rem .78rem; border: 1px solid transparent; border-radius: var(--sb-r-pill); font-size: .88rem; line-height: 1; transition: background var(--sb-t), color var(--sb-t); }
+
+
+/* ---- Base estrutural que vinha do style.css antigo ---- */
+.top-menu #deviceSelect { display: inline-flex; align-items: center; }
+.top-menu #device_selector { appearance: none; -webkit-appearance: none; margin: 0; border: 0; border-radius: 999px; background: transparent; font: inherit; }
+.top-menu #runButton { display: inline-flex; align-items: center; }
+.top-menu #sancabotSlowToggle { display: inline-grid; place-items: center; }
+
+/* Painéis flutuantes (perfil e avisos): ficam fora da tela e deslizam ao abrir (classe #show, ligada por UI.panel) */
+.account-panel, .notify-panel { position: fixed; z-index: var(--sb-z-overlay); display: flex; overflow-y: auto; width: 18rem; margin: .5em; top: var(--sb-top); right: -22em; opacity: 0; user-select: none; background: #fff; color: var(--sb-ink);
+  border: 1px solid var(--sb-line); border-radius: var(--sb-r-3); box-shadow: var(--sb-sh-2); transition: top .5s ease, right .5s ease, opacity var(--sb-t); transition-delay: 0s, 0s, .1s; }
+.account-panel { flex-direction: column; justify-content: space-between; }
+.notify-panel { flex-direction: column-reverse; justify-content: flex-end; }
+.account-panel#show, .notify-panel#show { opacity: 1; right: 0; }
+@media (prefers-reduced-motion: reduce) { .account-panel, .notify-panel { transition: none; } }
+
+/* ---- Cabeçalho: azul da marca, texto branco, aba ativa em pílula branca (mesma família de cantos e fonte dos blocos) ---- */
+body { font-family: "Nunito", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif; }
+.top-menu { background: linear-gradient(180deg, var(--sb-blue) 0%, var(--sb-blue-600) 100%); border-bottom: 0; box-shadow: 0 8px 22px rgba(47, 85, 232, .32); }
+.top-menu > .logo.sancabot-logo strong { color: var(--sb-sun); }
+.top-menu > .logo.sancabot-logo small { color: #ffffff; opacity: .85; }
+.top-menu > .logo.sancabot-logo:before { filter: drop-shadow(0 2px 0 rgba(27, 34, 80, .25)); }
+.top-menu > .tabs { background: rgba(255, 255, 255, .2); border: 1px solid rgba(255, 255, 255, .28); }
+.tabs > div { color: #ffffff; font-weight: 800; }
+.tabs > div:hover { background: rgba(255, 255, 255, .24); border-color: transparent; color: #ffffff; }
+.tabs > div.on, .tabs > div.on:hover { background: #ffffff; border-color: #ffffff; color: var(--sb-ink); box-shadow: 0 2px 0 rgba(27, 34, 80, .2); }
+.top-menu #channel_connect button.icon, .top-menu button.icon, .top-menu label.button.icon { background-color: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .34); box-shadow: none; }
+.top-menu #channel_connect button.icon:hover, .top-menu button.icon:hover, .top-menu label.button.icon:hover { background-color: rgba(255, 255, 255, .32); border-color: rgba(255, 255, 255, .6); }
+
+
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot by BIPES: layout responsivo (celular, tablet, computador) e telas internas no visual v3.
+   Carregar POR ÚLTIMO. Mede o cabeçalho em --sb-top (app/cabecalho.js). */
+
+
+
+/* ======== Cabeçalho (no padrão do SatBlocks): logo | abas | Simular | Conectar | robô + Rodar | Projeto ▾ | perfil ========
+   >=1700 px: abas à mostra. Abaixo disso as abas viram um menu com a aba atual (como no SatBlocks). <1100 px: ferramentas na 2ª linha. */
+.top-menu { --sb-ic: 2.4rem; height: auto; min-height: 4.1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: .5rem .7rem; padding: .5rem .9rem; position: relative; z-index: 60; }
+.top-menu > .logo.sancabot-logo { order: 1; min-width: 0; flex: none; }
+.top-menu > .sim-open { order: 3; margin-left: auto; flex: none; }
+.top-menu > #toolbarButton { display: none; }
+.top-menu > .toolbar { order: 4; position: static; display: flex; opacity: 1; height: auto; width: auto; margin: 0; transform: none; flex: 0 1 auto;
+  flex-wrap: nowrap; align-items: center; gap: .5rem; background: none; border: 0; box-shadow: none; border-radius: 0; padding: 0; }
+@media (pointer: coarse) { .top-menu { --sb-ic: 2.7rem; } }
+.content { top: var(--sb-top, 4.1rem); }
+#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_programs, #content_mqtt, #content_iot, #content_databoard { height: calc(100vh - var(--sb-top, 4.1rem)); height: calc(100dvh - var(--sb-top, 4.1rem)); }
+.progress-bar { top: var(--sb-top, 4.1rem); }
+
+/* abas, com ícone */
+.top-menu > .tabs { order: 2; flex: 0 1 auto; min-width: 0; flex-wrap: nowrap; }
+.tabs > div { white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: .4rem; }
+.tabs > div:before { font-size: 1.05em; }
+#tab_blocks:before { content: "🧩"; } #tab_console:before { content: "💻"; } #tab_files:before { content: "📁"; } #tab_programs:before { content: "🖼️"; } #tab_device:before { content: "🤖"; }
+.sb-tabs-btn { order: 2; display: none; align-items: center; gap: .5rem; height: var(--sb-ic); padding: 0 .9rem; border: 0; border-radius: 999px; background: #fff; color: var(--sb-ink); font: 900 14px "Nunito", system-ui, sans-serif; cursor: pointer; box-shadow: 0 3px 0 rgba(27, 34, 80, .22); }
+.sb-chev { width: .5rem; height: .5rem; border-right: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg) translateY(-2px); flex: none; transition: transform .15s ease; }
+[aria-expanded="true"] > .sb-chev { transform: rotate(-135deg) translateY(-2px); }
+@media (max-width: 1699.98px) {
+  .sb-tabs-btn { display: inline-flex; }
+  .top-menu > .tabs { display: none; position: absolute; z-index: 90; top: calc(100% - .15rem); left: 0; flex-direction: column; gap: .15rem; padding: .5rem; border-radius: 1.2rem; background: #fff; border: 1px solid var(--sb-line); box-shadow: 0 16px 34px rgba(27, 34, 80, .28); overflow: visible; }
+  .top-menu.sb-tabs-open > .tabs { display: flex; }
+  .top-menu > .tabs > div { color: var(--sb-ink); padding: .7rem 1.1rem .7rem .9rem; font-size: 15px; border-radius: .9rem; }
+  .top-menu > .tabs > div:hover { background: var(--sb-soft); }
+  .top-menu > .tabs > div.on, .top-menu > .tabs > div.on:hover { background: #e7edff; color: var(--sb-blue-600); box-shadow: none; }
+}
+
+/* Conectar: um bloco só (canal + estado). Desconectado = branco; conectado = verde */
+.top-menu #channel_connect { display: inline-flex; align-items: center; gap: .3rem; padding: .2rem; margin: 0; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .18); overflow: visible; order: 0; }
+.top-menu #channel_connect #connectButton { width: auto; height: calc(var(--sb-ic) - .5rem); padding: 0 1rem 0 .8rem; display: inline-flex; align-items: center; gap: .45rem; border: 0; border-radius: 999px; background: #fff; color: var(--sb-ink); font: 900 14px "Nunito", system-ui, sans-serif; box-shadow: none; white-space: nowrap; }
+.top-menu #channel_connect #connectButton:before { content: ""; display: block; width: .65rem; height: .65rem; border-radius: 50%; background: #94a3b8; background-image: none; filter: none; margin: 0; }
+.top-menu #channel_connect #connectButton:after { content: "Conectar"; }
+.top-menu #channel_connect #connectButton.on { background: #22C55E; color: #fff; }
+.top-menu #channel_connect #connectButton.on:before { background: #fff; }
+.top-menu #channel_connect #connectButton.on:after { content: "Conectado"; }
+.top-menu #channel_connect.wait #connectButton:after { content: "Conectando…"; }
+.top-menu #channel_connect.wait #connectButton:before { background: var(--sb-sun); }
+.top-menu #channelButton { width: calc(var(--sb-ic) - .5rem); height: calc(var(--sb-ic) - .5rem); border-radius: 50%; }
+
+/* Robô + Rodar: uma pílula branca com o robô escolhido e o botão amarelo */
+.top-menu #deviceSelect { background: #fff; border: 0; padding: .2rem .2rem .2rem .6rem; border-radius: 999px; gap: .2rem; }
+.top-menu #deviceSelect #device_selector { background: transparent; color: var(--sb-ink); font: 900 14px "Nunito", system-ui, sans-serif; height: auto; }
+.top-menu #deviceSelect:before { filter: brightness(0) opacity(.65); }
+.top-menu #runButton { width: auto; height: calc(var(--sb-ic) - .5rem); padding: 0 1rem 0 .4rem; display: inline-flex; align-items: center; gap: .15rem; font: 900 14px "Nunito", system-ui, sans-serif; white-space: nowrap; border: 0; background: var(--sb-sun); box-shadow: 0 3px 0 rgba(27, 34, 80, .28); margin: 0; }
+.top-menu #runButton:after { content: "Rodar no robô"; color: var(--sb-ink); font-weight: 900; }
+.top-menu #runButton:hover { background: #FFC400; }
+
+/* Projeto ▾: reúne salvar, baixar, abrir, link, ajuda e avisos (cada um com nome) */
+.sb-proj { position: relative; order: 1; }
+.top-menu #accountButton { order: 2; }
+.sb-actions-btn { display: inline-flex; align-items: center; gap: .5rem; height: var(--sb-ic); padding: 0 .9rem; border: 0; border-radius: 999px; background: #fff; color: var(--sb-ink); font: 900 14px "Nunito", system-ui, sans-serif; cursor: pointer; box-shadow: 0 3px 0 rgba(27, 34, 80, .22); white-space: nowrap; }
+.sb-actions-btn:hover, .sb-tabs-btn:hover { background: var(--sb-soft); }
+.sb-actions-menu { position: absolute; z-index: 95; right: 0; top: calc(100% + .45rem); min-width: 16.5rem; display: flex; flex-direction: column; gap: .1rem; padding: .45rem; border-radius: 1.1rem; background: #fff; border: 1px solid var(--sb-line); box-shadow: 0 16px 34px rgba(27, 34, 80, .28); }
+.sb-actions-menu[hidden] { display: none; }
+.sb-actions-menu > #tourButton, .sb-actions-menu > #galleryShareButton, .sb-actions-menu > #linkButton, .sb-actions-menu > #saveButton, .sb-actions-menu > #loadButton, .sb-actions-menu > #forumButton, .sb-actions-menu > #notificationButton {
+  position: relative; display: flex; align-items: center; width: 100%; height: auto; min-height: 2.7rem; box-sizing: border-box; margin: 0; padding: .55rem .9rem .55rem 3rem;
+  border: 0; border-radius: .8rem; background: transparent; color: var(--sb-ink); box-shadow: none; font: 800 14px "Nunito", system-ui, sans-serif; text-align: left; cursor: pointer; opacity: 1; }
+.sb-actions-menu > .icon:hover { background: var(--sb-soft); }
+.sb-actions-menu > .icon:before { position: absolute; left: .8rem; top: 50%; margin: 0; transform: translateY(-50%); filter: brightness(0) opacity(.7); }
+#linkButton:after { content: "Gerar link do projeto"; } #saveButton:after { content: "Baixar projeto (arquivo)"; } #loadButton:after { content: "Abrir projeto de um arquivo"; }
+#tourButton:after { content: "Conhecer a plataforma (tour)"; } #forumButton:after { content: "Ajuda (fórum)"; } #notificationButton:after { content: "Avisos"; }
+#loadXML { display: none; }
+html.sb-beginner #notificationButton { display: none; }
+
+/* Perfil */
+.top-menu #accountButton { width: var(--sb-ic); height: var(--sb-ic); border-radius: 50%; box-sizing: border-box; }
+
+/* Faixas de largura */
+@media (max-width: 1279.98px) { .top-menu > .logo.sancabot-logo small { display: none; } }
+@media (min-width: 1100px) and (max-width: 1279.98px) { #device_selector { width: 9rem; min-width: 0; text-overflow: ellipsis; } }
+@media (max-width: 1099.98px) {
+  .top-menu > .toolbar { order: 6; flex: 1 1 100%; justify-content: flex-end; flex-wrap: wrap; }
+  .top-menu #runButton:after { content: "Rodar"; }
+  .top-menu > .logo.sancabot-logo { font-size: 1.35rem; }
+}
+@media (max-width: 759.98px) {
+  .top-menu { gap: .45rem .5rem; padding: .45rem .6rem; }
+  .top-menu > .logo.sancabot-logo { font-size: 1.2rem; }
+  .top-menu > .logo.sancabot-logo:before { width: 2.4rem; height: 2.4rem; }
+  .top-menu > .toolbar { justify-content: center; gap: .4rem; }
+  .top-menu #runButton:after { content: "Rodar"; }
+  .sb-actions-menu { right: auto; left: 0; }
+  .top-menu > .toolbar { justify-content: flex-start; }
+  .top-menu > .toolbar > #deviceSelect { order: 3; flex: 1 1 100%; max-width: 100%; min-width: 0; box-sizing: border-box; justify-content: space-between; }
+  .top-menu > .toolbar > #deviceSelect #device_selector { flex: 1 1 auto; width: auto; min-width: 0; }
+  .top-menu > .toolbar > .sb-proj { margin-left: auto; }
+}
+
+/* ======== Painéis de conta, avisos e conexão: claros, como o resto ======== */
+.account-panel, .notify-panel, .channel-panel { background: #fff; color: var(--sb-ink); border: 1px solid var(--sb-line); box-shadow: 0 14px 34px rgba(27, 34, 80, .22); font-family: "Nunito", system-ui, sans-serif; }
+.channel-panel { border-radius: 1.2rem; }
+.channel-panel > div > span, .channel-panel label { color: var(--sb-text-2); font-weight: 800; }
+.channel-panel input, .account-panel input { color: var(--sb-ink); font-family: inherit; font-weight: 700; }
+.channel-panel #url, .channel-panel #password { border-bottom: 2px solid var(--sb-line); }
+.channel-panel button.icon { color: var(--sb-ink); background-color: var(--sb-soft); border: 2px solid var(--sb-line-2); border-radius: 999px; font-weight: 800; }
+.account-panel h2, .notify-panel h2 { color: var(--sb-ink); font-weight: 900; }
+#ProjectList > div { border-color: var(--sb-line); background: #fff; color: var(--sb-ink); }
+#ProjectList > div:hover { background: var(--sb-soft); }
+#ProjectList .current { background: var(--sb-blue); color: #fff; }
+.account-panel #languageIcon { color: var(--sb-ink); border-color: var(--sb-line); }
+
+/* ======== Arquivos ======== */
+#content_files { background: #fff; grid-template-columns: clamp(15rem, 26vw, 19rem) minmax(0, 1fr); font-family: "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+#file-boxes #file-header { background: var(--sb-soft); border-color: var(--sb-line); height: 3rem; font: 900 15px "Nunito", system-ui, sans-serif; color: var(--sb-ink); padding: 0 .6rem; }
+#putFileButton { width: 2.2rem; height: 2.2rem; border-radius: .8rem; border: 2px solid var(--sb-line-2); background-color: #fff; cursor: pointer; }
+#putFileButton:hover { background-color: #e7edff; }
+#file-boxes #file-status { height: auto; min-height: 1.6rem; line-height: 1.3; padding: .35rem .6rem; background: #f7f9ff; color: var(--sb-text-2); border-color: var(--sb-line); font: 800 12.5px "Nunito", system-ui, sans-serif; }
+#filesPanel { height: calc(100vh - var(--sb-top, 4.1rem) - 5.5rem); height: calc(100dvh - var(--sb-top, 4.1rem) - 5.5rem); border-color: var(--sb-line); padding: .35rem .6rem; }
+#filesPanel h2, .account-panel h2 { font: 900 15px "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+#filesPanel summary > h2:before, .account-panel summary > h2:before { color: #8a93b8; }
+#fileList > div, #fileTemplate > div, #blocks2Code > div { border: 2px solid var(--sb-line); border-radius: 12px; background: #fff; color: var(--sb-ink); font-size: 13px; padding: .4rem .55rem; }
+#fileList > div:hover, #fileTemplate > div:hover, #blocks2Code > div:hover { background: var(--sb-soft); border-color: #b9c9ff; }
+#fileList .runText > span, #blocks2Code > div > span { border: 0; background: #e7edff; color: var(--sb-blue-600); font: 800 11.5px "Nunito", system-ui, sans-serif; padding: .2rem .55rem; border-radius: 999px; }
+.sb-empty-line { border-radius: 12px; }
+#file_save_as { height: 3rem; background: var(--sb-soft); border-color: var(--sb-line); padding: 0 .6rem 0 .8rem; gap: .4rem; }
+#file_save_as input { flex: 1 1 auto; min-width: 0; background: #fff; border: 2px solid var(--sb-line); border-radius: 12px; padding: 0 .75rem; height: 2.2rem; font: 800 14px "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+#file_save_as input:focus { outline: 0; border-color: #4C9FFF; }
+#file_save_as button.icon.text { flex: none; border: 0; background-color: var(--sb-blue); color: #fff; border-radius: 999px; padding: .45rem 1rem .45rem 2.4rem; font: 800 14px "Nunito", system-ui, sans-serif; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); cursor: pointer; }
+#file_save_as button.icon.text:hover { background-color: var(--sb-blue-600); }
+#file_save_as button.icon.text:before { filter: invert(1); }
+#content_files .CodeMirror { height: calc(100vh - var(--sb-top, 4.1rem) - 3rem); height: calc(100dvh - var(--sb-top, 4.1rem) - 3rem); font: 14px/1.5 ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace; color: var(--sb-ink); }
+#content_files .CodeMirror-gutters { background: #f3f6ff; border-right: 1px solid var(--sb-line); }
+#content_files .CodeMirror-linenumber { color: #8a93b8; }
+#content_files .CodeMirror-cursor { border-left: 2px solid var(--sb-blue); }
+#content_files .cm-keyword { color: #D6336C; font-weight: 700; } #content_files .cm-string { color: #0b8f7f; } #content_files .cm-number { color: #e8590c; }
+#content_files .cm-comment { color: #8a93b8; } #content_files .cm-builtin, #content_files .cm-def { color: var(--sb-blue-600); }
+@media (max-width: 759.98px) {
+  #content_files { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); overflow-y: auto; }
+  #filesPanel { height: auto; max-height: 34vh; }
+  #content_files .CodeMirror { height: 60vh; }
+}
+
+/* ======== Dispositivo (Robô) ======== */
+#content_device { background: var(--sb-soft); padding: 1rem; box-sizing: border-box; font-family: "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+#content_device > center { display: block; max-width: 62rem; margin: 0 auto; background: #fff; border-radius: 24px; padding: 1.2rem 1.4rem 1.6rem; box-shadow: 0 10px 30px rgba(27, 34, 80, .12); }
+#content_device #device_title { display: block; font: 900 clamp(20px, 3vw, 28px)/1.2 "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+#content_device #device_title b { font-weight: 900; }
+#content_device #device_img { width: 100%; max-width: 60rem; height: auto; border-radius: 16px; background: #f7f9ff; border: 2px solid var(--sb-line); margin: .6rem 0; }
+#content_device #device_desc { display: block; font: 700 clamp(14px, 1.8vw, 16px)/1.5 "Nunito", system-ui, sans-serif; color: var(--sb-text-2); max-width: 46rem; margin: 0 auto; text-align: center; }
+#content_device #device_desc small { display: block; font-size: 14px; margin-top: .5rem; padding: .6rem .8rem; border-radius: 12px; background: #fff8dc; border: 2px solid var(--sb-sun); color: var(--sb-ink); font-weight: 800; }
+#content_device a.sancabot-pinout-link, #content_device input[type=button] { display: inline-block; margin: .4rem 0; padding: .6rem 1.2rem; border-radius: 999px; border: 0; background: var(--sb-blue); color: #fff; font: 800 14px "Nunito", system-ui, sans-serif; text-decoration: none; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); cursor: pointer; }
+#content_device a.sancabot-pinout-link:hover, #content_device input[type=button]:hover { background: var(--sb-blue-600); }
+
+/* ======== Toque (tablet): alvos maiores ======== */
+@media (pointer: coarse) {
+  .tabs > div { padding: .65rem .95rem; font-size: .95rem; }
+  .top-menu button.icon, .top-menu label.button.icon { min-width: 2.5rem; min-height: 2.5rem; }
+  .blocklyToolboxCategory { min-height: 48px; }
+}
+
+/* ======== Arquivos: no padrão do SatBlocks (título + ações compactas; "Arquivo: [nome]" + botões com nome e cor) ======== */
+#file-boxes #file-header { justify-content: space-between; gap: .4rem; }
+#file-boxes #file-header > span { flex: 1 1 auto; text-align: left; font: 900 15px "Nunito", system-ui, sans-serif; }
+#file-boxes #file-header > span:before { content: "💾 "; }
+/* botão de enviar arquivo: pílula com nome (antes: quadrado branco com ícone preto) */
+#putFileButton { width: auto; height: auto; padding: .35rem .75rem; display: inline-flex; align-items: center; gap: .3rem; border-radius: 999px; border: 2px solid var(--sb-line-2); background: #fff; color: var(--sb-blue-600); font: 800 13px "Nunito", system-ui, sans-serif; cursor: pointer; flex: none; }
+#putFileButton:before { display: none; }
+#putFileButton:after { content: "⬆️ Enviar"; }
+#putFileButton:hover { background: #e7edff; border-color: #4C9FFF; }
+/* barra do editor */
+#file_save_as { gap: .5rem; flex-wrap: wrap; height: auto; min-height: 3rem; padding: .35rem .75rem; }
+#file_save_as:before { content: "Arquivo:"; font: 800 13px "Nunito", system-ui, sans-serif; color: var(--sb-text-2); flex: none; }
+#file_save_as input { flex: 0 1 15rem; font-weight: 900; color: var(--sb-blue-600); }
+#file_save_as button.icon.text { margin-left: 0; padding: .4rem .95rem; display: inline-flex; align-items: center; gap: .35rem; }
+#file_save_as button.icon.text:before { display: none; }
+#editor2DeviceButton:after { content: "💾 Gravar no robô"; }
+#generated2DeviceButton:after { content: "📄 Salvar uma cópia"; }
+#updateXMLButton:after { content: "🧩 Enviar para os blocos"; }
+#file_save_as #generated2DeviceButton, #file_save_as #updateXMLButton { background-color: #fff; color: var(--sb-blue-600); border: 2px solid var(--sb-line-2); box-shadow: none; }
+#file_save_as #generated2DeviceButton:hover, #file_save_as #updateXMLButton:hover { background-color: #e7edff; }
+#file_save_as button.icon.text { font-size: 0; }          /* esconde o texto antigo; o novo vem de :after */
+#file_save_as button.icon.text:after { font: 800 14px "Nunito", system-ui, sans-serif; }
+@media (max-width: 759.98px) { #file_save_as input { flex: 1 1 100%; } }
+
+/* ======== Conectar o robô: diálogo com 3 cartões (no padrão do SatBlocks) ======== */
+#channelButton { display: none; }
+.channel-panel { position: fixed; left: 50%; top: 50%; right: auto; bottom: auto; width: min(35rem, 94vw); max-height: 94dvh; overflow: auto; box-sizing: border-box; padding: 0; margin: 0;
+  display: block; border-radius: 1.4rem; z-index: 1000; opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -46%) scale(.97); transition: opacity .16s ease, transform .16s ease, visibility .16s; }
+.channel-panel#show { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, -50%); top: 50%; right: auto; }
+body:has(.channel-panel#show) #closeZone.on { background: rgba(27, 34, 80, .5); backdrop-filter: blur(3px); }
+.ch-head { display: flex; align-items: center; gap: .8rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--sb-line); }
+.ch-ico { width: 2.6rem; height: 2.6rem; border-radius: .9rem; display: grid; place-items: center; background: #ffe9ee; font-size: 1.3rem; flex: none; }
+.ch-head h2 { margin: 0; font: 900 18px "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+.ch-head p { margin: .1rem 0 0; font: 700 13px "Nunito", system-ui, sans-serif; color: var(--sb-text-2); }
+.ch-x { margin-left: auto; width: 2.2rem; height: 2.2rem; border: 0; border-radius: 50%; background: var(--sb-soft); color: var(--sb-ink); font: 700 1.3rem/1 system-ui; cursor: pointer; flex: none; }
+.ch-x:hover { background: #dbe4ff; }
+.ch-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .9rem; margin: .8rem 1rem; padding: .9rem; border: 2px solid var(--sb-line); border-radius: 1.1rem; background: #fff; }
+.ch-card.ch-rec { border-color: #4C9FFF; background: #f4f8ff; }
+.ch-ci { width: 3rem; height: 3rem; border-radius: .9rem; display: grid; place-items: center; font-size: 1.4rem; flex: none; }
+.ch-usb { background: #dfe9ff; } .ch-ble { background: #eadfff; } .ch-wifi { background: #d6f6e8; }
+.ch-body h3 { margin: 0 0 .15rem; font: 900 15.5px "Nunito", system-ui, sans-serif; color: var(--sb-ink); display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; }
+.ch-body h3 em { font: 900 10.5px "Nunito", system-ui, sans-serif; font-style: normal; text-transform: uppercase; letter-spacing: .04em; padding: .15rem .5rem; border-radius: 999px; background: #dfe9ff; color: var(--sb-blue-600); }
+.ch-body h3 em.ch-tag2 { background: #eadfff; color: #7c3aed; } .ch-body h3 em.ch-tag3 { background: #d6f6e8; color: #0b8f5f; }
+.ch-body p { margin: 0 0 .35rem; font: 700 13px/1.4 "Nunito", system-ui, sans-serif; color: var(--sb-text-2); }
+.ch-body label.checkswitch { font: 800 13px "Nunito", system-ui, sans-serif; color: var(--sb-ink); display: flex; align-items: center; gap: .6rem; }
+.ch-fields { display: grid; grid-template-columns: 1fr 7rem; gap: .4rem .5rem; }
+.ch-fields label { display: grid; gap: .15rem; font: 800 12px "Nunito", system-ui, sans-serif; color: var(--sb-text-2); }
+.ch-fields input { width: 100%; box-sizing: border-box; height: 2.1rem; padding: 0 .6rem; border: 2px solid var(--sb-line); border-radius: .7rem; background: #fff; color: var(--sb-ink); font: 800 13px "Nunito", system-ui, sans-serif; }
+.ch-fields input:focus { outline: 0; border-color: #4C9FFF; }
+.channel-panel .ch-scan { grid-column: 1 / -1; justify-self: start; padding: .3rem .8rem; font-size: 12.5px; background: #fff; }
+.channel-panel .ch-go { min-width: 7.6rem; height: 2.5rem; padding: 0 1rem; border: 0; border-radius: 999px; color: #fff; font: 900 14px "Nunito", system-ui, sans-serif; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); cursor: pointer; justify-content: center; }
+.channel-panel .ch-go:before { display: none; }
+#serialButton { background: var(--sb-blue); } #bluetoothButton { background: #8B5CF6; } #networkButton { background: #12B886; }
+.channel-panel .ch-go:hover { filter: brightness(1.08); }
+.ch-foot { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .8rem 1.2rem; margin-top: .4rem; background: #f4f7ff; border-top: 1px solid var(--sb-line); font: 700 12.5px "Nunito", system-ui, sans-serif; color: var(--sb-text-2); }
+.ch-foot button { border: 2px solid var(--sb-line); background: #fff; color: var(--sb-ink); border-radius: 999px; padding: .4rem 1rem; font: 800 13px "Nunito", system-ui, sans-serif; cursor: pointer; }
+.ch-foot button:hover { background: var(--sb-soft); }
+@media (max-width: 520px) { .ch-card { grid-template-columns: auto minmax(0, 1fr); } .ch-card .ch-go { grid-column: 1 / -1; width: 100%; } .ch-fields { grid-template-columns: 1fr; } }
+
+/* ======== Ajuste de cor (volta ao vidro translúcido de antes) e telas muito grandes ======== */
+/* Só Simular e a aba atual são brancos; Conectar e Projeto ficam em vidro, o robô numa pílula escura e Rodar em amarelo */
+.top-menu #channel_connect { background: transparent; padding: 0; }
+.top-menu #channel_connect #connectButton { background: rgba(255, 255, 255, .2); color: #fff; border: 1px solid rgba(255, 255, 255, .42); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); height: var(--sb-ic); }
+.top-menu #channel_connect #connectButton:before { background: rgba(255, 255, 255, .75); }
+.top-menu #channel_connect #connectButton:hover { background: rgba(255, 255, 255, .34); }
+.top-menu #channel_connect #connectButton.on { background: #22C55E; border-color: #22C55E; }
+.top-menu #channel_connect.wait #connectButton { background: rgba(255, 210, 63, .3); }
+.top-menu #deviceSelect { background: rgba(20, 28, 90, .42); border: 1px solid rgba(255, 255, 255, .28); }
+.top-menu #deviceSelect #device_selector { color: #fff; }
+.top-menu #deviceSelect #device_selector option { color: var(--sb-ink); background: #fff; }
+.top-menu #deviceSelect:before { filter: none; }
+.sb-actions-btn { background: rgba(255, 255, 255, .2); color: #fff; border: 1px solid rgba(255, 255, 255, .42); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); }
+.sb-actions-btn:hover { background: rgba(255, 255, 255, .34); }
+.top-menu #accountButton { background-color: rgba(255, 255, 255, .2); border: 1px solid rgba(255, 255, 255, .42); }
+.sb-tabs-btn:hover { background: #f1f5ff; }
+@media (max-width: 759.98px) { .top-menu > .toolbar > #deviceSelect { background: rgba(20, 28, 90, .5); } }
+
+/* Telas muito grandes (monitores, TV da sala): o cabeçalho ganha margens e o conteúdo dele fica junto, em vez de se espalhar de ponta a ponta; tudo cresce um pouco */
+@media (min-width: 2100px) {
+  .top-menu { padding-left: max(.9rem, calc((100vw - 2050px) / 2)); padding-right: max(.9rem, calc((100vw - 2050px) / 2)); }
+  .top-menu > .sim-open { margin-left: auto; }
+}
+@media (min-width: 2200px) { html { font-size: calc(16px + (100vw - 2200px) * 0.0035); } }
+@media (min-width: 3000px) { html { font-size: calc(16px + 800px * 0.0035 + (100vw - 3000px) * 0.002); } }
+
+/* ======== Revisão: modal de conexão, pílula do robô e botão da tartaruga ======== */
+/* Robô: só o SancaBot, como texto (sem caixa de seleção); as outras placas continuam no código, escondidas */
+.top-menu #deviceSelect { padding: .2rem .45rem .2rem .7rem; gap: .55rem; align-items: center; }
+.top-menu #deviceSelect #device_selector { appearance: none; -webkit-appearance: none; border: 0; outline: 0; padding: 0; margin: 0; background: transparent; pointer-events: none; cursor: default; width: auto; min-width: 0; font-weight: 900; }
+.top-menu #deviceSelect:before { flex: none; margin: 0; }
+/* Tartaruga (modo passo a passo): botão redondo com respiro da borda; aceso (amarelo) quando ligado */
+#sancabotSlowToggle { flex: none; width: calc(var(--sb-ic) - .5rem); height: calc(var(--sb-ic) - .5rem); display: inline-grid; place-items: center; margin: 0 .1rem 0 .15rem; padding: 0; font-size: 1.1rem;
+  border-radius: 50%; border: 1px solid rgba(255, 255, 255, .35); background: rgba(255, 255, 255, .14); opacity: 1; box-shadow: none; filter: grayscale(.6); transition: filter .15s ease, background .15s ease; }
+#sancabotSlowToggle:hover { background: rgba(255, 255, 255, .28); }
+#sancabotSlowToggle.active { filter: none; background: var(--sb-sun); border-color: var(--sb-sun); box-shadow: 0 0 0 3px rgba(255, 210, 63, .35); }
+
+/* Diálogo Conectar: ícones desenhados (SVG), alinhamento no topo, interruptor azul */
+.ch-ico, .ch-ci { color: #fff; }
+.ch-ico svg, .ch-ci svg { width: 60%; height: 60%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; }
+.ch-ico { background: linear-gradient(135deg, #ff7a8a, #f43f5e); }
+.ch-usb { background: linear-gradient(135deg, #5b8bff, var(--sb-blue)); } .ch-ble { background: linear-gradient(135deg, #a78bfa, #7c3aed); } .ch-wifi { background: linear-gradient(135deg, #34d399, #0ea371); }
+.ch-wifi svg circle { fill: currentColor; stroke: none; }
+.ch-ci { box-shadow: 0 3px 0 rgba(27, 34, 80, .18); border-radius: 1rem; }
+.ch-card { align-items: start; padding: 1rem; gap: 1rem; }
+.ch-card .ch-go { align-self: center; }
+.ch-card.ch-rec { background: #f1f6ff; box-shadow: 0 0 0 4px rgba(76, 159, 255, .14); }
+.ch-body .checkswitch { padding: .25rem 0; justify-content: flex-start; width: auto; }
+.ch-body .checkswitch span { background: #cfd8f3; width: 2.6em; height: 1.5em; flex: none; }
+.ch-body .checkswitch input:checked ~ span { background: var(--sb-blue); }
+.channel-panel .ch-scan { border: 2px solid var(--sb-line-2); color: var(--sb-blue-600); border-radius: 999px; font: 800 12.5px "Nunito", system-ui, sans-serif; padding: .35rem .9rem; margin: .1rem 0 0; background: #fff; width: auto; line-height: 1.2; }
+.channel-panel .ch-scan:before { display: none; }
+.channel-panel .ch-scan:hover { background: var(--sb-soft); }
+.ch-fields { margin-top: .2rem; }
+.ch-head { padding: 1.1rem 1.3rem; }
+.ch-foot { border-radius: 0 0 1.4rem 1.4rem; }
+
+/* ======== Perfil (painel da conta): cartão flutuante no estilo v3 ======== */
+.account-panel { position: fixed; top: calc(var(--sb-top, 4rem) + .45rem); right: .6rem; bottom: auto; left: auto; width: min(22rem, calc(100vw - 1.2rem)); height: auto;
+  max-height: calc(100dvh - var(--sb-top, 4rem) - 1.2rem); overflow: auto; box-sizing: border-box; padding: 1.1rem 1.2rem 1.2rem; border-radius: 1.3rem; z-index: 1000;
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px); transition: opacity .15s ease, transform .15s ease, visibility .15s; }
+.account-panel#show { opacity: 1; visibility: visible; pointer-events: auto; transform: none; right: .6rem; }
+.account-panel #account_header { display: block; margin: 0 0 .8rem; font: 800 19px "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+.account-panel #account_user { color: var(--sb-blue-600); font-weight: 900; border-bottom: 2px dashed #b9c9ff; padding: 0 .1rem; outline: 0; }
+.account-panel #account_user:focus { background: var(--sb-soft); border-bottom-color: var(--sb-blue); border-radius: .3rem; }
+.account-panel details { margin: 0 0 .6rem; }
+.account-panel summary { min-height: 2.6rem; }
+.account-panel summary h2, .account-panel h2 { color: var(--sb-ink); font: 900 15px "Nunito", system-ui, sans-serif; opacity: 1; }
+.account-panel summary > h2:before { color: #8a93b8; }
+.account-panel #newProjectButton { width: auto; height: 2.1rem; padding: 0 .9rem; display: inline-flex; align-items: center; border: 0; border-radius: 999px; background: var(--sb-blue); box-shadow: 0 3px 0 rgba(27, 34, 80, .25); font-size: 0; cursor: pointer; }
+.account-panel #newProjectButton:before { display: none; }
+.account-panel #newProjectButton:after { content: "+ Novo"; color: #fff; font: 900 13px "Nunito", system-ui, sans-serif; }
+.account-panel #newProjectButton:hover { background: var(--sb-blue-600); }
+.account-panel #ProjectList > div { background: #fff; color: var(--sb-ink); border: 2px solid var(--sb-line); border-left-width: 2px; border-radius: .9rem; padding: .35rem .5rem; margin: .35rem 0; align-items: center; }
+.account-panel #ProjectList > div:hover { background: #f4f7ff; }
+.account-panel #ProjectList > div.current { background: #eef3ff; border-color: #4C9FFF; }
+.account-panel #ProjectList .runText { color: var(--sb-ink); font: 800 14px "Nunito", system-ui, sans-serif; }
+.account-panel #ProjectList .current span, .account-panel #ProjectList > div span.icon { filter: none; }
+.account-panel #downloadIcon, .account-panel #trashIcon { width: 2.1rem; height: 2.1rem; border-radius: .7rem; background-color: var(--sb-soft); border: 0; margin-left: .25rem; }
+.account-panel #downloadIcon:before, .account-panel #trashIcon:before { filter: brightness(0) opacity(.7); }
+.account-panel #downloadIcon:hover { background-color: #dbe6ff; } .account-panel #trashIcon:hover { background-color: #ffe0e4; }
+.account-panel #languageIcon { display: flex; align-items: center; gap: .4rem; border: 0; padding: 0; opacity: 1; margin: 0; width: 100%; }
+.account-panel #languageIcon:before { filter: brightness(0) opacity(.6); flex: none; }
+.account-panel #languageMenu { flex: 1; height: 2.4rem; border: 2px solid var(--sb-line); border-radius: 999px; padding: 0 .9rem; background: #fff; color: var(--sb-ink); font: 800 14px "Nunito", system-ui, sans-serif; cursor: pointer; }
+
+/* ======== Projeto ▾: cada item com ícone branco num quadradinho azul (estilo dos ícones do cabeçalho antigo) ======== */
+.sb-actions-menu > .icon:before { filter: none; width: 2rem; height: 2rem; border-radius: .7rem; background-color: #4C7DFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); background-origin: content-box; }
+.sb-actions-menu > .icon { padding-left: 3.5rem; }
+.sb-actions-menu > .icon:before { left: .55rem; }
+.sb-actions-menu > #forumButton:before { background-color: #12B886; }
+.sb-actions-menu > #notificationButton:before { background-color: #FF9A3C; }
+.sb-actions-menu > #loadButton:before { background-color: #8B5CF6; }
+.account-panel #ProjectList #downloadIcon:before, .account-panel #ProjectList #trashIcon:before { filter: brightness(0) opacity(.75); opacity: 1; }
+.account-panel #ProjectList .current #downloadIcon:before, .account-panel #ProjectList .current #trashIcon:before { filter: brightness(0) opacity(.75); }
+.account-panel #languageIcon:before { display: none; }
+
+/* ======== Revisão: botão Projeto e seus itens (ícones SVG próprios; sem o sprite antigo) ======== */
+.sb-actions-btn { gap: .55rem; padding: 0 1rem 0 .85rem; }
+.sb-actions-btn .sb-ico { width: 1.15rem; height: 1.15rem; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.sb-actions-btn[aria-expanded="true"] { background: rgba(255, 255, 255, .36); box-shadow: 0 0 0 2px rgba(255, 255, 255, .85); }
+.sb-actions-menu { min-width: 17rem; padding: .5rem; gap: .15rem; }
+.sb-actions-menu > .icon:before { content: ""; display: block; background-repeat: no-repeat; background-position: center; background-size: 58%; background-image: none; filter: none; width: 2.1rem; height: 2.1rem; border-radius: .75rem; box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 2px 0 rgba(27,34,80,.14); }
+.sb-actions-menu > #linkButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='12' r='2.2'/%3E%3Ccircle cx='18' cy='6' r='2.2'/%3E%3Ccircle cx='18' cy='18' r='2.2'/%3E%3Cpath d='M8 11l8-4M8 13l8 4'/%3E%3C/svg%3E"); }
+.sb-actions-menu > #saveButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7.5 11l4.5 4.5 4.5-4.5M5 20h14'/%3E%3C/svg%3E"); }
+.sb-actions-menu > #loadButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 16V5M7.5 9L12 4.5 16.5 9M5 20h14'/%3E%3C/svg%3E"); }
+.sb-actions-menu > #forumButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M12 17h.01'/%3E%3C/svg%3E"); }
+.sb-actions-menu > #notificationButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5h4'/%3E%3C/svg%3E"); }
+.sb-actions-menu > #linkButton:before, .sb-actions-menu > #saveButton:before { background-color: #4C7DFF; }
+@media (max-width: 759.98px) { .sb-actions-menu { position: fixed; left: .5rem; right: .5rem; top: calc(var(--sb-top, 4rem) + .35rem); min-width: 0; } }
+.sb-chev { transform: rotate(45deg); margin-top: -3px; transition: transform .15s ease, margin .15s ease; }
+[aria-expanded="true"] > .sb-chev { transform: rotate(225deg); margin-top: 3px; }
+.sb-tabs-btn[aria-expanded="true"] { box-shadow: 0 0 0 3px rgba(255, 255, 255, .45), 0 3px 0 rgba(27, 34, 80, .22); }
+
+/* ======== Revisão: alinhamento do diálogo de conexão ======== */
+.channel-panel .ch-fields { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: .35rem .6rem; align-items: end; margin: .3rem 0 0; }
+.channel-panel .ch-fields label { display: flex; flex-direction: column; gap: .25rem; margin: 0; padding: 0; min-width: 0; }
+.channel-panel .ch-fields input, .channel-panel #url, .channel-panel #password { margin: 0; height: 2.4rem; line-height: 2.4rem; box-sizing: border-box; width: 100%; min-width: 0; padding: 0 .75rem; border: 2px solid var(--sb-line); border-radius: .8rem; background: #fff; }
+.channel-panel .ch-fields input:focus { border-color: #4C9FFF; }
+.channel-panel .ch-fields .ch-scan { grid-column: 1 / -1; justify-self: start; margin: .15rem 0 0; }
+/* os três cartões na mesma grade: ícone | texto | botão com a mesma largura */
+.ch-card { grid-template-columns: 3rem minmax(0, 1fr) 8.4rem; column-gap: 1rem; }
+.ch-card .ch-ci { width: 3rem; height: 3rem; }
+.ch-card .ch-go { width: 100%; min-width: 0; align-self: center; }
+.ch-body { min-width: 0; padding-top: .05rem; }
+.ch-body h3 { min-height: 1.5rem; line-height: 1.3; }
+.ch-body p { margin: 0 0 .45rem; }
+.ch-body .checkswitch { margin: .1rem 0 0; }
+@media (max-width: 520px) { .ch-card { grid-template-columns: 3rem minmax(0, 1fr); } .channel-panel .ch-fields { grid-template-columns: 1fr; } }
+
+/* Perfil: o ícone fica exatamente no centro do botão redondo (antes ficava no canto superior esquerdo da área útil) */
+.top-menu .toolbar > #accountButton { display: grid; place-items: center; padding: 0; }
+.top-menu .toolbar > #accountButton:before { margin: 0; position: static; transform: none; }
+
+/* ======== Botão Projeto = mesmo comportamento das abas: em repouso vidro com letra branca; aberto, pílula branca com letra azul-marinho ======== */
+.top-menu .sb-proj > .sb-actions-btn { background: rgba(255, 255, 255, .2); color: #fff; border: 1px solid rgba(255, 255, 255, .3); box-shadow: none; font-weight: 800; }
+.top-menu .sb-proj > .sb-actions-btn .sb-ico { stroke: #fff; }
+.top-menu .sb-proj > .sb-actions-btn:hover { background: rgba(0, 191, 255, .0); background: rgba(255, 255, 255, .3); }
+.top-menu .sb-proj > .sb-actions-btn[aria-expanded="true"] { background: #fff; color: var(--sb-ink); border-color: #fff; box-shadow: 0 2px 0 rgba(27, 34, 80, .2); }
+.top-menu .sb-proj > .sb-actions-btn[aria-expanded="true"] .sb-ico { stroke: var(--sb-ink); }
+
+/* ======== Perfil: avatar, nome editável e seções em cartões ======== */
+.account-panel, .account-panel * { -webkit-user-select: auto; user-select: auto; }
+.account-panel button, .account-panel summary { -webkit-user-select: none; user-select: none; }
+.account-panel { padding: 0; background: #fff; }
+.account-panel > span, .account-panel > details { display: block; padding: 0 1.1rem; }
+.acc-head { display: flex; align-items: center; gap: .9rem; padding: 1.1rem 1.1rem .8rem; background: linear-gradient(180deg, #eef3ff, #fff); border-bottom: 1px solid var(--sb-line); border-radius: 1.3rem 1.3rem 0 0; }
+.acc-avatar { flex: none; width: 3.4rem; height: 3.4rem; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #5b8bff, #8B5CF6); color: #fff; font: 900 1.5rem "Nunito", system-ui, sans-serif; box-shadow: 0 4px 0 rgba(27, 34, 80, .18), inset 0 0 0 3px rgba(255, 255, 255, .35); }
+.acc-name { min-width: 0; flex: 1; }
+.acc-lab { display: block; font: 800 12px "Nunito", system-ui, sans-serif; color: var(--sb-text-2); margin: 0 0 .2rem .2rem; }
+.acc-field { position: relative; cursor: text; }
+.account-panel .acc-field #account_user { display: block; min-height: 2.5rem; box-sizing: border-box; padding: .5rem 2.4rem .5rem .85rem; border: 2px solid var(--sb-line); border-radius: .9rem; background: #fff; color: var(--sb-ink); font: 900 17px/1.4 "Nunito", system-ui, sans-serif; outline: 0; white-space: nowrap; overflow: hidden; cursor: text; -webkit-user-select: text; user-select: text; }
+.account-panel .acc-field #account_user:hover { border-color: #b9c9ff; }
+.account-panel .acc-field #account_user:focus { border-color: #4C9FFF; box-shadow: 0 0 0 4px rgba(76, 159, 255, .18); background: #fff; }
+.acc-pen { position: absolute; right: .55rem; top: 50%; transform: translateY(-50%); width: 1.5rem; height: 1.5rem; display: grid; place-items: center; color: #8a93b8; pointer-events: none; }
+.acc-pen svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.acc-field:focus-within .acc-pen { color: var(--sb-blue); }
+.acc-info { margin: 0; padding: .5rem 1.2rem; font: 700 12.5px "Nunito", system-ui, sans-serif; color: var(--sb-text-2); background: #f7f9ff; border-bottom: 1px solid var(--sb-line); }
+.acc-info[hidden] { display: none; }
+.acc-info b { color: var(--sb-ink); font-weight: 900; }
+.account-panel details { margin: 0; padding: .35rem 1.1rem .5rem; border-bottom: 1px solid var(--sb-line); }
+.account-panel details:last-of-type { border-bottom: 0; }
+.account-panel > span { padding: 0; }
+.account-panel > span > details { padding: .35rem 1.1rem .5rem; }
+.account-panel summary { min-height: 2.8rem; }
+.account-panel #ProjectList > div.current { background: #eef3ff; }
+.account-panel #languageIcon { padding-bottom: .4rem; }
+.account-panel #account_header { display: none; }
+
+/* ======== Rodar no robô por estado: desconectado = abre a conexão; conectado = ▶ Rodar; rodando = ■ Parar ======== */
+.top-menu #runButton:before { content: ""; display: block; width: 1.15rem; height: 1.15rem; margin: 0 .35rem 0 .1rem; background-repeat: no-repeat; background-position: center; background-size: contain; background-color: transparent; filter: none; }
+.top-menu #runButton:not([data-sb-run]):before, .top-menu #runButton[data-sb-run="ready"]:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231B2250' stroke='%231B2250' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E"); }
+.top-menu #runButton[data-sb-run="off"]:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231B2250' stroke='%231B2250' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 3v5M15 3v5M7 8h10v4a5 5 0 0 1-10 0V8zM12 17v4' fill='none'/%3E%3C/svg%3E"); }
+.top-menu #runButton[data-sb-run="running"]:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231B2250' stroke='%231B2250' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='6' width='12' height='12' rx='2'/%3E%3C/svg%3E"); }
+.top-menu #runButton[data-sb-run="off"]:after { content: "Conectar e rodar"; }
+.top-menu #runButton[data-sb-run="ready"]:after { content: "Rodar"; }
+.top-menu #runButton[data-sb-run="running"]:after { content: "Parar"; }
+.top-menu #runButton[data-sb-run="running"] { background: #FF8A9A; }
+.top-menu #runButton[data-sb-run="running"]:hover { background: #ff7186; }
+@media (max-width: 1099.98px) { .top-menu #runButton[data-sb-run="off"]:after { content: "Conectar"; } }
+
+/* ======== Avisos: cartão flutuante no mesmo estilo do perfil ======== */
+.notify-panel { position: fixed; top: calc(var(--sb-top, 4rem) + .45rem); right: .6rem; bottom: auto; left: auto; width: min(24rem, calc(100vw - 1.2rem)); height: auto;
+  max-height: min(34rem, calc(100dvh - var(--sb-top, 4rem) - 1.2rem)); overflow: auto; box-sizing: border-box; padding: 0 0 .6rem; border-radius: 1.3rem; z-index: 1000; display: block; flex-direction: initial;
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px); transition: opacity .15s ease, transform .15s ease, visibility .15s; }
+.notify-panel#show { opacity: 1; visibility: visible; pointer-events: auto; transform: none; right: .6rem; }
+.nt-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem 1.1rem .7rem; background: linear-gradient(180deg, #eef3ff, #fff); border-bottom: 1px solid var(--sb-line); }
+.nt-head h2 { margin: 0; font: 900 17px "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+.nt-clear { border: 2px solid var(--sb-line-2); background: #fff; color: var(--sb-blue-600); border-radius: 999px; padding: .3rem .85rem; font: 800 12.5px "Nunito", system-ui, sans-serif; cursor: pointer; }
+.nt-clear:hover { background: var(--sb-soft); }
+.nt-empty { display: none; text-align: center; padding: 1.6rem 1.2rem 1.2rem; font-family: "Nunito", system-ui, sans-serif; color: var(--sb-text-2); }
+.nt-empty img { display: block; margin: 0 auto .4rem; }
+.nt-empty p { margin: 0; font: 900 16px "Nunito", system-ui, sans-serif; color: var(--sb-ink); }
+.nt-empty small { display: block; margin-top: .2rem; font: 700 13px "Nunito", system-ui, sans-serif; }
+.notify-panel:not(:has(> span)) .nt-empty { display: block; }
+.notify-panel:not(:has(> span)) .nt-clear { visibility: hidden; }
+.notify-panel > span { position: relative; display: block; margin: .5rem 1rem 0; padding: .65rem 2.8rem .65rem .8rem; border: 2px solid var(--sb-line); border-radius: .9rem; background: #f7f9ff; color: var(--sb-ink); font: 700 13px/1.4 "Nunito", system-ui, sans-serif; cursor: default; word-break: break-word; }
+.notify-panel > span:hover { background: var(--sb-soft); }
+.notify-panel > span > span { position: absolute; right: .45rem; top: .45rem; width: 1.9rem; height: 1.9rem; border-radius: .6rem; background-color: #fff; cursor: pointer; }
+.notify-panel > span > span:before { filter: brightness(0) opacity(.6); }
+.notify-panel > span > span:hover { background-color: #ffe0e4; }
+/* aviso que aparece por uns segundos (toast) */
+.notify { background: var(--sb-ink); color: #fff; border: 0; border-radius: 1rem; box-shadow: 0 10px 26px rgba(27, 34, 80, .35); font: 700 13.5px/1.4 "Nunito", system-ui, sans-serif; padding: .7rem 1rem; }
+
+/* ---- Arquivos: ações do arquivo aberto (Executar, Baixar, Excluir) na barra do editor ---- */
+#file_save_as .sb-fa-group { display: inline-flex; gap: .4rem; flex-wrap: wrap; margin-left: auto; }
+#file_save_as .sb-fa { border: 2px solid var(--sb-line-2); background: #fff; color: var(--sb-blue-600); border-radius: 999px; padding: .4rem .95rem; font: 800 14px "Nunito", system-ui, sans-serif; cursor: pointer; }
+#file_save_as .sb-fa:hover:not(:disabled) { background: #e7edff; }
+#file_save_as .sb-fa-run { background: var(--sb-ok); border-color: var(--sb-ok); color: #fff; } #file_save_as .sb-fa-run:hover:not(:disabled) { background: #23883f; }
+#file_save_as .sb-fa-del { color: var(--sb-bad); border-color: #f3b9b1; } #file_save_as .sb-fa-del:hover:not(:disabled) { background: #fff0ee; }
+#file_save_as .sb-fa:disabled { opacity: .4; cursor: not-allowed; }
+#file_save_as .sb-fa:focus-visible { outline: 3px solid var(--sb-sun); outline-offset: 2px; }
+@media (max-width: 759.98px) { #file_save_as .sb-fa-group { margin-left: 0; width: 100%; } }
+
+/* ---- Abas herdadas do BIPES (IOT, EasyMQTT, Databoard): escondidas por enquanto, código mantido para uso futuro.
+   Para voltar a mostrar, apague esta regra. ---- */
+.top-menu .tabs > #tab_iot, .top-menu .tabs > #tab_mqtt, .top-menu .tabs > #tab_databoard { display: none; }
+
+/* ---- Ajustes de paridade com a v3 ---- */
+.top-menu #device_selector { height: 2rem; }
+#device_selector { height: 2.05rem; min-width: 12rem; max-width: 13rem; padding: 0 .75rem; font-weight: 800; outline: 0; color-scheme: light; }
+#device_selector option { background: #fff; color: var(--sb-ink); }
+@media (max-width: 59.99em) { #device_selector { width: 13rem; } }
+@media (max-width: 720px) { #device_selector { min-width: 9.5rem; } }
+.channel-panel .ch-go { display: flex; border: 1px solid rgba(15, 23, 42, .12); font-weight: 900; }
+.top-menu > .toolbar { min-width: 0; }
+
+/* Ícones em sprite no cabeçalho: brancos sobre o azul (o sprite é escuro) */
+.top-menu #connectButton:before, .top-menu #accountButton:before { filter: invert(1) brightness(1.85) saturate(.75); opacity: .96; }
+@media (min-width: 760px) { .top-menu #deviceSelect { box-sizing: border-box; min-height: 3rem; } }
+
+/* Diálogo Conectar: o × fica exatamente no centro da bolinha e alinhado ao meio do cabeçalho */
+.ch-x { display: grid; place-items: center; padding: 0 0 .14em; align-self: center; }
+
+/* Arquivos: o texto de Executar / Baixar / Excluir fica no meio da pílula (altura fixa, centralizado nos dois eixos) */
+#file_save_as .sb-fa { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; height: 2.3rem; padding: 0 1rem; line-height: 1; box-sizing: border-box; }
+
+/* Menu Projeto: cada item com sua cor (Baixar deixou de repetir o azul de Gerar link) */
+.sb-actions-menu > #saveButton:before { background-color: #15AABF; }
+
+/* ---- Perfil, "Meus projetos": nome e ícones alinhados no meio da pílula; o nome pode ser editado ---- */
+.account-panel #ProjectList > div { min-height: 3rem; align-items: center; }
+.account-panel #ProjectList .runText { align-items: center; align-self: center; line-height: 1.2; cursor: pointer; }
+.account-panel #ProjectList > div > div:last-child { display: flex; align-items: center; gap: .15rem; flex: none; }
+.account-panel #ProjectList span.icon { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; margin: 0; border-radius: .7rem; cursor: pointer; }
+.account-panel #ProjectList span.icon:before { margin: 0; }
+.account-panel #ProjectList span.icon:hover { background: rgba(63, 107, 255, .12); }
+.account-panel #ProjectList #trashIcon:hover { background: #ffe0e4; }
+.account-panel #ProjectList #renameIcon:before { content: ""; width: 1.25rem; height: 1.25rem; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231B2250' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h4L19 9a2.1 2.1 0 0 0-4-4L4 16z'/%3E%3Cpath d='M13.5 6.5l4 4'/%3E%3C/svg%3E") center / contain no-repeat; filter: none; opacity: .75; }
+.account-panel #ProjectList #renameIcon:hover:before { opacity: 1; }
+.account-panel #ProjectList input.sb-rename { flex: 1 1 auto; min-width: 0; height: 2.1rem; box-sizing: border-box; padding: 0 .7rem; border: 2px solid var(--sb-blue); border-radius: .7rem; background: #fff; color: var(--sb-ink); font: 800 14px "Nunito", system-ui, sans-serif; outline: 0; box-shadow: 0 0 0 3px rgba(63, 107, 255, .18); margin-right: .3rem; }

@@ -1,0 +1,434 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot by BIPES: layout responsivo (celular, tablet, computador) e telas internas no visual v3.
+   Carregar POR ÚLTIMO. Mede o cabeçalho em --sb-top (core/sancabot_layout.js). */
+
+:root { --ink: #1B2250; --dim: #3f4670; --line: #dce3f5; --soft: #eef2ff; --blue: #3F6BFF; }
+
+/* ======== Cabeçalho (no padrão do SatBlocks): logo | abas | Simular | Conectar | robô + Rodar | Projeto ▾ | perfil ========
+   >=1700 px: abas à mostra. Abaixo disso as abas viram um menu com a aba atual (como no SatBlocks). <1100 px: ferramentas na 2ª linha. */
+.top-menu { --sb-ic: 2.4rem; height: auto !important; min-height: 4.1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: .5rem .7rem; padding: .5rem .9rem !important; position: relative; z-index: 60; }
+.top-menu > .logo.sancabot-logo { order: 1; min-width: 0 !important; flex: none; }
+.top-menu > .sim-open { order: 3; margin-left: auto; flex: none; }
+.top-menu > #toolbarButton { display: none !important; }
+.top-menu > .toolbar { order: 4; position: static !important; display: flex !important; opacity: 1 !important; height: auto !important; width: auto !important; margin: 0 !important; transform: none !important; flex: 0 1 auto !important;
+  flex-wrap: nowrap; align-items: center; gap: .5rem !important; background: none !important; border: 0 !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; }
+@media (pointer: coarse) { .top-menu { --sb-ic: 2.7rem; } }
+.content { top: var(--sb-top, 4.1rem) !important; }
+#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_programs, #content_mqtt, #content_iot, #content_databoard { height: calc(100vh - var(--sb-top, 4.1rem)) !important; height: calc(100dvh - var(--sb-top, 4.1rem)) !important; }
+.progress-bar { top: var(--sb-top, 4.1rem) !important; }
+
+/* abas, com ícone */
+.top-menu > .tabs { order: 2; flex: 0 1 auto; min-width: 0; flex-wrap: nowrap; }
+.tabs > div { white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: .4rem; }
+.tabs > div:before { font-size: 1.05em; }
+#tab_blocks:before { content: "🧩"; } #tab_console:before { content: "💻"; } #tab_files:before { content: "📁"; } #tab_programs:before { content: "🖼️"; } #tab_device:before { content: "🤖"; }
+.sb-tabs-btn { order: 2; display: none; align-items: center; gap: .5rem; height: var(--sb-ic); padding: 0 .9rem; border: 0; border-radius: 999px; background: #fff; color: #1B2250; font: 900 14px "Nunito", system-ui, sans-serif; cursor: pointer; box-shadow: 0 3px 0 rgba(27, 34, 80, .22); }
+.sb-chev { width: .5rem; height: .5rem; border-right: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg) translateY(-2px); flex: none; transition: transform .15s ease; }
+[aria-expanded="true"] > .sb-chev { transform: rotate(-135deg) translateY(-2px); }
+@media (max-width: 1699.98px) {
+  .sb-tabs-btn { display: inline-flex; }
+  .top-menu > .tabs { display: none; position: absolute; z-index: 90; top: calc(100% - .15rem); left: 0; flex-direction: column; gap: .15rem; padding: .5rem !important; border-radius: 1.2rem !important; background: #fff !important; border: 1px solid #dce3f5 !important; box-shadow: 0 16px 34px rgba(27, 34, 80, .28); overflow: visible !important; }
+  .top-menu.sb-tabs-open > .tabs { display: flex; }
+  .top-menu > .tabs > div { color: #1B2250 !important; padding: .7rem 1.1rem .7rem .9rem !important; font-size: 15px !important; border-radius: .9rem !important; }
+  .top-menu > .tabs > div:hover { background: #eef2ff !important; }
+  .top-menu > .tabs > div.on, .top-menu > .tabs > div.on:hover { background: #e7edff !important; color: #2F55E8 !important; box-shadow: none !important; }
+}
+
+/* Conectar: um bloco só (canal + estado). Desconectado = branco; conectado = verde */
+.top-menu #channel_connect { display: inline-flex; align-items: center; gap: .3rem; padding: .2rem !important; margin: 0 !important; border: 0 !important; border-radius: 999px !important; background: rgba(255, 255, 255, .18) !important; overflow: visible; order: 0; }
+.top-menu #channel_connect #connectButton { width: auto !important; height: calc(var(--sb-ic) - .5rem) !important; padding: 0 1rem 0 .8rem !important; display: inline-flex !important; align-items: center; gap: .45rem; border: 0 !important; border-radius: 999px !important; background: #fff !important; color: #1B2250 !important; font: 900 14px "Nunito", system-ui, sans-serif; box-shadow: none; white-space: nowrap; }
+.top-menu #channel_connect #connectButton:before { content: "" !important; display: block !important; width: .65rem !important; height: .65rem !important; border-radius: 50%; background: #94a3b8 !important; background-image: none !important; filter: none !important; margin: 0 !important; }
+.top-menu #channel_connect #connectButton:after { content: "Conectar"; }
+.top-menu #channel_connect #connectButton.on { background: #22C55E !important; color: #fff !important; }
+.top-menu #channel_connect #connectButton.on:before { background: #fff !important; }
+.top-menu #channel_connect #connectButton.on:after { content: "Conectado"; }
+.top-menu #channel_connect.wait #connectButton:after { content: "Conectando…"; }
+.top-menu #channel_connect.wait #connectButton:before { background: #FFD23F !important; }
+.top-menu #channelButton { width: calc(var(--sb-ic) - .5rem) !important; height: calc(var(--sb-ic) - .5rem) !important; border-radius: 50% !important; }
+
+/* Robô + Rodar: uma pílula branca com o robô escolhido e o botão amarelo */
+.top-menu #deviceSelect { background: #fff !important; border: 0 !important; padding: .2rem .2rem .2rem .6rem !important; border-radius: 999px !important; gap: .2rem; }
+.top-menu #deviceSelect #device_selector { background: transparent !important; color: #1B2250 !important; font: 900 14px "Nunito", system-ui, sans-serif !important; height: auto !important; }
+.top-menu #deviceSelect:before { filter: brightness(0) opacity(.65); }
+.top-menu #runButton { width: auto !important; height: calc(var(--sb-ic) - .5rem) !important; padding: 0 1rem 0 .4rem !important; display: inline-flex; align-items: center; gap: .15rem; font: 900 14px "Nunito", system-ui, sans-serif; white-space: nowrap; border: 0 !important; background: #FFD23F !important; box-shadow: 0 3px 0 rgba(27, 34, 80, .28) !important; margin: 0 !important; }
+.top-menu #runButton:after { content: "Rodar no robô"; color: #1B2250; font-weight: 900; }
+.top-menu #runButton:hover { background: #FFC400 !important; }
+
+/* Projeto ▾: reúne salvar, baixar, abrir, link, ajuda e avisos (cada um com nome) */
+.sb-proj { position: relative; order: 1; }
+.top-menu #accountButton { order: 2; }
+.sb-actions-btn { display: inline-flex; align-items: center; gap: .5rem; height: var(--sb-ic); padding: 0 .9rem; border: 0; border-radius: 999px; background: #fff; color: #1B2250; font: 900 14px "Nunito", system-ui, sans-serif; cursor: pointer; box-shadow: 0 3px 0 rgba(27, 34, 80, .22); white-space: nowrap; }
+.sb-actions-btn:hover, .sb-tabs-btn:hover { background: #eef2ff; }
+.sb-actions-menu { position: absolute; z-index: 95; right: 0; top: calc(100% + .45rem); min-width: 16.5rem; display: flex; flex-direction: column; gap: .1rem; padding: .45rem; border-radius: 1.1rem; background: #fff; border: 1px solid #dce3f5; box-shadow: 0 16px 34px rgba(27, 34, 80, .28); }
+.sb-actions-menu[hidden] { display: none; }
+.sb-actions-menu > #galleryShareButton, .sb-actions-menu > #linkButton, .sb-actions-menu > #saveButton, .sb-actions-menu > #loadButton, .sb-actions-menu > #forumButton, .sb-actions-menu > #notificationButton {
+  position: relative; display: flex !important; align-items: center; width: 100% !important; height: auto !important; min-height: 2.7rem !important; box-sizing: border-box; margin: 0 !important; padding: .55rem .9rem .55rem 3rem !important;
+  border: 0 !important; border-radius: .8rem !important; background: transparent !important; color: #1B2250 !important; box-shadow: none !important; font: 800 14px "Nunito", system-ui, sans-serif !important; text-align: left; cursor: pointer; opacity: 1 !important; }
+.sb-actions-menu > .icon:hover { background: #eef2ff !important; }
+.sb-actions-menu > .icon:before { position: absolute !important; left: .8rem; top: 50%; margin: 0 !important; transform: translateY(-50%); filter: brightness(0) opacity(.7) !important; }
+#linkButton:after { content: "Gerar link do projeto"; } #saveButton:after { content: "Baixar projeto (arquivo)"; } #loadButton:after { content: "Abrir projeto de um arquivo"; }
+#forumButton:after { content: "Ajuda (fórum)"; } #notificationButton:after { content: "Avisos"; }
+#loadXML { display: none; }
+html.sb-beginner #notificationButton { display: none !important; }
+
+/* Perfil */
+.top-menu #accountButton { width: var(--sb-ic) !important; height: var(--sb-ic) !important; border-radius: 50% !important; box-sizing: border-box; }
+
+/* Faixas de largura */
+@media (max-width: 1279.98px) { .top-menu > .logo.sancabot-logo small { display: none; } }
+@media (min-width: 1100px) and (max-width: 1279.98px) { #device_selector { width: 9rem !important; min-width: 0 !important; text-overflow: ellipsis; } }
+@media (max-width: 1099.98px) {
+  .top-menu > .toolbar { order: 6; flex: 1 1 100% !important; justify-content: flex-end; flex-wrap: wrap; }
+  .top-menu #runButton:after { content: "Rodar"; }
+  .top-menu > .logo.sancabot-logo { font-size: 1.35rem !important; }
+}
+@media (max-width: 759.98px) {
+  .top-menu { gap: .45rem .5rem; padding: .45rem .6rem !important; }
+  .top-menu > .logo.sancabot-logo { font-size: 1.2rem !important; }
+  .top-menu > .logo.sancabot-logo:before { width: 2.4rem !important; height: 2.4rem !important; }
+  .top-menu > .toolbar { justify-content: center; gap: .4rem !important; }
+  .top-menu #runButton:after { content: "Rodar"; }
+  .sb-actions-menu { right: auto; left: 0; }
+  .top-menu > .toolbar { justify-content: flex-start; }
+  .top-menu > .toolbar > #deviceSelect { order: 3; flex: 1 1 100%; max-width: 100%; min-width: 0; box-sizing: border-box; justify-content: space-between; }
+  .top-menu > .toolbar > #deviceSelect #device_selector { flex: 1 1 auto; width: auto !important; min-width: 0 !important; }
+  .top-menu > .toolbar > .sb-proj { margin-left: auto; }
+}
+
+/* ======== Painéis de conta, avisos e conexão: claros, como o resto ======== */
+.account-panel, .notify-panel, .channel-panel { background: #fff !important; color: var(--ink) !important; border: 1px solid var(--line) !important; box-shadow: 0 14px 34px rgba(27, 34, 80, .22) !important; font-family: "Nunito", system-ui, sans-serif; }
+.channel-panel { border-radius: 1.2rem !important; }
+.channel-panel > div > span, .channel-panel label { color: var(--dim) !important; font-weight: 800; }
+.channel-panel input, .account-panel input { color: var(--ink); font-family: inherit; font-weight: 700; }
+.channel-panel #url, .channel-panel #password { border-bottom: 2px solid var(--line); }
+.channel-panel button.icon { color: var(--ink) !important; background-color: var(--soft) !important; border: 2px solid #c9d6ff !important; border-radius: 999px !important; font-weight: 800; }
+.account-panel h2, .notify-panel h2 { color: var(--ink); font-weight: 900; }
+#ProjectList > div { border-color: var(--line) !important; background: #fff; color: var(--ink); }
+#ProjectList > div:hover { background: var(--soft); }
+#ProjectList .current { background: var(--blue) !important; color: #fff; }
+.account-panel #languageIcon { color: var(--ink); border-color: var(--line); }
+
+/* ======== Arquivos ======== */
+#content_files { background: #fff; grid-template-columns: clamp(15rem, 26vw, 19rem) minmax(0, 1fr) !important; font-family: "Nunito", system-ui, sans-serif; color: var(--ink); }
+#file-boxes #file-header { background: var(--soft); border-color: var(--line) !important; height: 3rem; font: 900 15px "Nunito", system-ui, sans-serif; color: var(--ink); padding: 0 .6rem; }
+#putFileButton { width: 2.2rem; height: 2.2rem; border-radius: .8rem !important; border: 2px solid #c9d6ff !important; background-color: #fff; cursor: pointer; }
+#putFileButton:hover { background-color: #e7edff; }
+#file-boxes #file-status { height: auto; min-height: 1.6rem; line-height: 1.3; padding: .35rem .6rem; background: #f7f9ff; color: var(--dim); border-color: var(--line) !important; font: 800 12.5px "Nunito", system-ui, sans-serif; }
+#filesPanel { height: calc(100vh - var(--sb-top, 4.1rem) - 5.5rem); height: calc(100dvh - var(--sb-top, 4.1rem) - 5.5rem); border-color: var(--line) !important; padding: .35rem .6rem; }
+#filesPanel h2, .account-panel h2 { font: 900 15px "Nunito", system-ui, sans-serif; color: var(--ink); }
+#filesPanel summary > h2:before, .account-panel summary > h2:before { color: #8a93b8; }
+#fileList > div, #fileTemplate > div, #blocks2Code > div { border: 2px solid var(--line) !important; border-radius: 12px !important; background: #fff; color: var(--ink); font-size: 13px; padding: .4rem .55rem; }
+#fileList > div:hover, #fileTemplate > div:hover, #blocks2Code > div:hover { background: var(--soft); border-color: #b9c9ff !important; }
+#fileList .runText > span, #blocks2Code > div > span { border: 0; background: #e7edff; color: #2F55E8; font: 800 11.5px "Nunito", system-ui, sans-serif; padding: .2rem .55rem; border-radius: 999px; }
+.sb-empty-line { border-radius: 12px; }
+#file_save_as { height: 3rem !important; background: var(--soft); border-color: var(--line) !important; padding: 0 .6rem 0 .8rem !important; gap: .4rem; }
+#file_save_as input { flex: 1 1 auto; min-width: 0; background: #fff; border: 2px solid var(--line) !important; border-radius: 12px; padding: 0 .75rem !important; height: 2.2rem; font: 800 14px "Nunito", system-ui, sans-serif; color: var(--ink); }
+#file_save_as input:focus { outline: 0; border-color: #4C9FFF !important; }
+#file_save_as button.icon.text { flex: none; border: 0 !important; background-color: var(--blue) !important; color: #fff !important; border-radius: 999px !important; padding: .45rem 1rem .45rem 2.4rem; font: 800 14px "Nunito", system-ui, sans-serif; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); cursor: pointer; }
+#file_save_as button.icon.text:hover { background-color: #2F55E8 !important; }
+#file_save_as button.icon.text:before { filter: invert(1); }
+#content_files .CodeMirror { height: calc(100vh - var(--sb-top, 4.1rem) - 3rem); height: calc(100dvh - var(--sb-top, 4.1rem) - 3rem); font: 14px/1.5 ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace; color: var(--ink); }
+#content_files .CodeMirror-gutters { background: #f3f6ff; border-right: 1px solid var(--line); }
+#content_files .CodeMirror-linenumber { color: #8a93b8; }
+#content_files .CodeMirror-cursor { border-left: 2px solid #3F6BFF; }
+#content_files .cm-keyword { color: #D6336C; font-weight: 700; } #content_files .cm-string { color: #0b8f7f; } #content_files .cm-number { color: #e8590c; }
+#content_files .cm-comment { color: #8a93b8; } #content_files .cm-builtin, #content_files .cm-def { color: #2F55E8; }
+@media (max-width: 759.98px) {
+  #content_files { grid-template-columns: 1fr !important; grid-template-rows: auto minmax(0, 1fr); overflow-y: auto; }
+  #filesPanel { height: auto; max-height: 34vh; }
+  #content_files .CodeMirror { height: 60vh; }
+}
+
+/* ======== Dispositivo (Robô) ======== */
+#content_device { background: var(--soft); padding: 1rem; box-sizing: border-box; font-family: "Nunito", system-ui, sans-serif; color: var(--ink); }
+#content_device > center { display: block; max-width: 62rem; margin: 0 auto; background: #fff; border-radius: 24px; padding: 1.2rem 1.4rem 1.6rem; box-shadow: 0 10px 30px rgba(27, 34, 80, .12); }
+#content_device #device_title { display: block; font: 900 clamp(20px, 3vw, 28px)/1.2 "Nunito", system-ui, sans-serif; color: var(--ink); }
+#content_device #device_title b { font-weight: 900; }
+#content_device #device_img { width: 100%; max-width: 60rem; height: auto; border-radius: 16px; background: #f7f9ff; border: 2px solid var(--line); margin: .6rem 0; }
+#content_device #device_desc { display: block; font: 700 clamp(14px, 1.8vw, 16px)/1.5 "Nunito", system-ui, sans-serif; color: var(--dim); max-width: 46rem; margin: 0 auto; text-align: center; }
+#content_device #device_desc small { display: block; font-size: 14px; margin-top: .5rem; padding: .6rem .8rem; border-radius: 12px; background: #fff8dc; border: 2px solid #ffd23f; color: var(--ink); font-weight: 800; }
+#content_device a.sancabot-pinout-link, #content_device input[type=button] { display: inline-block; margin: .4rem 0; padding: .6rem 1.2rem; border-radius: 999px; border: 0; background: var(--blue); color: #fff !important; font: 800 14px "Nunito", system-ui, sans-serif; text-decoration: none; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); cursor: pointer; }
+#content_device a.sancabot-pinout-link:hover, #content_device input[type=button]:hover { background: #2F55E8; }
+
+/* ======== Toque (tablet): alvos maiores ======== */
+@media (pointer: coarse) {
+  .tabs > div { padding: .65rem .95rem !important; font-size: .95rem !important; }
+  .top-menu button.icon, .top-menu label.button.icon { min-width: 2.5rem; min-height: 2.5rem; }
+  .blocklyToolboxCategory { min-height: 48px !important; }
+}
+
+/* ======== Arquivos: no padrão do SatBlocks (título + ações compactas; "Arquivo: [nome]" + botões com nome e cor) ======== */
+#file-boxes #file-header { justify-content: space-between; gap: .4rem; }
+#file-boxes #file-header > span { flex: 1 1 auto; text-align: left; font: 900 15px "Nunito", system-ui, sans-serif; }
+#file-boxes #file-header > span:before { content: "💾 "; }
+/* botão de enviar arquivo: pílula com nome (antes: quadrado branco com ícone preto) */
+#putFileButton { width: auto !important; height: auto !important; padding: .35rem .75rem !important; display: inline-flex !important; align-items: center; gap: .3rem; border-radius: 999px !important; border: 2px solid #c9d6ff !important; background: #fff !important; color: #2F55E8; font: 800 13px "Nunito", system-ui, sans-serif; cursor: pointer; flex: none; }
+#putFileButton:before { display: none !important; }
+#putFileButton:after { content: "⬆️ Enviar"; }
+#putFileButton:hover { background: #e7edff !important; border-color: #4C9FFF !important; }
+/* barra do editor */
+#file_save_as { gap: .5rem; flex-wrap: wrap; height: auto !important; min-height: 3rem; padding: .35rem .75rem !important; }
+#file_save_as:before { content: "Arquivo:"; font: 800 13px "Nunito", system-ui, sans-serif; color: var(--dim); flex: none; }
+#file_save_as input { flex: 0 1 15rem; font-weight: 900; color: #2F55E8; }
+#file_save_as button.icon.text { margin-left: 0; padding: .4rem .95rem !important; display: inline-flex; align-items: center; gap: .35rem; }
+#file_save_as button.icon.text:before { display: none !important; }
+#editor2DeviceButton:after { content: "💾 Gravar no robô"; }
+#generated2DeviceButton:after { content: "📄 Salvar uma cópia"; }
+#updateXMLButton:after { content: "🧩 Enviar para os blocos"; }
+#file_save_as #generated2DeviceButton, #file_save_as #updateXMLButton { background-color: #fff !important; color: #2F55E8 !important; border: 2px solid #c9d6ff !important; box-shadow: none !important; }
+#file_save_as #generated2DeviceButton:hover, #file_save_as #updateXMLButton:hover { background-color: #e7edff !important; }
+#file_save_as button.icon.text { font-size: 0; }          /* esconde o texto antigo; o novo vem de :after */
+#file_save_as button.icon.text:after { font: 800 14px "Nunito", system-ui, sans-serif; }
+@media (max-width: 759.98px) { #file_save_as input { flex: 1 1 100%; } }
+
+/* ======== Conectar o robô: diálogo com 3 cartões (no padrão do SatBlocks) ======== */
+#channelButton { display: none !important; }
+.channel-panel { position: fixed !important; left: 50% !important; top: 50% !important; right: auto !important; bottom: auto !important; width: min(35rem, 94vw) !important; max-height: 94dvh; overflow: auto; box-sizing: border-box; padding: 0 !important; margin: 0 !important;
+  display: block !important; border-radius: 1.4rem !important; z-index: 1000 !important; opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -46%) scale(.97) !important; transition: opacity .16s ease, transform .16s ease, visibility .16s !important; }
+.channel-panel#show { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, -50%) !important; top: 50% !important; right: auto !important; }
+body:has(.channel-panel#show) #closeZone.on { background: rgba(27, 34, 80, .5); backdrop-filter: blur(3px); }
+.ch-head { display: flex; align-items: center; gap: .8rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--line); }
+.ch-ico { width: 2.6rem; height: 2.6rem; border-radius: .9rem; display: grid; place-items: center; background: #ffe9ee; font-size: 1.3rem; flex: none; }
+.ch-head h2 { margin: 0; font: 900 18px "Nunito", system-ui, sans-serif; color: var(--ink); }
+.ch-head p { margin: .1rem 0 0; font: 700 13px "Nunito", system-ui, sans-serif; color: var(--dim); }
+.ch-x { margin-left: auto; width: 2.2rem; height: 2.2rem; border: 0; border-radius: 50%; background: #eef2ff; color: var(--ink); font: 700 1.3rem/1 system-ui; cursor: pointer; flex: none; }
+.ch-x:hover { background: #dbe4ff; }
+.ch-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .9rem; margin: .8rem 1rem; padding: .9rem; border: 2px solid var(--line); border-radius: 1.1rem; background: #fff; }
+.ch-card.ch-rec { border-color: #4C9FFF; background: #f4f8ff; }
+.ch-ci { width: 3rem; height: 3rem; border-radius: .9rem; display: grid; place-items: center; font-size: 1.4rem; flex: none; }
+.ch-usb { background: #dfe9ff; } .ch-ble { background: #eadfff; } .ch-wifi { background: #d6f6e8; }
+.ch-body h3 { margin: 0 0 .15rem; font: 900 15.5px "Nunito", system-ui, sans-serif; color: var(--ink); display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; }
+.ch-body h3 em { font: 900 10.5px "Nunito", system-ui, sans-serif; font-style: normal; text-transform: uppercase; letter-spacing: .04em; padding: .15rem .5rem; border-radius: 999px; background: #dfe9ff; color: #2F55E8; }
+.ch-body h3 em.ch-tag2 { background: #eadfff; color: #7c3aed; } .ch-body h3 em.ch-tag3 { background: #d6f6e8; color: #0b8f5f; }
+.ch-body p { margin: 0 0 .35rem; font: 700 13px/1.4 "Nunito", system-ui, sans-serif; color: var(--dim); }
+.ch-body label.checkswitch { font: 800 13px "Nunito", system-ui, sans-serif !important; color: var(--ink) !important; display: flex; align-items: center; gap: .6rem; }
+.ch-fields { display: grid; grid-template-columns: 1fr 7rem; gap: .4rem .5rem; }
+.ch-fields label { display: grid; gap: .15rem; font: 800 12px "Nunito", system-ui, sans-serif; color: var(--dim); }
+.ch-fields input { width: 100%; box-sizing: border-box; height: 2.1rem; padding: 0 .6rem; border: 2px solid var(--line) !important; border-radius: .7rem; background: #fff; color: var(--ink); font: 800 13px "Nunito", system-ui, sans-serif; }
+.ch-fields input:focus { outline: 0; border-color: #4C9FFF !important; }
+.channel-panel .ch-scan { grid-column: 1 / -1; justify-self: start; padding: .3rem .8rem !important; font-size: 12.5px !important; background: #fff !important; }
+.channel-panel .ch-go { min-width: 7.6rem; height: 2.5rem; padding: 0 1rem !important; border: 0 !important; border-radius: 999px !important; color: #fff !important; font: 900 14px "Nunito", system-ui, sans-serif !important; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); cursor: pointer; justify-content: center; }
+.channel-panel .ch-go:before { display: none !important; }
+#serialButton { background: #3F6BFF !important; } #bluetoothButton { background: #8B5CF6 !important; } #networkButton { background: #12B886 !important; }
+.channel-panel .ch-go:hover { filter: brightness(1.08); }
+.ch-foot { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .8rem 1.2rem; margin-top: .4rem; background: #f4f7ff; border-top: 1px solid var(--line); font: 700 12.5px "Nunito", system-ui, sans-serif; color: var(--dim); }
+.ch-foot button { border: 2px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px; padding: .4rem 1rem; font: 800 13px "Nunito", system-ui, sans-serif; cursor: pointer; }
+.ch-foot button:hover { background: #eef2ff; }
+@media (max-width: 520px) { .ch-card { grid-template-columns: auto minmax(0, 1fr); } .ch-card .ch-go { grid-column: 1 / -1; width: 100%; } .ch-fields { grid-template-columns: 1fr; } }
+
+/* ======== Ajuste de cor (volta ao vidro translúcido de antes) e telas muito grandes ======== */
+/* Só Simular e a aba atual são brancos; Conectar e Projeto ficam em vidro, o robô numa pílula escura e Rodar em amarelo */
+.top-menu #channel_connect { background: transparent !important; padding: 0 !important; }
+.top-menu #channel_connect #connectButton { background: rgba(255, 255, 255, .2) !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, .42) !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); height: var(--sb-ic) !important; }
+.top-menu #channel_connect #connectButton:before { background: rgba(255, 255, 255, .75) !important; }
+.top-menu #channel_connect #connectButton:hover { background: rgba(255, 255, 255, .34) !important; }
+.top-menu #channel_connect #connectButton.on { background: #22C55E !important; border-color: #22C55E !important; }
+.top-menu #channel_connect.wait #connectButton { background: rgba(255, 210, 63, .3) !important; }
+.top-menu #deviceSelect { background: rgba(20, 28, 90, .42) !important; border: 1px solid rgba(255, 255, 255, .28) !important; }
+.top-menu #deviceSelect #device_selector { color: #fff !important; }
+.top-menu #deviceSelect #device_selector option { color: #1B2250; background: #fff; }
+.top-menu #deviceSelect:before { filter: none; }
+.sb-actions-btn { background: rgba(255, 255, 255, .2); color: #fff; border: 1px solid rgba(255, 255, 255, .42); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); }
+.sb-actions-btn:hover { background: rgba(255, 255, 255, .34); }
+.top-menu #accountButton { background-color: rgba(255, 255, 255, .2) !important; border: 1px solid rgba(255, 255, 255, .42) !important; }
+.sb-tabs-btn:hover { background: #f1f5ff; }
+@media (max-width: 759.98px) { .top-menu > .toolbar > #deviceSelect { background: rgba(20, 28, 90, .5) !important; } }
+
+/* Telas muito grandes (monitores, TV da sala): o cabeçalho ganha margens e o conteúdo dele fica junto, em vez de se espalhar de ponta a ponta; tudo cresce um pouco */
+@media (min-width: 2100px) {
+  .top-menu { padding-left: max(.9rem, calc((100vw - 2050px) / 2)) !important; padding-right: max(.9rem, calc((100vw - 2050px) / 2)) !important; }
+  .top-menu > .sim-open { margin-left: auto; }
+}
+@media (min-width: 2200px) { html { font-size: calc(16px + (100vw - 2200px) * 0.0035); } }
+@media (min-width: 3000px) { html { font-size: calc(16px + 800px * 0.0035 + (100vw - 3000px) * 0.002); } }
+
+/* ======== Revisão: modal de conexão, pílula do robô e botão da tartaruga ======== */
+/* Robô: só o SancaBot, como texto (sem caixa de seleção); as outras placas continuam no código, escondidas */
+.top-menu #deviceSelect { padding: .2rem .45rem .2rem .7rem !important; gap: .55rem; align-items: center; }
+.top-menu #deviceSelect #device_selector { appearance: none; -webkit-appearance: none; border: 0 !important; outline: 0; padding: 0 !important; margin: 0; background: transparent !important; pointer-events: none; cursor: default; width: auto !important; min-width: 0; font-weight: 900 !important; }
+.top-menu #deviceSelect:before { flex: none; margin: 0 !important; }
+/* Tartaruga (modo passo a passo): botão redondo com respiro da borda; aceso (amarelo) quando ligado */
+#sancabotSlowToggle { flex: none; width: calc(var(--sb-ic) - .5rem); height: calc(var(--sb-ic) - .5rem); display: inline-grid; place-items: center; margin: 0 .1rem 0 .15rem !important; padding: 0 !important; font-size: 1.1rem !important;
+  border-radius: 50% !important; border: 1px solid rgba(255, 255, 255, .35) !important; background: rgba(255, 255, 255, .14) !important; opacity: 1 !important; box-shadow: none !important; filter: grayscale(.6); transition: filter .15s ease, background .15s ease; }
+#sancabotSlowToggle:hover { background: rgba(255, 255, 255, .28) !important; }
+#sancabotSlowToggle.active { filter: none; background: #FFD23F !important; border-color: #FFD23F !important; box-shadow: 0 0 0 3px rgba(255, 210, 63, .35) !important; }
+
+/* Diálogo Conectar: ícones desenhados (SVG), alinhamento no topo, interruptor azul */
+.ch-ico, .ch-ci { color: #fff; }
+.ch-ico svg, .ch-ci svg { width: 60%; height: 60%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; }
+.ch-ico { background: linear-gradient(135deg, #ff7a8a, #f43f5e) !important; }
+.ch-usb { background: linear-gradient(135deg, #5b8bff, #3F6BFF) !important; } .ch-ble { background: linear-gradient(135deg, #a78bfa, #7c3aed) !important; } .ch-wifi { background: linear-gradient(135deg, #34d399, #0ea371) !important; }
+.ch-wifi svg circle { fill: currentColor; stroke: none; }
+.ch-ci { box-shadow: 0 3px 0 rgba(27, 34, 80, .18); border-radius: 1rem !important; }
+.ch-card { align-items: start; padding: 1rem; gap: 1rem; }
+.ch-card .ch-go { align-self: center; }
+.ch-card.ch-rec { background: #f1f6ff; box-shadow: 0 0 0 4px rgba(76, 159, 255, .14); }
+.ch-body .checkswitch { padding: .25rem 0 !important; justify-content: flex-start !important; width: auto; }
+.ch-body .checkswitch span { background: #cfd8f3; width: 2.6em; height: 1.5em; flex: none; }
+.ch-body .checkswitch input:checked ~ span { background: #3F6BFF; }
+.channel-panel .ch-scan { border: 2px solid #c9d6ff !important; color: #2F55E8 !important; border-radius: 999px !important; font: 800 12.5px "Nunito", system-ui, sans-serif !important; padding: .35rem .9rem !important; margin: .1rem 0 0 !important; background: #fff !important; width: auto !important; line-height: 1.2 !important; }
+.channel-panel .ch-scan:before { display: none !important; }
+.channel-panel .ch-scan:hover { background: #eef2ff !important; }
+.ch-fields { margin-top: .2rem; }
+.ch-head { padding: 1.1rem 1.3rem; }
+.ch-foot { border-radius: 0 0 1.4rem 1.4rem; }
+
+/* ======== Perfil (painel da conta): cartão flutuante no estilo v3 ======== */
+.account-panel { position: fixed !important; top: calc(var(--sb-top, 4rem) + .45rem) !important; right: .6rem !important; bottom: auto !important; left: auto !important; width: min(22rem, calc(100vw - 1.2rem)) !important; height: auto !important;
+  max-height: calc(100dvh - var(--sb-top, 4rem) - 1.2rem); overflow: auto; box-sizing: border-box; padding: 1.1rem 1.2rem 1.2rem !important; border-radius: 1.3rem !important; z-index: 1000 !important;
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px) !important; transition: opacity .15s ease, transform .15s ease, visibility .15s !important; }
+.account-panel#show { opacity: 1 !important; visibility: visible; pointer-events: auto; transform: none !important; right: .6rem !important; }
+.account-panel #account_header { display: block; margin: 0 0 .8rem; font: 800 19px "Nunito", system-ui, sans-serif; color: var(--ink); }
+.account-panel #account_user { color: #2F55E8; font-weight: 900; border-bottom: 2px dashed #b9c9ff; padding: 0 .1rem; outline: 0; }
+.account-panel #account_user:focus { background: #eef2ff; border-bottom-color: #3F6BFF; border-radius: .3rem; }
+.account-panel details { margin: 0 0 .6rem; }
+.account-panel summary { min-height: 2.6rem; }
+.account-panel summary h2, .account-panel h2 { color: var(--ink) !important; font: 900 15px "Nunito", system-ui, sans-serif !important; opacity: 1; }
+.account-panel summary > h2:before { color: #8a93b8 !important; }
+.account-panel #newProjectButton { width: auto !important; height: 2.1rem !important; padding: 0 .9rem !important; display: inline-flex; align-items: center; border: 0 !important; border-radius: 999px !important; background: #3F6BFF !important; box-shadow: 0 3px 0 rgba(27, 34, 80, .25); font-size: 0; cursor: pointer; }
+.account-panel #newProjectButton:before { display: none !important; }
+.account-panel #newProjectButton:after { content: "+ Novo"; color: #fff; font: 900 13px "Nunito", system-ui, sans-serif; }
+.account-panel #newProjectButton:hover { background: #2F55E8 !important; }
+.account-panel #ProjectList > div { background: #fff !important; color: var(--ink) !important; border: 2px solid var(--line) !important; border-left-width: 2px !important; border-radius: .9rem !important; padding: .35rem .5rem !important; margin: .35rem 0 !important; align-items: center; }
+.account-panel #ProjectList > div:hover { background: #f4f7ff !important; }
+.account-panel #ProjectList > div.current { background: #eef3ff !important; border-color: #4C9FFF !important; }
+.account-panel #ProjectList .runText { color: var(--ink) !important; font: 800 14px "Nunito", system-ui, sans-serif; }
+.account-panel #ProjectList .current span, .account-panel #ProjectList > div span.icon { filter: none; }
+.account-panel #downloadIcon, .account-panel #trashIcon { width: 2.1rem; height: 2.1rem; border-radius: .7rem; background-color: #eef2ff !important; border: 0 !important; margin-left: .25rem; }
+.account-panel #downloadIcon:before, .account-panel #trashIcon:before { filter: brightness(0) opacity(.7) !important; }
+.account-panel #downloadIcon:hover { background-color: #dbe6ff !important; } .account-panel #trashIcon:hover { background-color: #ffe0e4 !important; }
+.account-panel #languageIcon { display: flex; align-items: center; gap: .4rem; border: 0 !important; padding: 0 !important; opacity: 1; margin: 0; width: 100%; }
+.account-panel #languageIcon:before { filter: brightness(0) opacity(.6) !important; flex: none; }
+.account-panel #languageMenu { flex: 1; height: 2.4rem; border: 2px solid var(--line); border-radius: 999px; padding: 0 .9rem; background: #fff; color: var(--ink); font: 800 14px "Nunito", system-ui, sans-serif; cursor: pointer; }
+
+/* ======== Projeto ▾: cada item com ícone branco num quadradinho azul (estilo dos ícones do cabeçalho antigo) ======== */
+.sb-actions-menu > .icon:before { filter: none !important; width: 2rem !important; height: 2rem !important; border-radius: .7rem; background-color: #4C7DFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); background-origin: content-box; }
+.sb-actions-menu > .icon { padding-left: 3.5rem !important; }
+.sb-actions-menu > .icon:before { left: .55rem !important; }
+.sb-actions-menu > #forumButton:before { background-color: #12B886; }
+.sb-actions-menu > #notificationButton:before { background-color: #FF9A3C; }
+.sb-actions-menu > #loadButton:before { background-color: #8B5CF6; }
+.account-panel #ProjectList #downloadIcon:before, .account-panel #ProjectList #trashIcon:before { filter: brightness(0) opacity(.75) !important; opacity: 1 !important; }
+.account-panel #ProjectList .current #downloadIcon:before, .account-panel #ProjectList .current #trashIcon:before { filter: brightness(0) opacity(.75) !important; }
+.account-panel #languageIcon:before { display: none !important; }
+
+/* ======== Revisão: botão Projeto e seus itens (ícones SVG próprios; sem o sprite antigo) ======== */
+.sb-actions-btn { gap: .55rem; padding: 0 1rem 0 .85rem; }
+.sb-actions-btn .sb-ico { width: 1.15rem; height: 1.15rem; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.sb-actions-btn[aria-expanded="true"] { background: rgba(255, 255, 255, .36); box-shadow: 0 0 0 2px rgba(255, 255, 255, .85); }
+.sb-actions-menu { min-width: 17rem; padding: .5rem; gap: .15rem; }
+.sb-actions-menu > .icon:before { content: "" !important; display: block !important; background-repeat: no-repeat !important; background-position: center !important; background-size: 58% !important; background-image: none; filter: none !important; width: 2.1rem !important; height: 2.1rem !important; border-radius: .75rem; box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 2px 0 rgba(27,34,80,.14); }
+.sb-actions-menu > #linkButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='12' r='2.2'/%3E%3Ccircle cx='18' cy='6' r='2.2'/%3E%3Ccircle cx='18' cy='18' r='2.2'/%3E%3Cpath d='M8 11l8-4M8 13l8 4'/%3E%3C/svg%3E") !important; }
+.sb-actions-menu > #saveButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7.5 11l4.5 4.5 4.5-4.5M5 20h14'/%3E%3C/svg%3E") !important; }
+.sb-actions-menu > #loadButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 16V5M7.5 9L12 4.5 16.5 9M5 20h14'/%3E%3C/svg%3E") !important; }
+.sb-actions-menu > #forumButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M12 17h.01'/%3E%3C/svg%3E") !important; }
+.sb-actions-menu > #notificationButton:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5h4'/%3E%3C/svg%3E") !important; }
+.sb-actions-menu > #linkButton:before, .sb-actions-menu > #saveButton:before { background-color: #4C7DFF; }
+@media (max-width: 759.98px) { .sb-actions-menu { position: fixed; left: .5rem; right: .5rem; top: calc(var(--sb-top, 4rem) + .35rem); min-width: 0; } }
+.sb-chev { transform: rotate(45deg) !important; margin-top: -3px; transition: transform .15s ease, margin .15s ease; }
+[aria-expanded="true"] > .sb-chev { transform: rotate(225deg) !important; margin-top: 3px; }
+.sb-tabs-btn[aria-expanded="true"] { box-shadow: 0 0 0 3px rgba(255, 255, 255, .45), 0 3px 0 rgba(27, 34, 80, .22); }
+
+/* ======== Revisão: alinhamento do diálogo de conexão ======== */
+.channel-panel .ch-fields { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: .35rem .6rem; align-items: end; margin: .3rem 0 0; }
+.channel-panel .ch-fields label { display: flex; flex-direction: column; gap: .25rem; margin: 0 !important; padding: 0 !important; min-width: 0; }
+.channel-panel .ch-fields input, .channel-panel #url, .channel-panel #password { margin: 0 !important; height: 2.4rem !important; line-height: 2.4rem; box-sizing: border-box; width: 100% !important; min-width: 0; padding: 0 .75rem !important; border: 2px solid var(--line) !important; border-radius: .8rem !important; background: #fff; }
+.channel-panel .ch-fields input:focus { border-color: #4C9FFF !important; }
+.channel-panel .ch-fields .ch-scan { grid-column: 1 / -1; justify-self: start; margin: .15rem 0 0 !important; }
+/* os três cartões na mesma grade: ícone | texto | botão com a mesma largura */
+.ch-card { grid-template-columns: 3rem minmax(0, 1fr) 8.4rem; column-gap: 1rem; }
+.ch-card .ch-ci { width: 3rem; height: 3rem; }
+.ch-card .ch-go { width: 100%; min-width: 0; align-self: center; }
+.ch-body { min-width: 0; padding-top: .05rem; }
+.ch-body h3 { min-height: 1.5rem; line-height: 1.3; }
+.ch-body p { margin: 0 0 .45rem; }
+.ch-body .checkswitch { margin: .1rem 0 0; }
+@media (max-width: 520px) { .ch-card { grid-template-columns: 3rem minmax(0, 1fr); } .channel-panel .ch-fields { grid-template-columns: 1fr; } }
+
+/* Perfil: o ícone fica exatamente no centro do botão redondo (antes ficava no canto superior esquerdo da área útil) */
+.top-menu .toolbar > #accountButton { display: grid !important; place-items: center; padding: 0 !important; }
+.top-menu .toolbar > #accountButton:before { margin: 0 !important; position: static !important; transform: none !important; }
+
+/* ======== Botão Projeto = mesmo comportamento das abas: em repouso vidro com letra branca; aberto, pílula branca com letra azul-marinho ======== */
+.top-menu .sb-proj > .sb-actions-btn { background: rgba(255, 255, 255, .2) !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, .3) !important; box-shadow: none !important; font-weight: 800; }
+.top-menu .sb-proj > .sb-actions-btn .sb-ico { stroke: #fff; }
+.top-menu .sb-proj > .sb-actions-btn:hover { background: rgba(0, 191, 255, .0) !important; background: rgba(255, 255, 255, .3) !important; }
+.top-menu .sb-proj > .sb-actions-btn[aria-expanded="true"] { background: #fff !important; color: #1B2250 !important; border-color: #fff !important; box-shadow: 0 2px 0 rgba(27, 34, 80, .2) !important; }
+.top-menu .sb-proj > .sb-actions-btn[aria-expanded="true"] .sb-ico { stroke: #1B2250; }
+
+/* ======== Perfil: avatar, nome editável e seções em cartões ======== */
+.account-panel, .account-panel * { -webkit-user-select: auto; user-select: auto; }
+.account-panel button, .account-panel summary { -webkit-user-select: none; user-select: none; }
+.account-panel { padding: 0 !important; background: #fff !important; }
+.account-panel > span, .account-panel > details { display: block; padding: 0 1.1rem; }
+.acc-head { display: flex; align-items: center; gap: .9rem; padding: 1.1rem 1.1rem .8rem; background: linear-gradient(180deg, #eef3ff, #fff); border-bottom: 1px solid var(--line); border-radius: 1.3rem 1.3rem 0 0; }
+.acc-avatar { flex: none; width: 3.4rem; height: 3.4rem; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #5b8bff, #8B5CF6); color: #fff; font: 900 1.5rem "Nunito", system-ui, sans-serif; box-shadow: 0 4px 0 rgba(27, 34, 80, .18), inset 0 0 0 3px rgba(255, 255, 255, .35); }
+.acc-name { min-width: 0; flex: 1; }
+.acc-lab { display: block; font: 800 12px "Nunito", system-ui, sans-serif; color: var(--dim); margin: 0 0 .2rem .2rem; }
+.acc-field { position: relative; cursor: text; }
+.account-panel .acc-field #account_user { display: block; min-height: 2.5rem; box-sizing: border-box; padding: .5rem 2.4rem .5rem .85rem; border: 2px solid var(--line) !important; border-radius: .9rem; background: #fff; color: var(--ink) !important; font: 900 17px/1.4 "Nunito", system-ui, sans-serif; outline: 0; white-space: nowrap; overflow: hidden; cursor: text; -webkit-user-select: text !important; user-select: text !important; }
+.account-panel .acc-field #account_user:hover { border-color: #b9c9ff !important; }
+.account-panel .acc-field #account_user:focus { border-color: #4C9FFF !important; box-shadow: 0 0 0 4px rgba(76, 159, 255, .18); background: #fff; }
+.acc-pen { position: absolute; right: .55rem; top: 50%; transform: translateY(-50%); width: 1.5rem; height: 1.5rem; display: grid; place-items: center; color: #8a93b8; pointer-events: none; }
+.acc-pen svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.acc-field:focus-within .acc-pen { color: #3F6BFF; }
+.acc-info { margin: 0; padding: .5rem 1.2rem; font: 700 12.5px "Nunito", system-ui, sans-serif; color: var(--dim); background: #f7f9ff; border-bottom: 1px solid var(--line); }
+.acc-info[hidden] { display: none; }
+.acc-info b { color: var(--ink); font-weight: 900; }
+.account-panel details { margin: 0 !important; padding: .35rem 1.1rem .5rem !important; border-bottom: 1px solid var(--line); }
+.account-panel details:last-of-type { border-bottom: 0; }
+.account-panel > span { padding: 0 !important; }
+.account-panel > span > details { padding: .35rem 1.1rem .5rem !important; }
+.account-panel summary { min-height: 2.8rem; }
+.account-panel #ProjectList > div.current { background: #eef3ff !important; }
+.account-panel #languageIcon { padding-bottom: .4rem !important; }
+.account-panel #account_header { display: none !important; }
+
+/* ======== Rodar no robô por estado: desconectado = abre a conexão; conectado = ▶ Rodar; rodando = ■ Parar ======== */
+.top-menu #runButton:before { content: "" !important; display: block !important; width: 1.15rem !important; height: 1.15rem !important; margin: 0 .35rem 0 .1rem !important; background-repeat: no-repeat !important; background-position: center !important; background-size: contain !important; background-color: transparent !important; filter: none !important; }
+.top-menu #runButton:not([data-sb-run]):before, .top-menu #runButton[data-sb-run="ready"]:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231B2250' stroke='%231B2250' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") !important; }
+.top-menu #runButton[data-sb-run="off"]:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231B2250' stroke='%231B2250' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 3v5M15 3v5M7 8h10v4a5 5 0 0 1-10 0V8zM12 17v4' fill='none'/%3E%3C/svg%3E") !important; }
+.top-menu #runButton[data-sb-run="running"]:before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231B2250' stroke='%231B2250' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='6' width='12' height='12' rx='2'/%3E%3C/svg%3E") !important; }
+.top-menu #runButton[data-sb-run="off"]:after { content: "Conectar e rodar"; }
+.top-menu #runButton[data-sb-run="ready"]:after { content: "Rodar"; }
+.top-menu #runButton[data-sb-run="running"]:after { content: "Parar"; }
+.top-menu #runButton[data-sb-run="running"] { background: #FF8A9A !important; }
+.top-menu #runButton[data-sb-run="running"]:hover { background: #ff7186 !important; }
+@media (max-width: 1099.98px) { .top-menu #runButton[data-sb-run="off"]:after { content: "Conectar"; } }
+
+/* ======== Avisos: cartão flutuante no mesmo estilo do perfil ======== */
+.notify-panel { position: fixed !important; top: calc(var(--sb-top, 4rem) + .45rem) !important; right: .6rem !important; bottom: auto !important; left: auto !important; width: min(24rem, calc(100vw - 1.2rem)) !important; height: auto !important;
+  max-height: min(34rem, calc(100dvh - var(--sb-top, 4rem) - 1.2rem)); overflow: auto; box-sizing: border-box; padding: 0 0 .6rem !important; border-radius: 1.3rem !important; z-index: 1000 !important; display: block !important; flex-direction: initial;
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px) !important; transition: opacity .15s ease, transform .15s ease, visibility .15s !important; }
+.notify-panel#show { opacity: 1 !important; visibility: visible; pointer-events: auto; transform: none !important; right: .6rem !important; }
+.nt-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem 1.1rem .7rem; background: linear-gradient(180deg, #eef3ff, #fff); border-bottom: 1px solid var(--line); }
+.nt-head h2 { margin: 0; font: 900 17px "Nunito", system-ui, sans-serif; color: var(--ink); }
+.nt-clear { border: 2px solid #c9d6ff; background: #fff; color: #2F55E8; border-radius: 999px; padding: .3rem .85rem; font: 800 12.5px "Nunito", system-ui, sans-serif; cursor: pointer; }
+.nt-clear:hover { background: #eef2ff; }
+.nt-empty { display: none; text-align: center; padding: 1.6rem 1.2rem 1.2rem; font-family: "Nunito", system-ui, sans-serif; color: var(--dim); }
+.nt-empty img { display: block; margin: 0 auto .4rem; }
+.nt-empty p { margin: 0; font: 900 16px "Nunito", system-ui, sans-serif; color: var(--ink); }
+.nt-empty small { display: block; margin-top: .2rem; font: 700 13px "Nunito", system-ui, sans-serif; }
+.notify-panel:not(:has(> span)) .nt-empty { display: block; }
+.notify-panel:not(:has(> span)) .nt-clear { visibility: hidden; }
+.notify-panel > span { position: relative; display: block !important; margin: .5rem 1rem 0 !important; padding: .65rem 2.8rem .65rem .8rem !important; border: 2px solid var(--line) !important; border-radius: .9rem !important; background: #f7f9ff !important; color: var(--ink) !important; font: 700 13px/1.4 "Nunito", system-ui, sans-serif !important; cursor: default; word-break: break-word; }
+.notify-panel > span:hover { background: #eef2ff !important; }
+.notify-panel > span > span { position: absolute !important; right: .45rem; top: .45rem; width: 1.9rem; height: 1.9rem; border-radius: .6rem; background-color: #fff !important; cursor: pointer; }
+.notify-panel > span > span:before { filter: brightness(0) opacity(.6) !important; }
+.notify-panel > span > span:hover { background-color: #ffe0e4 !important; }
+/* aviso que aparece por uns segundos (toast) */
+.notify { background: #1B2250 !important; color: #fff !important; border: 0 !important; border-radius: 1rem !important; box-shadow: 0 10px 26px rgba(27, 34, 80, .35) !important; font: 700 13.5px/1.4 "Nunito", system-ui, sans-serif !important; padding: .7rem 1rem !important; }
+
+/* ---- Arquivos: ações do arquivo aberto (Executar, Baixar, Excluir) na barra do editor ---- */
+#file_save_as .sb-fa-group { display: inline-flex; gap: .4rem; flex-wrap: wrap; margin-left: auto; }
+#file_save_as .sb-fa { border: 2px solid #c9d6ff; background: #fff; color: #2F55E8; border-radius: 999px; padding: .4rem .95rem; font: 800 14px "Nunito", system-ui, sans-serif; cursor: pointer; }
+#file_save_as .sb-fa:hover:not(:disabled) { background: #e7edff; }
+#file_save_as .sb-fa-run { background: #2ea44f; border-color: #2ea44f; color: #fff; } #file_save_as .sb-fa-run:hover:not(:disabled) { background: #23883f; }
+#file_save_as .sb-fa-del { color: #c2402f; border-color: #f3b9b1; } #file_save_as .sb-fa-del:hover:not(:disabled) { background: #fff0ee; }
+#file_save_as .sb-fa:disabled { opacity: .4; cursor: not-allowed; }
+#file_save_as .sb-fa:focus-visible { outline: 3px solid #FFD23F; outline-offset: 2px; }
+@media (max-width: 759.98px) { #file_save_as .sb-fa-group { margin-left: 0; width: 100%; } }
+
+/* ---- Abas herdadas do BIPES (IOT, EasyMQTT, Databoard): escondidas por enquanto, código mantido para uso futuro.
+   Para voltar a mostrar, apague esta regra. ---- */
+.top-menu .tabs > #tab_iot, .top-menu .tabs > #tab_mqtt, .top-menu .tabs > #tab_databoard { display: none !important; }

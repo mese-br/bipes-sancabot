@@ -177,7 +177,7 @@ BlocklyStorage.handleRequest_ = function() {
               window.location.hash));
         } else {
           UI ['account'].importProject (data);
-          UI ['notify'].send ('Project imported from link!');
+          UI ['notify'].send ('Projeto aberto a partir do link!');
         }
       }
       BlocklyStorage.monitorChanges_(BlocklyStorage.httpRequest_.workspace);

@@ -9,18 +9,32 @@
 // sancabot_turn_degrees, sancabot_move. Backup do conteúdo original completo
 // em _backup_pre_reorg_20260705/block_definitions.js.bak.
 
+// Portas da placa com NOME (tabela em sancabot_config.js, "ports"). O valor do campo continua sendo o número do pino,
+// então o código gerado e os projetos antigos não mudam; só o texto que o aluno vê.
+function sancabotPortOptions() {
+  var cfg = (window.SancaBotConfig && window.SancaBotConfig.ports) || [], byPin = {}, out = [], pin;
+  cfg.forEach(function (p) { byPin[p[1]] = p[0]; });
+  for (pin = 0; pin <= 21; pin++) out.push([byPin[pin] !== undefined ? String(byPin[pin]) : 'pino ' + pin, String(pin)]);
+  return out;
+}
+function sancabotPortField(defaultPin) {
+  var f = new Blockly.FieldDropdown(sancabotPortOptions);
+  try { f.setValue(String(defaultPin)); } catch (e) { /* fica no primeiro da lista */ }
+  return f;
+}
+
 Blockly.Blocks['sancabot_config'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('preparar motores do SancaBot')
-        .appendField('roda esquerda GPIO')
-        .appendField(new Blockly.FieldNumber(0, 0, 21, 1), 'LEFT_PIN')
-        .appendField('roda direita GPIO')
-        .appendField(new Blockly.FieldNumber(1, 0, 21, 1), 'RIGHT_PIN');
+        .appendField('Preparar motores')
+        .appendField('esquerdo porta')
+        .appendField(sancabotPortField(0), 'LEFT_PIN')
+        .appendField('direito porta')
+        .appendField(sancabotPortField(1), 'RIGHT_PIN');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#168fd8');
-    this.setTooltip('Configura as rodas antes de qualquer movimento. GPIO \u00e9 o pino da placa onde cada motor est\u00e1 conectado.');
+    this.setTooltip('Configura as rodas antes de qualquer movimento. A porta \u00e9 o encaixe da placa onde cada motor est\u00e1 ligado.');
     this.setHelpUrl('');
   }
 };
@@ -30,7 +44,7 @@ Blockly.Blocks['sancabot_config'] = {
 Blockly.Blocks['sancabot_motion_scene'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('programar caminho do SancaBot');
+        .appendField('Caminho do robô');
     this.appendStatementInput('MOVES')
         .setCheck('SancaBotMotion')
         .appendField('faça');
@@ -88,14 +102,14 @@ Blockly.Blocks['sancabot_move_mode'] = {
       return newMode;
     });
     this.appendDummyInput('MAIN')
-        .appendField('SancaBot movimenta')
+        .appendField('Mover')
         .appendField(new Blockly.FieldDropdown([
           ['para frente', 'FORWARD'],
           ['para trás', 'BACKWARD'],
           ['girando para esquerda', 'LEFT'],
           ['girando para direita', 'RIGHT']
         ]), 'ACTION')
-        .appendField('velocidade')
+        .appendField('a')
         .appendField(new Blockly.FieldNumber(50, 0, 100, 1), 'SPEED')
         .appendField('%')
         .appendField(modeField, 'MODE');
@@ -122,7 +136,7 @@ Blockly.Blocks['sancabot_move_mode'] = {
     if (shouldHaveDuration && !this.getInput('DURATION')) {
       this.appendValueInput('DURATION')
           .setCheck('SancaBotTime')
-          .appendField('por');
+          .appendField('durante');
     } else if (!shouldHaveDuration && this.getInput('DURATION')) {
       this.removeInput('DURATION');
     }
@@ -132,7 +146,7 @@ Blockly.Blocks['sancabot_move_mode'] = {
 
 Blockly.Blocks['sancabot_stop'] = {
   init: function() {
-    this.appendDummyInput().appendField('parar SancaBot');
+    this.appendDummyInput().appendField('Parar');
     this.setPreviousStatement(true, 'SancaBotMotion');
     this.setNextStatement(true, 'SancaBotMotion');
     this.setColour('#d96a1c');
@@ -145,7 +159,7 @@ Blockly.Blocks['sancabot_wait'] = {
   init: function() {
     this.appendValueInput('SECONDS')
         .setCheck('SancaBotTime')
-        .appendField('SancaBot espera');
+        .appendField('Esperar');
     this.setPreviousStatement(true, 'SancaBotMotion');
     this.setNextStatement(true, 'SancaBotMotion');
     this.setColour('#d96a1c');
@@ -156,12 +170,12 @@ Blockly.Blocks['sancabot_wait'] = {
 Blockly.Blocks['sancabot_calibrate'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('corrigir desvio do SancaBot');
+        .appendField('Corrigir desvio do robô');
     this.appendDummyInput()
-        .appendField('se ele vai para')
+        .appendField('se o robô vai para')
         .appendField(new Blockly.FieldDropdown([['esquerda', 'LEFT'], ['direita', 'RIGHT']]), 'SIDE');
     this.appendDummyInput()
-        .appendField('aumente a velocidade dessa roda em')
+        .appendField('aumentar a velocidade dessa roda em')
         .appendField(new Blockly.FieldNumber(5, 0, 30, 1), 'CORRECTION')
         .appendField('%');
     this.setPreviousStatement(true, null);
@@ -176,11 +190,11 @@ Blockly.Blocks['sancabot_calibrate'] = {
 Blockly.Blocks['sancabot_turn_calibration'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('calibrar giro do SancaBot');
+        .appendField('Calibrar giro');
     this.appendDummyInput()
-        .appendField('90 graus leva')
+        .appendField('um giro de 90° leva')
         .appendField(new Blockly.FieldNumber(1, 0.1, 5, 0.1), 'SECONDS')
-        .appendField('s com velocidade 50%');
+        .appendField('s a 50% de velocidade');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#c88a00');
@@ -192,20 +206,20 @@ Blockly.Blocks['sancabot_turn_calibration'] = {
 Blockly.Blocks['sancabot_distance_sensor'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('preparar ultrassom do SancaBot');
+        .appendField('Preparar sensor de distância');
     this.appendDummyInput()
-        .appendField('envio Trigger GPIO')
-        .appendField(new Blockly.FieldNumber(7, 0, 21, 1), 'TRIGGER_PIN')
-        .appendField('retorno Echo GPIO')
-        .appendField(new Blockly.FieldNumber(8, 0, 21, 1), 'ECHO_PIN');
+        .appendField('emissor porta')
+        .appendField(sancabotPortField(7), 'TRIGGER_PIN')
+        .appendField('receptor porta')
+        .appendField(sancabotPortField(8), 'ECHO_PIN');
     this.appendDummyInput()
-        .appendField('l\u00ea o sensor a cada')
+        .appendField('ler a cada')
         .appendField(new Blockly.FieldNumber(0.2, 0.1, 5, 0.1), 'READ_INTERVAL')
         .appendField('s');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#168fd8');
-    this.setTooltip('Configura o sensor de dist\u00e2ncia. Trigger \u00e9 o GPIO que envia o sinal; Echo \u00e9 o GPIO que recebe o retorno.');
+    this.setTooltip('Configura o sensor de dist\u00e2ncia. O emissor manda o som e o receptor ouve o eco; cada um fica em uma porta da placa.');
     this.setHelpUrl('');
   }
 };
@@ -213,7 +227,7 @@ Blockly.Blocks['sancabot_distance_sensor'] = {
 Blockly.Blocks['sancabot_distance_cm'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('distância até obstáculo')
+        .appendField('distância')
         .appendField('(cm)');
     this.setOutput(true, 'Number');
     this.setColour('#00a7c7');
@@ -225,7 +239,7 @@ Blockly.Blocks['sancabot_distance_cm'] = {
 Blockly.Blocks['sancabot_obstacle_near'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('distância do obstáculo')
+        .appendField('obstáculo')
         .appendField(new Blockly.FieldDropdown([
           ['menor que', 'LT'],
           ['maior que', 'GT'],
@@ -243,7 +257,7 @@ Blockly.Blocks['sancabot_obstacle_near'] = {
 Blockly.Blocks['sancabot_if_obstacle'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('se a distância do obstáculo for')
+        .appendField('Se obstáculo')
         .appendField(new Blockly.FieldDropdown([
           ['menor que', 'LT'],
           ['maior que', 'GT'],
@@ -266,16 +280,16 @@ Blockly.Blocks['sancabot_if_obstacle'] = {
 Blockly.Blocks['sancabot_observe_scene'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('testar sensor por')
+        .appendField('Testar sensor por')
         .appendField(new Blockly.FieldNumber(5, 0.5, 60, 0.5), 'SECONDS')
         .appendField('segundos');
     this.appendDummyInput()
-        .appendField('atualiza a cada')
+        .appendField('atualizar a cada')
         .appendField(new Blockly.FieldNumber(1, 0.2, 5, 0.1), 'INTERVAL')
         .appendField('s');
     this.appendStatementInput('DO')
         .setCheck('SancaBotObserve')
-        .appendField('repetindo o teste');
+        .appendField('repetir o teste');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#6d5bd0');
@@ -290,7 +304,7 @@ Blockly.Blocks['sancabot_observe_scene'] = {
 Blockly.Blocks['sancabot_explore_until'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('SancaBot explora até encontrar obstáculo')
+        .appendField('Explorar até achar obstáculo')
         .appendField(new Blockly.FieldDropdown([
           ['menor que', 'LT'],
           ['maior que', 'GT'],
@@ -299,15 +313,15 @@ Blockly.Blocks['sancabot_explore_until'] = {
         .appendField(new Blockly.FieldNumber(15, 1, 400, 1), 'LIMIT_CM')
         .appendField('cm');
     this.appendDummyInput()
-        .appendField('repete a cada')
+        .appendField('repetir a cada')
         .appendField(new Blockly.FieldNumber(1, 0.2, 5, 0.1), 'INTERVAL')
         .appendField('s');
     this.appendStatementInput('WHILE_DO')
         .setCheck('SancaBotObserve')
-        .appendField('faça enquanto explora');
+        .appendField('enquanto explora');
     this.appendStatementInput('FOUND_DO')
         .setCheck(null)
-        .appendField('ao encontrar');
+        .appendField('ao achar');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#6d5bd0');
@@ -319,14 +333,14 @@ Blockly.Blocks['sancabot_explore_until'] = {
 Blockly.Blocks['sancabot_explore_forever'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('repetir medição de distância');
+        .appendField('Medir distância sem parar');
     this.appendDummyInput()
-        .appendField('repete a cada')
+        .appendField('repetir a cada')
         .appendField(new Blockly.FieldNumber(1, 0.2, 5, 0.1), 'INTERVAL')
         .appendField('s');
     this.appendStatementInput('DO')
         .setCheck('SancaBotObserve')
-        .appendField('a cada leitura do ultrassom');
+        .appendField('a cada leitura');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#6d5bd0');
@@ -338,7 +352,7 @@ Blockly.Blocks['sancabot_explore_forever'] = {
 Blockly.Blocks['sancabot_break_explore'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('sair da repetição');
+        .appendField('Sair da repetição');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#6d5bd0');
@@ -369,14 +383,15 @@ Blockly.Blocks['sancabot_panel_number'] = {
   init: function() {
     this.appendValueInput('VALUE')
         .setCheck('Number')
-        .appendField('mostrar leitura no painel');
+        .appendField('Mostrar no painel');
     this.appendDummyInput()
         .appendField('nome')
         .appendField(new Blockly.FieldTextInput('Distancia'), 'LABEL')
         .appendField('unidade')
         .appendField(new Blockly.FieldTextInput('cm'), 'UNIT');
-    this.setPreviousStatement(true, 'SancaBotObserve');
-    this.setNextStatement(true, 'SancaBotObserve');
+    // Qualquer ponto do programa serve para mostrar um valor (o modelo do labirinto o põe depois de "Parar"); por isso aceita qualquer vizinho.
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour('#00a7c7');
     this.setTooltip('Mostra um valor no painel da miss\u00e3o. A atualiza\u00e7\u00e3o visual \u00e9 limitada para proteger o Bluetooth.');
     this.setHelpUrl('');
@@ -388,7 +403,7 @@ Blockly.Blocks['sancabot_panel_number'] = {
 Blockly.Blocks['sancabot_observe_drive'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('seguir enquanto observa')
+        .appendField('Andar e observar')
         .appendField(new Blockly.FieldDropdown([
           ['frente', 'FORWARD'],
           ['ré', 'BACKWARD'],
@@ -414,7 +429,7 @@ Blockly.Blocks['sancabot_exp_if_else'] = {
   init: function() {
     this.appendValueInput('IF0')
         .setCheck('Boolean')
-        .appendField('SancaBot decide: se');
+        .appendField('Se');
     this.appendStatementInput('DO0')
         .setCheck(null)
         .appendField('faça');
@@ -528,7 +543,7 @@ Blockly.Blocks['sancabot_exp_repeat_times'] = {
   init: function() {
     this.appendValueInput('TIMES')
         .setCheck('Number')
-        .appendField('SancaBot repete');
+        .appendField('Repetir');
     this.appendDummyInput()
         .appendField('vezes');
     this.appendStatementInput('DO')
@@ -546,7 +561,7 @@ Blockly.Blocks['sancabot_exp_repeat_while'] = {
   init: function() {
     this.appendValueInput('COND')
         .setCheck('Boolean')
-        .appendField('SancaBot repete enquanto');
+        .appendField('Repetir enquanto');
     this.appendStatementInput('DO')
         .setCheck(null)
         .appendField('faça');
@@ -562,7 +577,7 @@ Blockly.Blocks['sancabot_exp_repeat_until'] = {
   init: function() {
     this.appendValueInput('COND')
         .setCheck('Boolean')
-        .appendField('SancaBot repete até');
+        .appendField('Repetir até');
     this.appendStatementInput('DO')
         .setCheck(null)
         .appendField('faça');
@@ -578,7 +593,7 @@ Blockly.Blocks['sancabot_exp_repeat_condition'] = {
   init: function() {
     this.appendValueInput('COND')
         .setCheck('Boolean')
-        .appendField('SancaBot repete')
+        .appendField('Repetir')
         .appendField(new Blockly.FieldDropdown([
           ['enquanto', 'WHILE'],
           ['até', 'UNTIL']
@@ -598,7 +613,7 @@ Blockly.Blocks['sancabot_exp_repeat_condition'] = {
 Blockly.Blocks['sancabot_ultrasonic_condition'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('sensor ultrassom detecta objeto')
+        .appendField('sensor vê objeto')
         .appendField(new Blockly.FieldDropdown([
           ['a menos de', 'LT'],
           ['a mais de', 'GT'],
@@ -635,7 +650,7 @@ Blockly.Blocks['sancabot_logic_join'] = {
 Blockly.Blocks['sancabot_timer_start'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('iniciar cronômetro do SancaBot');
+        .appendField('Iniciar cronômetro');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour('#7b61ff');
@@ -647,7 +662,7 @@ Blockly.Blocks['sancabot_timer_start'] = {
 Blockly.Blocks['sancabot_timer_seconds'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('tempo do cronômetro do SancaBot')
+        .appendField('tempo do cronômetro')
         .appendField('(s)');
     this.setOutput(true, 'Number');
     this.setColour('#7b61ff');
@@ -659,7 +674,7 @@ Blockly.Blocks['sancabot_timer_seconds'] = {
 Blockly.Blocks['sancabot_timer_condition'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('cronômetro do SancaBot')
+        .appendField('cronômetro')
         .appendField(new Blockly.FieldDropdown([
           ['menor que', 'LT'],
           ['maior que', 'GT'],

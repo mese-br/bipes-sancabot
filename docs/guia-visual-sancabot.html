@@ -1,0 +1,558 @@
+<title>Guia Visual SancaBot</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Conceito: caderno de especificação de um estúdio de design para escola, com o produto mostrado em telas "de verdade" dentro de molduras.
+   A página (documento) usa tinta azul-índigo neutra; o produto (.mk) tem a própria paleta fixa, igual nos dois temas. */
+:root {
+  --bg: #F5F6FC; --surface: #FFFFFF; --fg: #1B2250; --muted: #5B6490; --line: #DCE0F2; --accent: #2F6FE4; --accent-ink: #FFFFFF;
+  --ok: #1E8E4E; --warn: #B35C00; --bad: #C0322F; --chip: #E9ECFA;
+  --font-ui: "Nunito", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0F1330; --surface: #171C42; --fg: #E8EBFF; --muted: #A4ADD9; --line: #2B3263; --accent: #6FA0FF; --accent-ink: #0F1330; --ok: #5FD18D; --warn: #FFB35C; --bad: #FF8A86; --chip: #232A58; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #0F1330; --surface: #171C42; --fg: #E8EBFF; --muted: #A4ADD9; --line: #2B3263; --accent: #6FA0FF; --accent-ink: #0F1330; --ok: #5FD18D; --warn: #FFB35C; --bad: #FF8A86; --chip: #232A58; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--font-ui); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-weight: 900; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -.01em; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin-bottom: .4rem; }
+h3 { font-size: 1.1rem; margin-bottom: .35rem; }
+p { margin: 0 0 .8rem; max-width: 68ch; }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 62ch; }
+.eyebrow { font: 500 .75rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+section { margin-top: 64px; }
+.sec-head { display: grid; gap: .3rem; margin-bottom: 1.2rem; }
+code, .mono { font-family: var(--font-mono); font-size: .86em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px; }
+.scroll-x { overflow-x: auto; padding-bottom: 6px; max-width: 100%; }
+.frame, .card, .grid2 > *, .compare > * { min-width: 0; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; }
+.note { font-size: .92rem; color: var(--muted); }
+.tag { display: inline-block; font: 600 .72rem/1 var(--font-mono); padding: .35rem .55rem; border-radius: 999px; background: var(--chip); color: var(--muted); }
+.tag.ok { color: var(--ok); } .tag.bad { color: var(--bad); } .tag.warn { color: var(--warn); }
+button { font-family: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- princípios ---------- */
+.principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; margin-top: 8px; }
+.principle { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; }
+.principle .ico { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: #fff; }
+.principle p { margin: 0; font-size: .95rem; color: var(--muted); }
+
+/* ---------- paleta ---------- */
+.pal { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 12px; }
+.sw { border-radius: 16px; padding: 14px; min-height: 132px; display: flex; flex-direction: column; justify-content: space-between; font-weight: 800; }
+.sw .nm { font-size: 1.05rem; display: flex; gap: .45rem; align-items: center; }
+.sw .nm svg { width: 22px; height: 22px; flex: none; }
+.sw .meta { font: 500 .72rem/1.4 var(--font-mono); opacity: .95; }
+.pal-now .sw { min-height: 92px; }
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
+.flaglist { margin: .6rem 0 0; padding-left: 1.1rem; font-size: .9rem; color: var(--muted); }
+
+/* ---------- tipografia ---------- */
+.type-row { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); }
+.type-row:first-child { border-top: 0; }
+.type-row .k { font: 500 .78rem/1.3 var(--font-mono); color: var(--muted); }
+@media (max-width: 560px) { .type-row { grid-template-columns: 1fr; gap: 2px; } }
+
+/* ---------- produto (mockups): paleta própria, igual nos dois temas ---------- */
+.mk { --mk-ink: #1B2250; --mk-soft: #5B6490; --mk-bg: #F5F7FF; --mk-panel: #FFFFFF; --mk-line: #D9DEF3; --mk-chip: #ECEFFB; --mk-go: #2EA44F; --mk-stop: #E5484D; --mk-ws: #F8FAFF;
+  --c-prep: #FF7B6B; --c-move: #4C9FFF; --c-sense: #1FD3C0; --c-decide: #FF9A3C; --c-repeat: #FFD23F; --c-calc: #5FDB74; --c-time: #A58BFF; --c-store: #FF6FA5; --c-more: #A9B6D8;
+  color: var(--mk-ink); font-family: var(--font-ui); }
+.frame { border: 1px solid var(--line); border-radius: 20px; background: var(--surface); padding: 12px; }
+.frame-cap { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 4px 6px 10px; font-size: .86rem; color: var(--muted); }
+.screen { width: 920px; background: var(--mk-bg); border-radius: 14px; overflow: hidden; border: 1px solid var(--mk-line); }
+.m-top { display: flex; align-items: center; gap: 14px; background: var(--mk-panel); padding: 10px 16px; border-bottom: 2px solid var(--mk-line); }
+.m-logo { font-weight: 900; font-size: 1.25rem; display: flex; align-items: center; gap: 8px; }
+.m-logo i { width: 30px; height: 30px; border-radius: 10px; background: var(--c-move); display: grid; place-items: center; color: #fff; }
+.m-logo i svg { width: 20px; height: 20px; }
+.m-tabs { display: flex; gap: 4px; background: var(--mk-chip); padding: 4px; border-radius: 14px; margin-left: 6px; }
+.m-tab { font-weight: 800; font-size: .88rem; padding: 7px 13px; border-radius: 10px; color: var(--mk-soft); }
+.m-tab.on { background: #fff; color: var(--mk-ink); box-shadow: 0 1px 3px rgba(27,34,80,.16); }
+.m-spacer { flex: 1; }
+.m-status { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: .86rem; padding: 6px 12px; border-radius: 999px; background: #E3F6E8; color: #17642F; }
+.m-status i { width: 9px; height: 9px; border-radius: 50%; background: var(--mk-go); }
+.m-run { display: flex; gap: 8px; }
+.m-btn { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: #fff; border: 0; }
+.m-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.m-btn.go { background: var(--mk-go); } .m-btn.stop { background: var(--mk-stop); }
+.m-body { display: grid; grid-template-columns: 156px 1fr 300px; min-height: 470px; }
+.m-cats { background: var(--mk-panel); border-right: 2px solid var(--mk-line); padding: 12px 10px; display: grid; gap: 4px; align-content: start; }
+.m-cat { display: flex; align-items: center; gap: 10px; padding: 7px 9px; border-radius: 14px; font-weight: 800; font-size: .92rem; }
+.m-cat.on { background: var(--mk-chip); }
+.m-cat .dot { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #1B2250; flex: none; }
+.m-cat .dot svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.m-cat.more { color: var(--mk-soft); margin-top: 6px; border: 2px dashed var(--mk-line); }
+.m-ws { background: var(--mk-ws); background-image: radial-gradient(#D2D9F2 1.3px, transparent 1.4px); background-size: 26px 26px; padding: 22px 20px; position: relative; }
+.m-stage { background: var(--mk-panel); border-left: 2px solid var(--mk-line); padding: 12px; display: grid; gap: 10px; align-content: start; }
+.m-stage h4 { margin: 0; font-size: .95rem; font-weight: 900; display: flex; justify-content: space-between; align-items: center; }
+.m-stage svg.board { width: 100%; height: auto; border-radius: 12px; background: #F2F5FF; border: 2px solid var(--mk-line); display: block; }
+.m-meter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.m-meter div { background: var(--mk-chip); border-radius: 12px; padding: 7px 8px; font-size: .72rem; font-weight: 700; color: var(--mk-soft); line-height: 1.2; }
+.m-meter b { display: block; font-size: 1.1rem; color: var(--mk-ink); font-weight: 900; }
+.m-speed { display: flex; gap: 6px; }
+.m-speed span { padding: 5px 10px; border-radius: 999px; background: var(--mk-chip); font-weight: 800; font-size: .8rem; color: var(--mk-soft); }
+.m-speed span.on { background: var(--mk-ink); color: #fff; }
+
+/* blocos de ilustração */
+.blk { --b: var(--c-move); --t: #1B2250; position: relative; display: inline-flex; align-items: center; gap: 9px; flex-wrap: wrap; background: var(--b); color: var(--t); font-weight: 800; font-size: 1rem; line-height: 1.1; padding: 11px 15px; border-radius: 14px; margin-bottom: 7px; box-shadow: 0 2px 0 rgba(27,34,80,.2); }
+.blk::after { content: ""; position: absolute; left: 20px; bottom: -6px; width: 26px; height: 8px; background: var(--b); border-radius: 0 0 9px 9px; }
+.blk.hat { border-radius: 22px 22px 14px 14px; padding-top: 15px; margin-top: 8px; }
+.blk.hat::before { content: ""; position: absolute; left: 0; top: -12px; width: 78px; height: 20px; background: var(--b); border-radius: 22px 22px 0 0; }
+.blk svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.blk .f { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: #1B2250; border-radius: 999px; padding: 3px 11px; min-height: 28px; font-weight: 900; }
+.blk .f.dd::after { content: ""; border: 5px solid transparent; border-top-color: #1B2250; margin-top: 5px; }
+.blk .f.drop { background: rgba(255,255,255,.2); color: inherit; border: 2px solid rgba(255,255,255,.6); padding: 1px 9px; }
+.blk .big { font-size: 1.02rem; }
+.cwrap { display: block; margin-bottom: 7px; }
+.cwrap > .blk { margin-bottom: 0; border-radius: 14px 14px 0 0; display: flex; }
+.cwrap > .cin { margin-left: 22px; padding: 10px 0 0 12px; border-left: 14px solid var(--b); background: transparent; }
+.cwrap > .cfoot { height: 16px; width: 100%; max-width: 270px; background: var(--b); border-radius: 0 0 14px 14px; position: relative; }
+.cwrap .blk.run { box-shadow: 0 0 0 4px #FFE066, 0 2px 0 rgba(27,34,80,.2); }
+.old .blk { font-size: .82rem; padding: 7px 11px; border-radius: 10px; box-shadow: none; }
+.old .blk .f { min-height: 22px; font-size: .8rem; padding: 1px 7px; }
+
+/* menu de portas */
+.popwrap { display: grid; grid-template-columns: 1fr 330px; gap: 20px; align-items: start; width: 700px; padding: 26px; background: var(--mk-ws); border-radius: 14px; border: 1px solid var(--mk-line); }
+.pop { background: #fff; border-radius: 18px; border: 2px solid var(--mk-line); box-shadow: 0 14px 36px rgba(27,34,80,.2); padding: 14px; }
+.pop h4 { margin: 0 0 8px; font-size: .95rem; font-weight: 900; }
+.pop .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+.pop .opts span { text-align: center; padding: 8px 0; border-radius: 12px; background: var(--mk-chip); font-weight: 900; }
+.pop .opts span.sel { background: var(--c-move); color: #fff; }
+.pop .opts span.off { opacity: .4; }
+
+/* abertura */
+.home { width: 920px; background: linear-gradient(180deg, #EAF1FF 0%, #F5F7FF 55%); border-radius: 14px; border: 1px solid var(--mk-line); padding: 26px 30px 30px; }
+.home h3 { font-size: 1.7rem; margin: 0 0 4px; }
+.levels { display: flex; gap: 8px; margin: 12px 0 22px; }
+.levels span { padding: 8px 16px; border-radius: 999px; background: #fff; font-weight: 800; border: 2px solid var(--mk-line); color: var(--mk-soft); }
+.levels span.on { border-color: var(--c-move); color: var(--c-move); background: #EEF4FF; }
+.missions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.mission { background: #fff; border-radius: 20px; border: 2px solid var(--mk-line); padding: 14px; display: grid; gap: 8px; }
+.mission .art { height: 92px; border-radius: 14px; display: grid; place-items: center; color: #fff; }
+.mission .art svg { width: 48px; height: 48px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.mission b { font-size: 1.02rem; }
+.mission small { color: var(--mk-soft); font-weight: 700; }
+.stars { letter-spacing: 3px; color: #F5B400; font-size: 1.1rem; }
+.stars .off { color: #D5DAEE; }
+.mission.locked { opacity: .55; }
+
+/* simulador */
+.sim { display: grid; grid-template-columns: 1fr 250px; gap: 16px; align-items: start; }
+.sim canvas { width: 100%; height: auto; border-radius: 14px; border: 2px solid var(--line); background: #F5F8FF; touch-action: none; display: block; cursor: crosshair; }
+.sim-side { display: grid; gap: 10px; }
+.btnrow { display: flex; flex-wrap: wrap; gap: 6px; }
+.chipbtn { font: 800 .86rem/1 var(--font-ui); padding: 9px 12px; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; min-height: 40px; }
+.chipbtn[aria-pressed="true"] { border-color: var(--accent); background: var(--chip); }
+.runbtn { background: #2EA44F; color: #fff; border-color: #2EA44F; }
+.sim label { font-size: .85rem; color: var(--muted); font-weight: 700; display: grid; gap: 4px; }
+.sim input[type=range] { width: 100%; accent-color: var(--accent); }
+.readout { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.readout div { background: var(--chip); border-radius: 12px; padding: 8px 10px; font-size: .78rem; color: var(--muted); font-weight: 700; }
+.readout b { display: block; font-size: 1.25rem; color: var(--fg); font-weight: 900; font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .sim { grid-template-columns: 1fr; } }
+
+table { width: 100%; border-collapse: collapse; font-size: .94rem; }
+th, td { text-align: left; padding: 9px 10px; border-top: 1px solid var(--line); vertical-align: top; }
+th { font: 500 .74rem/1.2 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-top: 0; }
+td.was { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--bad) 60%, transparent); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-move" viewBox="0 0 24 24"><path d="M5 12h12M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-decide" viewBox="0 0 24 24"><path d="M9 9a3 3 0 116 0c0 2-3 2.2-3 5M12 18.5h.01"/></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5M18 3v4h-4M6 21v-4h4"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-time" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4zM4 8l8 4 8-4M12 12v8"/></symbol>
+    <symbol id="i-prep" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 5h11l-2 4 2 4H6"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-robot" viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 8V5M9 13h.01M15 13h.01"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><path d="M6 12h.01M12 12h.01M18 12h.01"/></symbol>
+    <symbol id="i-turn" viewBox="0 0 24 24"><path d="M5 17a8 8 0 0114 0M19 17l-3-3M19 17l-3 3"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8 6.6 19.7l1.1-6.1L3.2 9.4l6.1-.8z"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Proposta de design · v1 · SancaBot</div>
+  <h1 style="margin:.5rem 0 .9rem">Guia visual SancaBot</h1>
+  <p class="lead">Paleta, forma e linguagem para um editor de blocos de robótica para crianças e adolescentes. Tudo aqui é proposta para decidir junto: nada foi aplicado ao editor ainda.</p>
+  <p class="note">As telas abaixo são ilustrações em HTML, não o editor real. Nomes de portas e números do robô são exemplos e estão marcados quando precisam de confirmação.</p>
+</header>
+
+<!-- ============ PRINCÍPIOS ============ -->
+<section id="principios">
+  <div class="sec-head"><div class="eyebrow">1 · Princípios</div><h2>Cinco regras para decidir qualquer detalhe</h2></div>
+  <div class="principles">
+    <div class="card principle"><div class="ico" style="background:#2F6FE4"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-eye"/></svg></div><div><h3>Reconhecer antes de ler</h3><p>Cor, ícone e forma dizem o que o bloco faz. O texto confirma, não ensina.</p></div></div>
+    <div class="card principle"><div class="ico" style="background:#3FAE4A;color:#1B2250"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-flag"/></svg></div><div><h3>Mexi, vi</h3><p>Todo bloco mostra efeito na hora: no robô ou no simulador. Nada de montar tudo para só então descobrir.</p></div></div>
+    <div class="card principle"><div class="ico" style="background:#7E48E0"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-calc"/></svg></div><div><h3>Uma cor, um papel</h3><p>Nove famílias de cor, cada uma com um só significado, em todo lugar: bloco, categoria, tutorial.</p></div></div>
+    <div class="card principle"><div class="ico" style="background:#F08A00;color:#1B2250"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-decide"/></svg></div><div><h3>Palavra do aluno</h3><p>Sem GPIO, PWM, IoT na primeira camada. O termo técnico aparece no modo avançado.</p></div></div>
+    <div class="card principle"><div class="ico" style="background:#C93070"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-robot"/></svg></div><div><h3>Um só mundo visual</h3><p>Uma camada de interface (clara) do topo ao rodapé, uma família de fonte, um jeito de arredondar.</p></div></div>
+  </div>
+</section>
+
+<!-- ============ PALETA ============ -->
+<section id="paleta">
+  <div class="sec-head"><div class="eyebrow">2 · Paleta semântica</div><h2>Nove cores, nove papéis</h2>
+    <p class="lead">Cores vivas e claras, escolhidas pelo papel. Todas levam texto azul-marinho, o que dá contraste alto sem apagar a cor. Os números abaixo são calculados na hora, na própria página. (Esta é a paleta aplicada na v3 do editor.)</p></div>
+  <div class="pal" id="palNew" role="list"></div>
+  <p class="note" id="palSummary" style="margin-top:12px"></p>
+
+  <div class="compare" style="margin-top:28px">
+    <div class="card"><h3>Hoje no editor</h3><div class="pal pal-now" id="palNow"></div><ul class="flaglist" id="nowFlags"></ul></div>
+    <div class="card"><h3>Proposta, em ordem de uso</h3><p class="note">A ordem das categorias na caixa de blocos segue o caminho de um programa: preparar, mover, sentir, decidir, repetir.</p><ul class="flaglist" id="newFlags"></ul></div>
+  </div>
+</section>
+
+<!-- ============ TIPOGRAFIA ============ -->
+<section id="tipografia">
+  <div class="sec-head"><div class="eyebrow">3 · Tipografia e forma</div><h2>Nunito em toda a interface</h2>
+    <p class="lead">Uma só família, arredondada, que combina com os cantos dos blocos. Dois níveis de tamanho por faixa de idade.</p></div>
+  <div class="card">
+    <div class="type-row"><div class="k">Bloco · Explorador<br>6–9 anos</div><div style="font:800 1.25rem/1.2 var(--font-ui)">Andar para frente</div></div>
+    <div class="type-row"><div class="k">Bloco · Criador<br>10–15 anos</div><div style="font:800 1rem/1.2 var(--font-ui)">Andar para frente 50% por 2 s</div></div>
+    <div class="type-row"><div class="k">Título de categoria</div><div style="font:900 1.1rem/1.2 var(--font-ui)">Mover</div></div>
+    <div class="type-row"><div class="k">Texto de apoio</div><div style="font:600 .95rem/1.5 var(--font-ui)">Dica: arraste o bloco para baixo do outro até ouvir o encaixe.</div></div>
+    <div class="type-row"><div class="k">Números e medidas</div><div class="mono" style="font-size:1rem">12,5 cm · 90° · 2,0 s</div></div>
+    <div class="type-row"><div class="k">Formas</div><div class="note">Cantos 14 px nos blocos, 999 px em campos e botões, 18–20 px em cartões. Alvos de toque a partir de 44 px (hoje os campos numéricos têm ~27 px).</div></div>
+  </div>
+</section>
+
+<!-- ============ BLOCOS ============ -->
+<section id="blocos">
+  <div class="sec-head"><div class="eyebrow">4 · Blocos</div><h2>Frases curtas, verbo primeiro, ícone no começo</h2>
+    <p class="lead">O mesmo programa nos dois estilos. À esquerda, como está hoje (texto longo, sem ícone, tudo no mesmo azul). À direita, a proposta.</p></div>
+  <div class="grid2">
+    <div class="card mk old"><div class="eyebrow" style="margin-bottom:10px">Hoje</div>
+      <span class="blk" style="--b:#5B7CFA">preparar motores do SancaBot roda esquerda na porta <span class="f">0</span> roda direita na porta <span class="f">1</span></span><br>
+      <span class="blk" style="--b:#4C97FF">SancaBot movimenta <span class="f dd">para frente</span> velocidade <span class="f">50</span> % <span class="f dd">por tempo</span> por <span class="f" style="background:#9966FF;color:#fff">tempo 2 segundos</span></span><br>
+      <span class="blk" style="--b:#4C97FF">SancaBot movimenta <span class="f dd">para a direita</span> velocidade <span class="f">50</span> % <span class="f dd">por tempo</span> por <span class="f" style="background:#9966FF;color:#fff">tempo 1 segundos</span></span>
+    </div>
+    <div class="card mk"><div class="eyebrow" style="margin-bottom:10px">Proposta</div>
+      <span class="blk" style="--b:var(--c-prep)"><svg><use href="#i-prep"/></svg>Preparar motores <span class="f dd">esquerdo A</span> <span class="f dd">direito B</span></span><br>
+      <span class="cwrap" style="--b:var(--c-repeat);--t:#1B2250"><span class="blk" style="--b:var(--c-repeat);--t:#1B2250"><svg><use href="#i-loop"/></svg>Repetir <span class="f">4</span> vezes</span>
+        <span class="cin">
+          <span class="blk" style="--b:var(--c-move)"><svg><use href="#i-move"/></svg>Andar para frente <span class="f">2</span> s</span><br>
+          <span class="blk" style="--b:var(--c-move)"><svg><use href="#i-turn"/></svg>Girar <span class="f dd">direita</span> <span class="f">90°</span></span>
+        </span><span class="cfoot"></span></span>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>O que mudou, bloco a bloco</h3>
+    <table><thead><tr><th>Antes</th><th>Depois</th><th>Por quê</th></tr></thead><tbody>
+      <tr><td class="was">preparar motores do SancaBot roda esquerda na porta 0 roda direita na porta 1</td><td>Preparar motores · esquerdo A · direito B</td><td>De 15 palavras para 5. A figura da placa explica o que é A e B (tela 2).</td></tr>
+      <tr><td class="was">SancaBot movimenta para frente velocidade 50% por tempo por tempo 2 segundos</td><td>Andar para frente 2 s</td><td>O robô é o assunto do programa inteiro; repetir o nome em todo bloco cansa. A velocidade vira ajuste opcional do bloco.</td></tr>
+      <tr><td class="was">se a distância do obstáculo for menor que 15 cm</td><td>Se obstáculo a menos de 15 cm</td><td>Mesma ideia, uma linha.</td></tr>
+      <tr><td class="was">Dados do projeto · IOT ID</td><td>(some da vista inicial; fica em "Meu projeto")</td><td>Não é uma ação, e "IOT ID" é jargão.</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ============ TELAS ============ -->
+<section id="telas">
+  <div class="sec-head"><div class="eyebrow">5 · Telas de exemplo</div><h2>Três momentos do aluno</h2>
+    <p class="lead">Montar, escolher uma porta, e começar o dia. Role para o lado nas telas largas.</p></div>
+
+  <div class="frame">
+    <div class="frame-cap"><b>Tela 1 · Montar, com palco do robô à direita</b><span class="tag">proposta</span></div>
+    <div class="scroll-x"><div class="mk screen">
+      <div class="m-top">
+        <div class="m-logo"><i><svg fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-robot"/></svg></i>SancaBot</div>
+        <div class="m-tabs"><span class="m-tab on">Montar</span><span class="m-tab">Mensagens</span><span class="m-tab">Meus arquivos</span><span class="m-tab">Da turma</span><span class="m-tab">Meu robô</span></div>
+        <div class="m-spacer"></div>
+        <div class="m-status"><i></i>Robô conectado</div>
+        <div class="m-run"><button class="m-btn go" aria-label="Executar"><svg><use href="#i-flag"/></svg></button><button class="m-btn stop" aria-label="Parar"><svg><use href="#i-stop"/></svg></button></div>
+      </div>
+      <div class="m-body">
+        <div class="m-cats">
+          <div class="m-cat"><span class="dot" style="background:var(--c-prep)"><svg><use href="#i-prep"/></svg></span>Preparar</div>
+          <div class="m-cat on"><span class="dot" style="background:var(--c-move)"><svg><use href="#i-move"/></svg></span>Mover</div>
+          <div class="m-cat"><span class="dot" style="background:var(--c-sense)"><svg><use href="#i-eye"/></svg></span>Sentir</div>
+          <div class="m-cat"><span class="dot" style="background:var(--c-decide);color:#1B2250"><svg><use href="#i-decide"/></svg></span>Decidir</div>
+          <div class="m-cat"><span class="dot" style="background:var(--c-repeat);color:#1B2250"><svg><use href="#i-loop"/></svg></span>Repetir</div>
+          <div class="m-cat"><span class="dot" style="background:var(--c-calc);color:#1B2250"><svg><use href="#i-calc"/></svg></span>Contas</div>
+          <div class="m-cat"><span class="dot" style="background:var(--c-time)"><svg><use href="#i-time"/></svg></span>Tempo</div>
+          <div class="m-cat"><span class="dot" style="background:var(--c-store)"><svg><use href="#i-store"/></svg></span>Guardar</div>
+          <div class="m-cat more"><span class="dot" style="background:var(--c-more)"><svg><use href="#i-dots"/></svg></span>Mais</div>
+        </div>
+        <div class="m-ws">
+          <span class="blk hat" style="--b:#E5B800;--t:#1B2250"><svg><use href="#i-flag"/></svg>Quando a bandeira for clicada</span><br>
+          <span class="blk" style="--b:var(--c-prep)"><svg><use href="#i-prep"/></svg>Preparar motores <span class="f dd">esquerdo A</span> <span class="f dd">direito B</span></span><br>
+          <span class="cwrap" style="--b:var(--c-repeat)"><span class="blk" style="--b:var(--c-repeat);--t:#1B2250"><svg><use href="#i-loop"/></svg>Repetir <span class="f">4</span> vezes</span>
+            <span class="cin">
+              <span class="blk run" style="--b:var(--c-move)"><svg><use href="#i-move"/></svg>Andar para frente <span class="f">2</span> s</span><br>
+              <span class="blk" style="--b:var(--c-move)"><svg><use href="#i-turn"/></svg>Girar <span class="f dd">direita</span> <span class="f">90°</span></span>
+            </span><span class="cfoot"></span></span>
+          <div class="note" style="margin-top:14px;color:#5B6490">O bloco que está rodando ganha um brilho amarelo.</div>
+        </div>
+        <div class="m-stage">
+          <h4>Palco do robô <span class="tag">tablado 100 × 100 cm</span></h4>
+          <svg class="board" viewBox="0 0 280 280" role="img" aria-label="Simulação: o robô percorre um quadrado e deixa um rastro">
+            <defs><pattern id="g1" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#D6DCF2" stroke-width="1"/></pattern></defs>
+            <rect width="280" height="280" fill="url(#g1)"/>
+            <rect x="60" y="60" width="160" height="160" rx="6" fill="none" stroke="#9AA3CC" stroke-width="3" stroke-dasharray="7 7"/>
+            <path d="M60 220 L60 60 L220 60 L220 140" fill="none" stroke="#2EA44F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M220 140 L219 150" stroke="#F08A00" stroke-width="5" stroke-linecap="round"/>
+            <g transform="translate(220 148) rotate(180)"><rect x="-13" y="-16" width="26" height="32" rx="7" fill="#2F6FE4"/><rect x="-17" y="-12" width="5" height="10" rx="2" fill="#1B2250"/><rect x="12" y="-12" width="5" height="10" rx="2" fill="#1B2250"/><circle cx="-5" cy="-8" r="2.4" fill="#fff"/><circle cx="5" cy="-8" r="2.4" fill="#fff"/></g>
+            <text x="64" y="52" font-size="10" font-weight="800" fill="#5B6490">linha desenhada pelo professor</text>
+            <path d="M12 268h28" stroke="#1B2250" stroke-width="3"/><text x="44" y="271" font-size="10" font-weight="800" fill="#1B2250">20 cm</text>
+          </svg>
+          <div class="m-meter"><div>Desvio<b>3 cm</b></div><div>Tempo<b>8 s</b></div><div>Chegou?<b>Quase</b></div></div>
+          <div class="m-speed"><span>1×</span><span class="on">2×</span><span>4×</span></div>
+        </div>
+      </div>
+    </div></div>
+    <p class="note" style="margin:10px 6px 2px">Mudanças: abas com palavras de aluno, estado do robô sempre visível, bandeira e parar grandes, categorias com bolinha e ícone, palco no lugar do painel de código (o código fica numa aba "Ver código").</p>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="frame">
+      <div class="frame-cap"><b>Tela 2 · Escolher a porta, com a figura da placa</b><span class="tag warn">nomes A–D são exemplo</span></div>
+      <div class="scroll-x"><div class="mk popwrap">
+        <div><span class="blk" style="--b:var(--c-prep)"><svg><use href="#i-prep"/></svg>Preparar motores <span class="f dd" style="outline:3px solid #FFE066">esquerdo A</span> <span class="f dd">direito B</span></span></div>
+        <div class="pop">
+          <h4>Onde o motor esquerdo está ligado?</h4>
+          <svg viewBox="0 0 300 190" width="100%" role="img" aria-label="Robô visto de cima, com portas A a D marcadas na borda da placa">
+            <rect x="58" y="22" width="184" height="146" rx="26" fill="#EEF2FF" stroke="#C9D0EE" stroke-width="3"/>
+            <rect x="26" y="52" width="26" height="62" rx="9" fill="#1B2250"/><rect x="248" y="52" width="26" height="62" rx="9" fill="#1B2250"/>
+            <rect x="124" y="34" width="52" height="20" rx="10" fill="#087A85"/><circle cx="138" cy="44" r="5" fill="#fff"/><circle cx="162" cy="44" r="5" fill="#fff"/>
+            <text x="150" y="30" text-anchor="middle" font-size="11" font-weight="800" fill="#5B6490">frente</text>
+            <g font-weight="900" font-size="15" text-anchor="middle">
+              <rect x="78" y="136" width="34" height="26" rx="8" fill="#2F6FE4"/><text x="95" y="155" fill="#fff">A</text>
+              <rect x="124" y="136" width="34" height="26" rx="8" fill="#DDE3F8"/><text x="141" y="155" fill="#1B2250">B</text>
+              <rect x="170" y="136" width="34" height="26" rx="8" fill="#DDE3F8"/><text x="187" y="155" fill="#1B2250">C</text>
+              <rect x="216" y="136" width="20" height="26" rx="8" fill="#DDE3F8"/><text x="226" y="155" fill="#1B2250">D</text>
+            </g>
+            <path d="M95 136 C 80 110, 50 100, 40 84" fill="none" stroke="#2F6FE4" stroke-width="3" stroke-dasharray="5 5"/>
+          </svg>
+          <div class="opts"><span class="sel">A</span><span>B</span><span>C</span><span class="off">D</span></div>
+          <p class="note" style="margin:8px 0 0;color:#5B6490;font-size:.8rem">Cada letra está escrita ao lado da entrada na placa. D está ocupada pelo sensor.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="frame">
+      <div class="frame-cap"><b>Tela 3 · Abertura: missões e nível</b><span class="tag">proposta</span></div>
+      <div class="scroll-x"><div class="mk home">
+        <h3>Oi, Aluno!</h3>
+        <div style="font-weight:700;color:#5B6490">Qual missão você quer hoje?</div>
+        <div class="levels"><span class="on">Explorador · 6 a 9 anos</span><span>Criador · 10 a 15 anos</span></div>
+        <div class="missions">
+          <div class="mission"><div class="art" style="background:var(--c-move)"><svg><use href="#i-move"/></svg></div><b>Sair da garagem</b><small>Ande para frente e pare</small><span class="stars">★★★</span></div>
+          <div class="mission"><div class="art" style="background:var(--c-repeat);color:#1B2250"><svg><use href="#i-loop"/></svg></div><b>Desenhar um quadrado</b><small>Repita e vire 4 vezes</small><span class="stars">★★<span class="off">★</span></span></div>
+          <div class="mission"><div class="art" style="background:var(--c-sense)"><svg><use href="#i-eye"/></svg></div><b>Parar antes da parede</b><small>Use o olho do robô</small><span class="stars"><span class="off">★★★</span></span></div>
+          <div class="mission locked"><div class="art" style="background:var(--c-decide);color:#1B2250"><svg><use href="#i-decide"/></svg></div><b>Labirinto</b><small>Termine a missão 3</small><span class="stars"><span class="off">★★★</span></span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOMES ============ -->
+<section id="nomes">
+  <div class="sec-head"><div class="eyebrow">6 · Linguagem da interface</div><h2>Nomes de aluno, não de sistema</h2></div>
+  <div class="card"><table>
+    <thead><tr><th>Hoje</th><th>Proposta</th><th>Observação</th></tr></thead><tbody>
+      <tr><td class="was">Blocks</td><td>Montar</td><td>Ainda em inglês no cabeçalho.</td></tr>
+      <tr><td class="was">Console</td><td>Mensagens</td><td>O que o robô "fala" ao aluno.</td></tr>
+      <tr><td class="was">Arquivos</td><td>Meus arquivos</td><td></td></tr>
+      <tr><td class="was">Compartilhado</td><td>Da turma</td><td>Se a função só existir com professor/turma.</td></tr>
+      <tr><td class="was">Dispositivo</td><td>Meu robô</td><td>Conectar, bateria, atualizar.</td></tr>
+      <tr><td class="was">Modelos / Experimental</td><td>Exemplos / Novidades</td><td>"Experimental" avisa o adulto; criança lê "novidade".</td></tr>
+      <tr><td class="was">Laboratório Avançado</td><td>Mais (com cadeado do professor, opcional)</td><td>Hoje o modo "Avançado" fica numa chave na caixa de blocos.</td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- ============ SIMULADOR ============ -->
+<section id="simulador">
+  <div class="sec-head"><div class="eyebrow">7 · Protótipo do palco</div><h2>Trajetória no tablado, em escala</h2>
+    <p class="lead">Conceito para testar a ideia do simulador: escolha ou desenhe uma trajetória no tablado e veja o robô tentando segui-la, com o desvio medido em centímetros. Aqui o robô segue a linha sozinho; no produto ele seguiria o programa de blocos do aluno.</p></div>
+  <div class="card">
+    <div class="sim">
+      <div>
+        <canvas id="simCanvas" width="720" height="480" aria-label="Tablado de 120 por 80 centímetros. Desenhe uma trajetória com o dedo ou o mouse."></canvas>
+        <p class="note" style="margin:8px 2px 0">Tablado 120 × 80 cm. Linha tracejada: trajetória-alvo. Rastro: verde perto, vermelho longe da linha.</p>
+      </div>
+      <div class="sim-side">
+        <div>
+          <div class="eyebrow" style="margin-bottom:6px">Trajetória</div>
+          <div class="btnrow" id="presetRow">
+            <button class="chipbtn" data-p="reta" aria-pressed="false">Reta</button>
+            <button class="chipbtn" data-p="quadrado" aria-pressed="true">Quadrado</button>
+            <button class="chipbtn" data-p="oito" aria-pressed="false">Oito</button>
+            <button class="chipbtn" data-p="s" aria-pressed="false">Curva em S</button>
+            <button class="chipbtn" data-p="livre" aria-pressed="false">Desenhar</button>
+          </div>
+        </div>
+        <label>Desvio do mundo real: <span id="noiseLbl">médio</span>
+          <input id="noise" type="range" min="0" max="3" step="1" value="1" aria-describedby="noiseHelp"></label>
+        <div class="note" id="noiseHelp" style="font-size:.8rem">Simula motor mais fraco de um lado, chão escorregadio, bateria. Em 0 o robô é perfeito.</div>
+        <div class="btnrow"><button class="chipbtn runbtn" id="runBtn">▶ Executar</button><button class="chipbtn" id="resetBtn">↺ Zerar</button></div>
+        <div class="readout" aria-live="polite">
+          <div>Desvio máximo<b id="rMax">0,0 cm</b></div>
+          <div>Desvio médio<b id="rAvg">0,0 cm</b></div>
+          <div>Tempo<b id="rTime">0,0 s</b></div>
+          <div>Resultado<b id="rRes">–</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="note" style="margin-top:48px">Fontes de decisão: a estrutura de blocos, categorias por cor e palco do Scratch (MIT Media Lab), adaptadas; contraste calculado pela fórmula de luminância relativa da WCAG 2.x.</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  /* ---------- cor e contraste ---------- */
+  function hexToRgb(h) { h = h.replace('#', ''); return [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); }); }
+  function lin(c) { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function lum(h) { var r = hexToRgb(h); return 0.2126 * lin(r[0]) + 0.7152 * lin(r[1]) + 0.0722 * lin(r[2]); }
+  function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function lab(h) { // sRGB -> CIELAB (D65)
+    var r = hexToRgb(h).map(lin), X = 0.4124 * r[0] + 0.3576 * r[1] + 0.1805 * r[2], Y = 0.2126 * r[0] + 0.7152 * r[1] + 0.0722 * r[2], Z = 0.0193 * r[0] + 0.1192 * r[1] + 0.9505 * r[2];
+    function f(t) { return t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116; }
+    var fx = f(X / 0.95047), fy = f(Y), fz = f(Z / 1.08883); return [116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)];
+  }
+  function dE(a, b) { var x = lab(a), y = lab(b); return Math.sqrt(Math.pow(x[0] - y[0], 2) + Math.pow(x[1] - y[1], 2) + Math.pow(x[2] - y[2], 2)); }
+  var INK = '#1B2250', WHITE = '#FFFFFF';
+  function best(h) { var w = contrast(h, WHITE), d = contrast(h, INK); return w >= d ? { c: WHITE, r: w, n: 'branco' } : { c: INK, r: d, n: 'azul-escuro' }; }
+
+  var NOW = [['Preparação', '#5B7CFA'], ['Movimento', '#4C97FF'], ['Ajustes', '#FFB400'], ['Sensores e leituras', '#5CB1D6'], ['Condições', '#59C059'], ['Controle', '#FFAB19'], ['Variável', '#FF8C1A'], ['Tempo', '#9966FF'], ['Experimental', '#7C86B2']];
+  var NEW = [['Preparar', '#FF7B6B', 'i-prep', 'robô e sensores'], ['Mover', '#4C9FFF', 'i-move', 'andar e girar'], ['Sentir', '#1FD3C0', 'i-eye', 'distância, luz'], ['Decidir', '#FF9A3C', 'i-decide', 'se... então'],
+             ['Repetir', '#FFD23F', 'i-loop', 'laços'], ['Contas', '#5FDB74', 'i-calc', 'números e lógica'], ['Tempo', '#A58BFF', 'i-time', 'esperar, cronômetro'], ['Guardar', '#FF6FA5', 'i-store', 'variáveis'], ['Mais', '#A9B6D8', 'i-dots', 'avançado']];
+
+  function fmt(n) { return n.toFixed(1).replace('.', ','); }
+  var palNew = document.getElementById('palNew'), pass = 0;
+  NEW.forEach(function (c) {
+    var b = best(c[1]), ok = b.r >= 4.5; if (ok) pass++;
+    var d = document.createElement('div'); d.className = 'sw'; d.setAttribute('role', 'listitem'); d.style.background = c[1]; d.style.color = b.c;
+    d.innerHTML = '<div class="nm"><svg fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#' + c[2] + '"/></svg>' + c[0] + '</div>' +
+      '<div class="meta">' + c[3] + '<br>' + c[1] + '<br>texto ' + b.n + ' · ' + fmt(b.r) + ':1 ' + (ok ? '✓' : '⚠') + '</div>';
+    palNew.appendChild(d);
+  });
+  document.getElementById('palSummary').textContent = pass + ' de ' + NEW.length + ' cores passam no contraste AA (4,5:1) para texto de bloco.';
+
+  var palNow = document.getElementById('palNow'), nowFails = 0;
+  NOW.forEach(function (c) {
+    var w = contrast(c[1], WHITE); if (w < 4.5) nowFails++;
+    var d = document.createElement('div'); d.className = 'sw'; d.style.background = c[1]; d.style.color = '#fff';
+    d.innerHTML = '<div class="nm">' + c[0] + '</div><div class="meta">' + c[1] + '<br>branco ' + fmt(w) + ':1 ' + (w >= 4.5 ? '✓' : '⚠') + '</div>';
+    palNow.appendChild(d);
+  });
+  function closePairs(list, limit) {
+    var out = []; for (var i = 0; i < list.length; i++) for (var j = i + 1; j < list.length; j++) { var v = dE(list[i][1], list[j][1]); if (v < limit) out.push([list[i][0], list[j][0], v]); } return out.sort(function (a, b) { return a[2] - b[2]; });
+  }
+  var nowPairs = closePairs(NOW, 22), newPairs = closePairs(NEW, 22);
+  var nf = document.getElementById('nowFlags');
+  nf.innerHTML = '<li><b>' + nowFails + ' de ' + NOW.length + '</b> categorias com texto branco abaixo de 4,5:1.</li>' +
+    (nowPairs.length ? '<li><b>' + nowPairs.length + ' pares parecidos demais</b> (ΔE &lt; 22): ' + nowPairs.slice(0, 5).map(function (p) { return p[0] + ' e ' + p[1]; }).join('; ') + '.</li>' : '');
+  var nn = document.getElementById('newFlags');
+  nn.innerHTML = '<li>Menor distância entre duas cores da proposta: <b>ΔE ' + (function () { var m = 999; for (var i = 0; i < NEW.length; i++) for (var j = i + 1; j < NEW.length; j++) m = Math.min(m, dE(NEW[i][1], NEW[j][1])); return m.toFixed(0); })() + '</b>. ' + (newPairs.length ? 'Atenção a: ' + newPairs.map(function (p) { return p[0] + ' e ' + p[1]; }).join('; ') + '.' : 'Nenhum par abaixo de 22.') + '</li>' +
+    '<li>Cores de ação (azul, verde-água, laranja) ficam longe uma da outra, porque são as mais usadas lado a lado.</li>';
+
+  /* ---------- simulador conceito ---------- */
+  var cv = document.getElementById('simCanvas'), ctx = cv.getContext('2d');
+  var W = 120, H = 80, S = cv.width / W; // px por cm
+  var path = [], robot = null, trace = [], running = false, tPrev = 0, simT = 0, maxErr = 0, sumErr = 0, nErr = 0, drawing = false, mode = 'quadrado', raf = 0;
+  function P(x, y) { return { x: x, y: y }; }
+  function resample(pts, step) {
+    var out = [pts[0]], acc = 0;
+    for (var i = 1; i < pts.length; i++) {
+      var a = pts[i - 1], b = pts[i], seg = Math.hypot(b.x - a.x, b.y - a.y), d = step - acc;
+      while (d <= seg) { var t = d / seg; out.push(P(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t)); d += step; }
+      acc = seg - (d - step);
+    }
+    out.push(pts[pts.length - 1]); return out;
+  }
+  var PRESETS = {
+    reta: function () { return resample([P(15, 40), P(105, 40)], 1); },
+    quadrado: function () { return resample([P(30, 62), P(30, 18), P(90, 18), P(90, 62), P(30, 62)], 1); },
+    oito: function () { var pts = [], i; for (i = 0; i <= 200; i++) { var a = i / 200 * Math.PI * 2; pts.push(P(60 + 38 * Math.sin(a), 40 + 20 * Math.sin(2 * a))); } return resample(pts, 1); },
+    s: function () { var pts = [], i; for (i = 0; i <= 120; i++) { var u = i / 120; pts.push(P(12 + 96 * u, 40 + 24 * Math.sin(u * Math.PI * 2))); } return resample(pts, 1); },
+    livre: function () { return []; }
+  };
+  var NOISE = [0, 0.012, 0.03, 0.06];
+  function reset() {
+    cancelAnimationFrame(raf); running = false; trace = []; simT = 0; maxErr = 0; sumErr = 0; nErr = 0;
+    if (path.length > 1) { var a = path[0], b = path[Math.min(6, path.length - 1)]; robot = { x: a.x, y: a.y, th: Math.atan2(b.y - a.y, b.x - a.x), drift: 0, idx: 0 }; } else robot = null;
+    document.getElementById('runBtn').textContent = '▶ Executar'; readout('–'); draw();
+  }
+  function readout(res) {
+    document.getElementById('rMax').textContent = fmt(maxErr) + ' cm'; document.getElementById('rAvg').textContent = fmt(nErr ? sumErr / nErr : 0) + ' cm';
+    document.getElementById('rTime').textContent = fmt(simT) + ' s'; document.getElementById('rRes').textContent = res;
+  }
+  function distToPath(p) { var m = 1e9; for (var i = 0; i < path.length; i++) { var d = Math.hypot(path[i].x - p.x, path[i].y - p.y); if (d < m) m = d; } return m; }
+  function errColor(e) { var t = Math.max(0, Math.min(1, e / 8)); var r = Math.round(46 + (229 - 46) * t), g = Math.round(164 + (72 - 164) * t), b = Math.round(79 + (77 - 79) * t); return 'rgb(' + r + ',' + g + ',' + b + ')'; }
+  function step(dt) {
+    var look = 7, v = 18, n = NOISE[+document.getElementById('noise').value];
+    // alvo: ponto à frente na trajetória (pure pursuit)
+    var j = robot.idx; while (j < path.length - 1 && Math.hypot(path[j].x - robot.x, path[j].y - robot.y) < look) j++;
+    robot.idx = Math.max(robot.idx, j - 1);
+    var tg = path[j], want = Math.atan2(tg.y - robot.y, tg.x - robot.x), dth = Math.atan2(Math.sin(want - robot.th), Math.cos(want - robot.th));
+    var w = Math.max(-3.2, Math.min(3.2, dth * 5));
+    robot.drift += (Math.random() - 0.5) * n * 2 * dt * 10; robot.drift = Math.max(-0.5, Math.min(0.5, robot.drift));
+    robot.th += (w + robot.drift) * dt; robot.x += Math.cos(robot.th) * v * dt; robot.y += Math.sin(robot.th) * v * dt;
+    simT += dt;
+    var e = distToPath(robot); maxErr = Math.max(maxErr, e); sumErr += e; nErr++;
+    trace.push({ x: robot.x, y: robot.y, e: e });
+    var end = path[path.length - 1];
+    return j >= path.length - 1 && Math.hypot(end.x - robot.x, end.y - robot.y) < 3 || simT > 90;
+  }
+  function loop(ts) {
+    if (!running) return; var dt = Math.min(0.05, (ts - tPrev) / 1000 || 0.016); tPrev = ts; var done = false;
+    for (var k = 0; k < 2 && !done; k++) done = step(dt / 2 * 2);
+    readout('…'); draw();
+    if (done) { running = false; document.getElementById('runBtn').textContent = '▶ Executar de novo'; readout(maxErr < 3 ? 'Perfeito' : maxErr < 6 ? 'Quase' : 'Longe'); return; }
+    raf = requestAnimationFrame(loop);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, cv.width, cv.height); ctx.fillStyle = '#F5F8FF'; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.strokeStyle = '#DCE2F5'; ctx.lineWidth = 1; for (var x = 0; x <= W; x += 10) { ctx.beginPath(); ctx.moveTo(x * S, 0); ctx.lineTo(x * S, cv.height); ctx.stroke(); } for (var y = 0; y <= H; y += 10) { ctx.beginPath(); ctx.moveTo(0, y * S); ctx.lineTo(cv.width, y * S); ctx.stroke(); }
+    ctx.fillStyle = '#5B6490'; ctx.font = '700 12px Nunito, sans-serif'; ctx.fillText('0', 4, 14); ctx.fillText('120 cm', cv.width - 54, 14); ctx.fillText('80 cm', 6, cv.height - 6);
+    if (path.length > 1) { ctx.setLineDash([9, 8]); ctx.strokeStyle = '#7B86B8'; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.beginPath(); path.forEach(function (p, i) { i ? ctx.lineTo(p.x * S, p.y * S) : ctx.moveTo(p.x * S, p.y * S); }); ctx.stroke(); ctx.setLineDash([]); }
+    else if (mode === 'livre') { ctx.fillStyle = '#5B6490'; ctx.font = '800 18px Nunito, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Desenhe a trajetória aqui com o mouse ou o dedo', cv.width / 2, cv.height / 2); ctx.textAlign = 'start'; }
+    ctx.lineWidth = 6; ctx.lineCap = 'round';
+    for (var i = 1; i < trace.length; i++) { ctx.strokeStyle = errColor(trace[i].e); ctx.beginPath(); ctx.moveTo(trace[i - 1].x * S, trace[i - 1].y * S); ctx.lineTo(trace[i].x * S, trace[i].y * S); ctx.stroke(); }
+    if (robot) { ctx.save(); ctx.translate(robot.x * S, robot.y * S); ctx.rotate(robot.th);
+      ctx.fillStyle = '#1B2250'; ctx.fillRect(-16, -17, 12, 6); ctx.fillRect(-16, 11, 12, 6); ctx.fillStyle = '#2F6FE4'; roundRect(-18, -13, 36, 26, 8); ctx.fill(); ctx.fillStyle = '#087A85'; roundRect(10, -7, 8, 14, 3); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(14, -3, 2, 0, 7); ctx.arc(14, 3, 2, 0, 7); ctx.fill(); ctx.restore(); }
+    ctx.strokeStyle = '#1B2250'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(cv.width - 20 * S - 12, cv.height - 14); ctx.lineTo(cv.width - 12, cv.height - 14); ctx.stroke(); ctx.fillStyle = '#1B2250'; ctx.font = '800 12px Nunito, sans-serif'; ctx.fillText('20 cm', cv.width - 20 * S - 12, cv.height - 20);
+  }
+  function roundRect(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function setMode(m) {
+    mode = m; Array.prototype.forEach.call(document.querySelectorAll('#presetRow .chipbtn'), function (b) { b.setAttribute('aria-pressed', String(b.dataset.p === m)); });
+    path = PRESETS[m](); reset();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('#presetRow .chipbtn'), function (b) { b.addEventListener('click', function () { setMode(b.dataset.p); }); });
+  document.getElementById('runBtn').addEventListener('click', function () {
+    if (path.length < 2) return; if (!running) { reset(); running = true; tPrev = performance.now(); this.textContent = '■ Parar'; raf = requestAnimationFrame(loop); } else { running = false; cancelAnimationFrame(raf); this.textContent = '▶ Executar'; readout('Parado'); }
+  });
+  document.getElementById('resetBtn').addEventListener('click', reset);
+  document.getElementById('noise').addEventListener('input', function () { document.getElementById('noiseLbl').textContent = ['nenhum', 'médio', 'alto', 'muito alto'][+this.value]; });
+  function pos(e) { var r = cv.getBoundingClientRect(); return P((e.clientX - r.left) / r.width * W, (e.clientY - r.top) / r.height * H); }
+  var raw = [];
+  cv.addEventListener('pointerdown', function (e) { if (mode !== 'livre') setMode('livre'); drawing = true; raw = [pos(e)]; try { cv.setPointerCapture(e.pointerId); } catch (x) { } path = raw.slice(); trace = []; robot = null; draw(); });
+  cv.addEventListener('pointermove', function (e) { if (!drawing) return; var p = pos(e), l = raw[raw.length - 1]; if (Math.hypot(p.x - l.x, p.y - l.y) > 0.8) { raw.push(p); path = raw.slice(); draw(); } });
+  function endDraw() { if (!drawing) return; drawing = false; if (raw.length > 3) { path = resample(raw, 1); reset(); } else { path = []; reset(); } }
+  cv.addEventListener('pointerup', endDraw); cv.addEventListener('pointercancel', endDraw);
+  var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  fontsReady.then(function () { setMode('quadrado'); });
+  setMode('quadrado');
+})();
+</script>

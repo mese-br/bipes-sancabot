@@ -697,7 +697,7 @@ Blockly.Blocks['esp32_adc'] = {
 
 Blockly.Blocks['esp32_adc'] = {
   init: function() {
-	if (UI ['workspace'].selector.value == "ESP32S2") {
+	if (window.UI && UI ['workspace'] && UI ['workspace'].selector && UI ['workspace'].selector.value == "ESP32S2") {
 		this.appendDummyInput()
 		.appendField("ESP32S2 Analog Input (ADC)");
 		this.appendValueInput("pin")
@@ -856,7 +856,7 @@ Blockly.Blocks['pinout'] = {
       this.first_load = this.first_load - 1; // function is triggered twice on load due to setting values
     }
     this.setTooltip(device_ + " Pins");
-    let devices = UI ['workspace'].devices
+    let devices = ((window.UI && UI ['workspace']) || {}).devices || {}  // emulator.html não cria UI.workspace
 
     if (device_  in  devices && 'pinout' in devices [device_]){
       return devices [device_].pinout;
@@ -2282,15 +2282,15 @@ Blockly.Blocks['project_metadata'] = {
         .appendField(new Blockly.FieldLabel(MSG["project_info"]), "NAME");
     this.appendValueInput("project_author")
         .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
+        .setAlign(Blockly.ALIGN_LEFT)
         .appendField(new Blockly.FieldLabel(MSG["project_info_author"]), "project_author");
     this.appendValueInput("project_iot_id")
         .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
+        .setAlign(Blockly.ALIGN_LEFT)
         .appendField(new Blockly.FieldLabel("IOT ID"), "project_iot_id");
     this.appendValueInput("project_description")
         .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
+        .setAlign(Blockly.ALIGN_LEFT)
         .appendField(new Blockly.FieldLabel(MSG["project_info_desc"]), "project_description");
     this.setColour(230);
     this.setTooltip("Information about the project");

@@ -1,0 +1,102 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot v4: ÍCONES em sprite (media/icons.svg). Mapa de posição de cada ícone; o tamanho é 1,5 rem (medium: 2,5 rem).
+   Vem do mapa original do BIPES; os ícones novos do SancaBot são SVG em componentes (data URI) e não passam por aqui. */
+
+/* Sprited icons. */
+
+button.icon:before, #deviceSelect.icon:before, a.icon:before, span.icon:before, label.icon:before {
+  content:"";
+  background-size: cover;
+  background-image: url(../media/icons.svg);
+  width: 1.5rem;
+  height: 1.5rem;
+  background-size: auto 3rem;
+}
+button.icon:before, label.icon:before {
+  display:block;
+}
+span.icon:before {
+  display:inline-block;
+}
+
+button.icon.medium:before  {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-size: auto 5rem;
+}
+#linkButton:before {
+  background-position: left calc(-1.5rem*0) top; /* icon size * index on icons.svg*/
+}
+#saveButton:before, #downloadIcon:before  {
+  background-position: left calc(-1.5rem*1) top;
+}
+#loadButton:before {
+  background-position: left calc(-1.5rem*2) top;
+}
+#trashButton:before, #trashIcon:before {
+  background-position: left calc(-1.5rem*3) top;
+}
+#notificationButton:before {
+  background-position: left calc(-1.5rem*4) top;
+}
+#deviceSelect:before {
+  background-position: left calc(-1.5rem*7) top;
+}
+#runButton:before, #runIcon:before {
+  transition: background ease .125s;
+  background-position: left calc(-1.5rem*5) top;
+}
+#runButton.on:before {
+  background-position: left calc(-1.5rem*5) bottom;
+}
+#languageIcon:before {
+  background-position: left calc(-1.5rem*6) top;
+}
+#serialButton:before, #channelButton.webserial:before {
+  background-position: left calc(-1.5rem*9) top;
+}
+#networkButton:before, #channelButton.websocket:before {
+  background-position: left calc(-1.5rem*10) top;
+}
+#toolbarButton:before {
+  background-position: left calc(-2.5rem*11) top;
+}
+#toolbarButton.on:before {
+  background-position: left calc(-2.5rem*11) bottom;
+}
+#forumButton:before {
+  background-position: left calc(-1.5rem*12) top;
+}
+#bluetoothButton:before, #channelButton.webbluetooth:before {
+  background-position: left calc(-1.5rem*15) top;
+}
+#connectButton:before {
+  background-position: left calc(-1.5rem*13) top;
+}
+#connectButton.on:before {
+  background-position: left calc(-1.5rem*13) bottom;
+}
+#scanButton:before {
+  background-position: left calc(-1.5rem*14) top;
+}
+#settingsGeneric:before {
+  background-position: left calc(-1.5rem*16) top;
+}
+#tipsGeneric:before {
+  background-position: left calc(-1.5rem*17) top;
+}
+#refreshFilesList:before {
+  background-position: left calc(-1.5rem*18) top;
+}
+#putFileButton:before, #editor2DeviceButton:before, #generated2DeviceButton:before{
+  background-position: left calc(-1.5rem*19) top;
+}
+#updateXMLButton:before {
+  background-position: left calc(-1.5rem*20) bottom;
+}
+#accountButton:before {
+  background-position: left calc(-1.5rem*22) top;
+}
+#newProjectButton:before {
+  background-position: left calc(-1.5rem*23) top;
+}

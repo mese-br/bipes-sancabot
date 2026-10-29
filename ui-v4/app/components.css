@@ -1,0 +1,46 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+   SancaBot v4: COMPONENTES comuns: botão com ícone, texto em código, interruptor, aviso flutuante, barra de progresso, grupos que abrem e fecham. */
+
+/* ---- Botões do BIPES com ícone (as variações visuais vêm de shell.css e screens.css) ---- */
+button.icon, label.button.icon { border-radius: var(--sb-r-pill); border: 1px solid transparent; background-color: transparent; color: inherit; padding: .25rem; transition: border-color var(--sb-t); -webkit-tap-highlight-color: transparent; cursor: pointer; }
+button.icon:hover, label.button.icon:hover { border-color: var(--sb-mute); }
+button.icon:active, label.button.icon:active { border-color: var(--sb-ink); }
+button.disabled { display: none; }
+button.icon.text, label.icon.text { display: inline-flex; align-items: center; font-weight: 800; font-size: var(--sb-fs-3); padding: .25em .5em; white-space: nowrap; }
+button.icon.text::before, label.icon.text::before { margin-right: .25rem; }
+#loadXML, #put-file-select { display: none; }
+tt { font-size: .9em; padding: .25rem .5rem; background: #e3e8f7; margin: 0 .25em; border-radius: var(--sb-r-pill); font-weight: 800; }
+.farSide { text-align: right; }
+h1 { font-weight: normal; font-size: 140%; margin-inline: 5px; }
+
+/* ---- Interruptor (label.checkswitch > input + span) ---- */
+input.checkswitch[type="checkbox"] { display: none; -webkit-tap-highlight-color: transparent; }
+.checkswitch span { display: inline-block; position: relative; width: 2.5em; height: 1.5em; line-height: 1.5rem; border-radius: 1.5em; background: #aab3d2; transition: background var(--sb-t); }
+.checkswitch span::after { content: ""; position: absolute; top: .074em; left: .075em; width: 1.35em; height: 1.35em; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(27, 34, 80, .3); transition: left .25s ease-out, transform .25s ease-out; }
+.checkswitch input:checked ~ span { background: var(--sb-blue); }
+.checkswitch input:checked ~ span::after { left: -.27em; transform: translateX(100%); }
+
+/* ---- Aviso flutuante (toast) criado pelo UI['notify'] ---- */
+.notify { position: fixed; z-index: 997; right: -18em; bottom: .5em; padding: 1em; border-radius: var(--sb-r-1); background: var(--sb-blue); color: #fff; box-shadow: var(--sb-sh-2); user-select: none; opacity: 0; transition: right .5s ease, opacity var(--sb-t); transition-delay: 0s, .1s; }
+.notify#show { opacity: 1; right: .5em; }
+.notify hr { border: 0; height: 1px; background: #fff; }
+
+/* ---- Barra de progresso fina sob o cabeçalho ---- */
+.progress-bar { position: fixed; z-index: 500; left: 0; right: 0; top: var(--sb-top); height: 0; overflow: hidden; transition: height .125s ease; }
+.progress-bar#on { height: .25em; }
+.progress-bar div { position: absolute; height: 100%; width: 0; background: var(--sb-blue); transition: width .125s linear; }
+
+/* ---- Grupos que abrem e fecham (<details> com título e seta) ---- */
+details > summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; -webkit-tap-highlight-color: transparent; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary > h2 { display: flex; align-items: center; margin: 0; height: 2.5rem; font-size: var(--sb-fs-3); }
+details > summary > h2::before { content: "\1433"; display: inline-block; margin-right: .5rem; font-size: .8rem; line-height: 1rem; font-weight: normal; transition: transform .25s ease; }
+details[open] > summary > h2::before { transform: rotate(90deg); }
+
+@keyframes blinking { 50% { opacity: .4; } }
+#channel_connect.wait, #toolbarButton.wait { animation: blinking 1s infinite; }
+@media (prefers-reduced-motion: reduce) { .notify, .progress-bar, .progress-bar div, #channel_connect.wait { transition: none; animation: none; } }
+
+/* Zona atrás dos painéis flutuantes: clicar fora fecha (UI['responsive'].hidePanels). Vinha do style.css antigo. */
+#closeZone { position: absolute; top: 0; left: 0; width: 100vw; height: 100%; z-index: 997; display: none; }
+#closeZone.on { display: block; }

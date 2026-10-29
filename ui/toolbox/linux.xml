@@ -260,7 +260,7 @@
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
 
     <sep></sep>
-     <category name="Info">
+     <category name="Informações">
     <block type="project_metadata">
       <field name="NAME">Project INFO</field>
       <field name="project_author">Author</field>
@@ -309,7 +309,7 @@
   <block type="VideoWriter_VideoWriter"></block>
   <block type="VideoWriter_write"></block>
   <category name="core">
-    <category name="Manipulate">
+    <category name="Manipulação">
       <block type="core_flip"></block>
       <block type="core_split"></block>
       <block type="core_merge"></block>
@@ -323,13 +323,13 @@
       <block type="core_copyMakeBorder"></block>
       <block type="core_reduce"></block>
     </category>
-    <category name="Distance">
+    <category name="Distância">
       <block type="core_norm"></block>
       <block type="core_PSNR"></block>
       <block type="core_Mahalanobis"></block>
       <block type="core_batchDistance"></block>
     </category>
-    <category name="Maths">
+    <category name="Matemática">
       <block type="core_add"></block>
       <block type="core_subtract"></block>
       <block type="core_multiply"></block>
@@ -407,7 +407,7 @@
     </category>
   </category>
   <category name="imgproc">
-    <category name="Misc">
+    <category name="Diversos">
       <block type="cvtcolor"></block>
       <block type="threshold"></block>
       <block type="imgproc_resize"></block>
@@ -428,7 +428,7 @@
       <block type="imgproc_distanceTransform"></block>
       <block type="imgproc_demosaicing"></block>
     </category>
-    <category name="Drawing">
+    <category name="Desenho">
       <block type="imgproc_line"></block>
       <block type="imgproc_arrowedLine"></block>
       <block type="imgproc_rectangle"></block>
@@ -440,7 +440,7 @@
       <block type="imgproc_drawContours"></block>
       <block type="imgproc_putText"></block>
     </category>
-    <category name="Filter">
+    <category name="Filtro">
       <block type="imgproc_getGaussianKernel"></block>
       <block type="imgproc_getDerivKernels"></block>
       <block type="imgproc_getGaborKernel"></block>
@@ -457,13 +457,13 @@
       <block type="imgproc_Laplacian"></block>
       <block type="imgproc_Canny"></block>
     </category>
-    <category name="Morphology">
+    <category name="Morfologia">
       <block type="imgproc_erode"></block>
       <block type="imgproc_dilate"></block>
       <block type="imgproc_getStructuringElement"></block>
       <block type="imgproc_morphologyEx"></block>
     </category>
-    <category name="Warp">
+    <category name="Deformação">
       <block type="imgproc_warpAffine"></block>
       <block type="imgproc_warpPerspective"></block>
       <block type="imgproc_remap"></block>
@@ -478,17 +478,17 @@
       <block type="imgproc_undistortPoints"></block>
       <block type="imgproc_convertMaps"></block>
     </category>
-    <category name="Histogram">
+    <category name="Histograma">
       <block type="imgproc_calcHist"></block>
       <block type="imgproc_calcBackProject"></block>
       <block type="imgproc_compareHist"></block>
       <block type="imgproc_equalizeHist"></block>
     </category>
-    <category name="Segment">
+    <category name="Segmentação">
       <block type="imgproc_watershed"></block>
       <block type="imgproc_grabCut"></block>
     </category>
-    <category name="Detect">
+    <category name="Detecção">
       <block type="imgproc_goodFeaturesToTrack"></block>
       <block type="imgproc_HoughLines"></block>
       <block type="imgproc_HoughLinesP"></block>
@@ -499,11 +499,11 @@
       <block type="imgproc_cornerSubPix"></block>
       <block type="imgproc_cornerMinEigenVal"></block>
     </category>
-    <category name="Match">
+    <category name="Correspondência">
       <block type="imgproc_matchTemplate"></block>
       <block type="imgproc_matchShapes"></block>
     </category>
-    <category name="Shapes">
+    <category name="Formas">
       <block type="findcontours"></block>
       <block type="imgproc_connectedComponents"></block>
       <block type="imgproc_connectedComponentsWithStats"></block>
@@ -540,7 +540,7 @@
     <category name="Inpainting">
       <block type="photo_inpaint"></block>
     </category>
-    <category name="Denoising">
+    <category name="Remoção de ruído">
       <block type="photo_fastNlMeansDenoising"></block>
       <block type="photo_fastNlMeansDenoisingColored"></block>
       <block type="photo_fastNlMeansDenoisingMulti"></block>
@@ -730,7 +730,7 @@
       <block type="video_DenseOpticalFlow_calc"></block>
       <block type="video_DenseOpticalFlow_collectGarbage"></block>
     </category>
-    <category name="Misc">
+    <category name="Diversos">
       <block type="video_estimateRigidTransform"></block>
       <block type="video_findTransformECC"></block>
       <block type="video_KalmanFilter_KalmanFilter"></block>
@@ -764,7 +764,7 @@
     </category>
   </category>
   <category name="features2d">
-    <category name="General">
+    <category name="Geral">
       <block type="features2d_drawMatches"></block>
       <block type="features2d_drawKeypoints"></block>
       <block type="features2d_Feature2D_detect"></block>
@@ -777,7 +777,7 @@
       <block type="features2d_FastFeatureDetector_setNonmaxSuppression"></block>
       <block type="features2d_FastFeatureDetector_setType"></block>
     </category>
-    <category name="Match">
+    <category name="Correspondência">
       <block type="features2d_BFMatcher_BFMatcher"></block>
       <block type="features2d_FlannBasedMatcher_FlannBasedMatcher"></block>
       <block type="features2d_DescriptorMatcher_add"></block>
@@ -932,7 +932,7 @@
     <block type="face_FaceRecognizer_getLabelInfo"></block>
     <block type="face_FaceRecognizer_getLabelsByString"></block>
    </category>
-   <category name="Basic">
+   <category name="Básico">
     <block type="face_BasicFaceRecognizer_setNumComponents"></block>
     <block type="face_BasicFaceRecognizer_setThreshold"></block>
     <block type="face_BasicFaceRecognizer_getLabels"></block>

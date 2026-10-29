@@ -7,7 +7,7 @@ class mux {
    */
   constructor () {
     this.isLocalFile = false;
-    if(!window.location.origin.includes('/127.0.0.1') || window.location.protocol == 'file:') {
+    if((!window.location.origin.includes('/127.0.0.1') && !window.location.origin.includes('//localhost')) || window.location.protocol == 'file:') {   // localhost também é contexto seguro: Serial e Bluetooth funcionam
       switch (window.location.protocol) {
         case 'file:':
           this.available = ['webserial', 'websocket', 'webbluetooth'];
@@ -29,9 +29,9 @@ class mux {
     }
 
     this.ifunavailable = {
-      webserial: ['https://bipes.net.br/beta2/ui', 'the HTTPS version'],
-      websocket: ['http:///bipes.net.br/beta2/ui', 'the HTTP version'],
-      webbluetooth: ['https://bipes.net.br/beta2/ui', 'the HTTPS version']
+      webserial: ['https://bipes.net.br/beta2/ui', 'a versão HTTPS'],
+      websocket: ['http:///bipes.net.br/beta2/ui', 'a versão HTTP'],
+      webbluetooth: ['https://bipes.net.br/beta2/ui', 'a versão HTTPS']
     }
   }
 	/**
@@ -45,14 +45,14 @@ class mux {
       this.connect ();
 
       } else if (this.ifunavailable [channel_] != undefined) {
-        let msg = `The channel ${channel_} is not yet available in this version, but at ${this.ifunavailable [channel_] [1]}, would you like to be redirected there?`;
+        let msg = `Este jeito de conectar (${channel_}) não está disponível nesta versão da página. Funciona em ${this.ifunavailable [channel_] [1]}. Quer abrir essa versão agora?`;
         if (confirm(msg)) {
           window.location.replace(this.ifunavailable [channel_] [0]);
         } else {
           UI ['channel-panel'].button.className = `icon ${this.currentChannel}`
         }
     } else {
-      alert(`The channel ${channel_} is not yet available in this version.`);
+      alert(`Este jeito de conectar (${channel_}) ainda não está disponível nesta versão.`);
     }
   }
 
@@ -209,9 +209,9 @@ class websocket {
     this.ws.binaryType = 'arraybuffer';
     this.ws.onopen = () => {
       term.on();
-      term.write('\x1b[31mWelcome to BIPES Project using MicroPython!\x1b[m\r\n');
+      term.write('\x1b[31mBem-vindo ao SancaBot com MicroPython!\x1b[m\r\n');
 
-      term.write('\x1b[31mSending password...\x1b[m\r\n');
+      term.write('\x1b[31mEnviando a senha...\x1b[m\r\n');
       this.ws.send(pass + '\n\n'); //this.buffer_.push(pass);
 
       this.connected = true;
@@ -317,7 +317,7 @@ class websocket {
             }
           } else if (event.data.includes("Access denied")) {
             //WebSocket might close before receiving this message, so won't trigger.
-            UI ['notify'].send("Wrong board password.");
+            UI ['notify'].send("Senha do robô incorreta.");
           } else if (UI ['workspace'].runButton.status == true) {
             UI ['workspace'].receiving ();
           }
@@ -329,7 +329,7 @@ class websocket {
     }
     this.ws.onclose = () => {
       if (term)
-        term.write('\x1b[31mDisconnected\x1b[m\r\n');
+        term.write('\x1b[31mDesconectado\x1b[m\r\n');
       term.off();
       this.buffer_ = [];
       this.connected = false;
@@ -448,7 +448,7 @@ class webserial {
    */
   connect_ () {
     term.on();
-    term.write('\x1b[31mConnected using Web Serial API !\x1b[m\r\n');
+    term.write('\x1b[31mConectado pelo cabo USB (Web Serial)!\x1b[m\r\n');
     this.connected=true;
     if (UI ['workspace'].runButton.status == true)
         UI ['workspace'].receiving ();
@@ -470,7 +470,7 @@ class webserial {
           this.shouldListen = false;
         })
          if (term)
-          term.write('\x1b[31mDisconnected\x1b[m\r\n');
+          term.write('\x1b[31mDesconectado\x1b[m\r\n');
         this.buffer_ = [];
         this.last4chars = '';
         this.connected = false;
@@ -487,7 +487,7 @@ class webserial {
   resetBoard () {
     setTimeout(() => {
       if (UI ['workspace'].resetBoard.checked) {
-        term.write('\x1b[31mResetting the board...\x1b[m\r\n');
+        term.write('\x1b[31mReiniciando o robô...\x1b[m\r\n');
         this.serialWrite ('\x04');
       } else
         this.serialWrite ('\x03');
@@ -583,7 +583,7 @@ class webbluetooth {
         this.buffer_ = [];
         UI ['notify'].log (e);
         if (e == "NetworkError: Failed to execute 'writeValue' on 'BluetoothRemoteGATTCharacteristic': GATT Server is disconnected. Cannot perform GATT operations. (Re)connect first with `device.gatt.connect`.")
-        UI ['notify'].send ("Lost Bluetooth connection.");
+        UI ['notify'].send ("A conexão Bluetooth foi perdida.");
         });
       });
     });
@@ -648,7 +648,7 @@ class webbluetooth {
         UI ['notify'].log('Notifications started');
         this.txCharacteristic.addEventListener('characteristicvaluechanged', this.handleNotifications.bind(this));
         term.on();
-        term.write('\x1b[31mConnected using Web Bluetooth API !\x1b[m\r\n');
+        term.write('\x1b[31mConectado por Bluetooth!\x1b[m\r\n');
         this.connected = true;
         mux.bufferPush ('\r');
         if (UI ['workspace'].runButton.status == true)

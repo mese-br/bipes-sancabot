@@ -214,6 +214,8 @@ class Tool {
       Files.editor.getDoc().setValue(text);
 
       UI ['workspace'].content_file_name.value = file_name;
+      Files.openRobotFile = Files.pendingRobotFile || null; Files.pendingRobotFile = null;   // só é "arquivo do robô" se veio de files_view
+      Files.syncFileActions();
     });
 
     // Start reading the blob as text.
@@ -329,7 +331,7 @@ class Tool {
     let imp = [...code.matchAll(/import (.*)/g)]
 
     if (ext == '') {
-      return desc ? `${desc [1].slice()}${ext}` : 'My BIPES Project';
+      return desc ? `${desc [1].slice()}${ext}` : 'Meu projeto';
     } else {
       if (desc == null) {
         desc = [];
@@ -411,8 +413,10 @@ class Tool {
   }
   /** Return a empty XML with only project description set, used for new projects*/
   static emptyXML () {
+    let _cfg = (window.SancaBotConfig && SancaBotConfig.defaults) || {};
     let account_user = localStorage ['account_user'];
-    return `<xml xmlns="https://bipes.net.br"><workspace><databoard><![CDATA[{"currentWorkspace":"kvflqzky5js84d7x5pe","workspace:kvflqzky5js84d7x5pe":[]}]]></databoard></workspace><block type="project_metadata" id="" x="-212" y="-612"><value name="project_author"><shadow type="text" id=""><field name="TEXT">${account_user}</field></shadow></value><value name="project_iot_id"><shadow type="math_number" id=""><field name="NUM">0</field></shadow></value><value name="project_description"><shadow type="text" id=""><field name="TEXT">My project</field></shadow></value></block></xml>`
+    if (!account_user || account_user == 'User') account_user = _cfg.author || 'Aluno';  // 'User' era o padrão em inglês
+    return `<xml xmlns="https://bipes.net.br"><workspace><databoard><![CDATA[{"currentWorkspace":"kvflqzky5js84d7x5pe","workspace:kvflqzky5js84d7x5pe":[]}]]></databoard></workspace><block type="project_metadata" id="" x="-212" y="-612"><value name="project_author"><shadow type="text" id=""><field name="TEXT">${account_user}</field></shadow></value><value name="project_iot_id"><shadow type="math_number" id=""><field name="NUM">0</field></shadow></value><value name="project_description"><shadow type="text" id=""><field name="TEXT">${_cfg.description || 'Meu projeto'}</field></shadow></value></block></xml>`
   }
 
   static exportScreenshot() {
@@ -451,6 +455,13 @@ class files {
    * @param {string} s - The notification to be shown.
    */
   static update_file_status (s) {
+    // SancaBot: mensagens de andamento em português (o texto original vem de utils.js/channel.js)
+    [[/^Sending raw \(USB\) (.*)\.\.\.$/, 'Enviando (USB) $1...'], [/^Sending (.*)\.\.\.$/, 'Enviando $1...'], [/^Sent (\d+) bytes$/, 'Enviados $1 bytes'],
+     [/^Sent (.*), (\d+) bytes$/, 'Enviado $1, $2 bytes'], [/^File (.*) sent\.$/, 'Arquivo $1 enviado.'], [/^Failed sending (.*)$/, 'Não consegui enviar $1'],
+     [/^Executing\s+(.*)$/, 'Executando $1'], [/^Deleted\s+(.*)$/, 'Apagado $1'], [/^Delete aborted for (.*)$/, 'Exclusão cancelada: $1'],
+     [/^Downloading (.*)$/, 'Baixando $1'], [/^Getting (.*)\.\.\.$/, 'Buscando $1...'], [/^Getting (.*), (\d+) bytes$/, 'Buscando $1, $2 bytes'],
+     [/^Got (.*), (\d+) bytes$/, 'Recebido $1, $2 bytes'], [/^Failed getting (.*)$/, 'Não consegui buscar $1']
+    ].some(function (r) { if (r[0].test(s)) { s = s.replace(r[0], r[1]); return true; } });
     UI ['workspace'].file_status.innerHTML = s;
   }
   /**
@@ -605,12 +616,13 @@ class files {
    * @param {string} file - File name of the file to be deleted.
    */
   delete (file) {
-    let msg = "Are you sure you want to delete " + file + "?";
+    let msg = "Tem certeza de que quer apagar o arquivo " + file + " do robô?";
 
     if (confirm(msg)) {
       let txt = "Will delete file " + file;
       mux.bufferPush(`os.remove(\'${file}\')\r`, this.listFiles.bind(this));
       files.update_file_status('Deleted  ' + file);
+      if (this.openRobotFile === file) { this.openRobotFile = null; this.syncFileActions(); }
     } else {
       let txt = "Delete aborted";
       files.update_file_status('Delete aborted for ' + file);
@@ -621,9 +633,22 @@ class files {
    * @param {string} file - File name of the file to be viewed.
    */
   files_view (file) {
+    this.pendingRobotFile = file;
     this.viewOnly=true;
     this.get_file(file);
     files.update_file_status('Downloading ' + file);
+  }
+  /** Liga ou desliga os botões Executar / Baixar / Excluir da barra do editor: só valem para um arquivo que veio do robô. */
+  syncFileActions () {
+    let f = this.openRobotFile;
+    document.querySelectorAll('#file_save_as .sb-fa').forEach(b => { b.disabled = !f; });
+    let g = document.getElementById('sbFaName');
+    if (g) g.textContent = f ? f : '';
+  }
+  /** Ação da barra do editor sobre o arquivo do robô que está aberto. */
+  openFileAction (acao) {
+    let f = this.openRobotFile; if (!f) return;
+    if (acao === 'run') this.run (f); else if (acao === 'download') this.files_download (f); else if (acao === 'delete') this.delete (f);
   }
   /**
    * Request a file to download.
@@ -732,7 +757,7 @@ class files {
       let split_ = treat_.split('"'[0]);
       let files_ = eval("[" + split_ + "]");
 
-      UI ['notify'].send("File list updated at " + Tool.unix2date() + ".");
+      UI ['notify'].send("Lista de arquivos atualizada às " + Tool.unix2date() + ".");
 
 
       this.fileList.innerHTML = '';
@@ -741,24 +766,16 @@ class files {
         let wrapper2_ = new DOM ('div');
         let openButton_ = new DOM ('div', {innerText:file, className: 'runText'});
         if (!(/\./.test(file))) {
-          openButton_.flag('is directory');
+          openButton_.flag('pasta');
           wrapper2_.append(openButton_)
           wrapper2_._dom.style.cursor = 'default';
         } else {
           openButton_._dom.title = `Open file ${file}`;
           openButton_.onclick (this, Files.files_view, [file]);
           if(file == 'boot.py' || file == 'main.py')
-            openButton_.flag('run at boot');
-          let deleteButton_ = new DOM ('span', {className:'icon', id:'trashIcon', title:`Delete file ${file}`})
-            .onclick (this, Files.delete, [file]);
-          let runButton_ = new DOM ('span', {className:'icon', id:'runIcon', title:`Run file ${file}`})
-            .onclick (this, Files.run, [file]);
-          let downloadButton_ = new DOM ('span', {className:'icon', id:'downloadIcon', title:`Download file ${file}`})
-            .onclick (this, Files.files_download, [file]);
-
-          let wrapper_ = new DOM ('div')
-            .append([runButton_, downloadButton_, deleteButton_]);
-          wrapper2_.append([openButton_, wrapper_]);
+            openButton_.flag('abre ao ligar');
+          // Executar, baixar e excluir agora ficam na barra do editor, sobre o arquivo aberto (padrão SatBlocks)
+          wrapper2_.append([openButton_]);
         }
 
         this.fileList.appendChild(wrapper2_._dom)
@@ -771,7 +788,7 @@ class files {
    * Push edited XML to the workspace.
    */
   editedXML2Workspace () {
-    var result = window.confirm('Changes will be applied directly to the workspace and might break everything, continue?');
+    var result = window.confirm('As mudanças vão direto para a área de blocos e podem estragar o programa. Quer continuar?');
     if (result === true) {
       let content = UI ['workspace'].readWorkspace (this.editor.getDoc().getValue("\n"), true);
       let xmlDom = '';
@@ -811,7 +828,7 @@ class files {
    * Update the displayed name and automatic opened code when switching tabs or projects.
    */
   handleCurrentProject () {
-    this.blocks2Code.Python.innerHTML = Tool.makeAName(Code.generateCode(), 'py') + '<span>automatic</span>'
+    this.blocks2Code.Python.innerHTML = Tool.makeAName(Code.generateCode(), 'py') + '<span>automático</span>'
     if (this.file_save_as.className == 'bipes-py')
       this.internalPython ();
     else if(Files.file_save_as.className == 'bipes-xml')
@@ -950,11 +967,11 @@ class term {
 
     let cols
     if (Code.current[0] == 'console')
-      cols = Math.max(50, Math.min(200, (window.innerWidth - 4*$em) / 7)) | 0
+      cols = Math.max(50, Math.min(200, (window.innerWidth - 4*$em) / 8.5)) | 0
     else
-      cols = Math.max(50, Math.min(200, ((window.innerWidth)/2 - 4*$em) / 7)) | 0
+      cols = Math.max(50, Math.min(200, ((window.innerWidth)/2 - 4*$em) / 8.5)) | 0
 
-    let rows = Math.max(15, Math.min(40, (window.innerHeight - 20*$em) / 12)) | 0
+    let rows = Math.max(12, Math.min(40, (window.innerHeight - 20*$em) / 17)) | 0
 
     terminal.resize(cols, rows);
   }

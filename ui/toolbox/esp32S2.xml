@@ -299,7 +299,7 @@
     <sep></sep>
     <!--
     <category name="Python" colour="%{BKY_LOGIC_HUE}">
-    <category name="Machine" colour="%{BKY_VARIABLES_HUE}">
+    <category name="Máquina" colour="%{BKY_VARIABLES_HUE}">
     -->
 
   <category name="Python">
@@ -395,8 +395,8 @@
 
   <category name="%{BKY_CAT_MACHINE}">
       <label text="%{BKY_CAT_MACHINE}"></label>
-      <category name="CPU">
-      <label text="ESP32 CPU"></label>
+      <category name="Processador (CPU)">
+      <label text="CPU do ESP32"></label>
 
     <block type="get_freq"></block>
     <block type="set_freq">
@@ -416,8 +416,8 @@
     <block type="reset_cause_deep"></block>
       </category>
     
-      <category name="In/Out Pins">
-      <label text="In/Out Pins"></label>
+      <category name="Pinos de entrada e saída">
+      <label text="Pinos de entrada e saída"></label>
     <block type="pinout"></block>
     <block type="gpio_set">
       <value name="pin">
@@ -513,8 +513,8 @@
 
 <category name="%{BKY_CAT_DISPLAYS}">
 
-<category name="NeoPixel LED">
-      <label text="Single RGB LED with CircuitPython"></label>
+<category name="LED NeoPixel">
+      <label text="LED RGB simples com CircuitPython"></label>
 
       <block type="neopixel_control_CPY">
        <value name="color">
@@ -563,9 +563,9 @@
 
 
 
-      <label text="NeoPixel RGB LED Strip"></label>
+      <label text="Fita de LED RGB NeoPixel"></label>
 
-        <button text="Documentation and how to connect: neopixel" callbackKey="loadDoc"></button>
+        <button text="Documentação e como conectar: neopixel" callbackKey="loadDoc"></button>
 
       <block type="neopixel_init">
        <value name="pin">
@@ -668,11 +668,11 @@
 
 
 
-  <category name="Character display">
-      <label text="PCF8574 Display controller"></label>
+  <category name="Display de caracteres">
+      <label text="Controlador de display PCF8574"></label>
 
-      <label text="Library: https://github.com/dhylands/python_lcd"></label>
-      <button text="Install I2CLCD library" callbackKey="installPyLib"></button>
+      <label text="Biblioteca: https://github.com/dhylands/python_lcd"></label>
+      <button text="Instalar biblioteca I2CLCD" callbackKey="installPyLib"></button>
 	<block type="char_lcd_init">
         <value name="scl">
           <shadow type="pinout">
@@ -710,10 +710,10 @@
 
   </category>
 
-    <category name="ST7789 Display">
-      <label text="ST7789 Display"></label>
-      <label text="Library: https://github.com/devbis/st7789py_mpy"></label>
-      <button text="Install st7789py library" callbackKey="installPyLib"></button>
+    <category name="Display ST7789">
+      <label text="Display ST7789"></label>
+      <label text="Biblioteca: https://github.com/devbis/st7789py_mpy"></label>
+      <button text="Instalar biblioteca st7789py" callbackKey="installPyLib"></button>
 
       <block type="st7789_init">
         <value name="spi">
@@ -853,9 +853,9 @@
     </block>
     </category>
 
-    <category name="OLED Display">
-      <label text="SSD1306 OLED I2C Display"></label>
-      <button text="Install ssd1306 library" callbackKey="installPyLib"></button>
+    <category name="Display OLED">
+      <label text="Display OLED SSD1306 (I2C)"></label>
+      <button text="Instalar biblioteca ssd1306" callbackKey="installPyLib"></button>
 
 	    
       <block type="init_oled">
@@ -936,12 +936,12 @@
 
     </category>
 
-  <category name="LED Matrix">
-      <label text="TM1640 LED Matrix"></label>
-      <label text="Library: https://github.com/mcauser/micropython-tm1640"></label>
-        <button text="Install tm1640 library" callbackKey="installPyLib"></button>
-        <button text="Load example: tm1640" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: tm1640" callbackKey="loadDoc"></button>
+  <category name="Matriz de LED">
+      <label text="Matriz de LED TM1640"></label>
+      <label text="Biblioteca: https://github.com/mcauser/micropython-tm1640"></label>
+        <button text="Instalar biblioteca tm1640" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: tm1640" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: tm1640" callbackKey="loadDoc"></button>
 
     <block type="tm1640_init">
 
@@ -1062,8 +1062,8 @@
   </category>
 
   <category name="%{BKY_CAT_SENSORS}">
-    <category name="DHT11/22 Sensor">
-      <label text="DHT11/22 Temperature and Humidity Sensor"></label>
+    <category name="Sensor DHT11/22">
+      <label text="Sensor de temperatura e umidade DHT11/22"></label>
       <block type="dht_init">
         <field name="BLOCK_DHT_INIT">Start DHT11/22 sensor</field>
         <value name="pin">
@@ -1078,7 +1078,7 @@
     </category>
 <!--Adicionando os blocos do Anenmômetro-->
     <category name="Anemômetro">
-    <label text="Anenômetro"></label>
+    <label text="Anemômetro"></label>
 <!--Iniciar Anemômetro-->
     <block type="anemo_init">
         <value name="Função">
@@ -1127,10 +1127,10 @@
       </block>
   </category>
 
-  <category name="Ultrasound">
-      <label text="HCSR04 ultrasound distance sensor"></label>
-      <label text="Library: https://github.com/rsc1975/micropython-hcsr04"></label>
-        <button text="Install HCSR04 library" callbackKey="installPyLib"></button>
+  <category name="Ultrassom">
+      <label text="Sensor de distância ultrassônico HC-SR04"></label>
+      <label text="Biblioteca: https://github.com/rsc1975/micropython-hcsr04"></label>
+        <button text="Instalar biblioteca HCSR04" callbackKey="installPyLib"></button>
 
 
       <block type="hcsr_init">
@@ -1157,9 +1157,9 @@
   </category>
 
   <category name="GPS">
-      <label text="Global Positioning System sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install GPS library" callbackKey="installPyLib"></button>
+      <label text="Sensor de posicionamento global (GPS)"></label>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca GPS" callbackKey="installPyLib"></button>
 
 	<block type="gps_init">
       </block>
@@ -1179,10 +1179,10 @@
 
   </category>
 
-  <category name="Oximeter">
-      <label text="MAX30100 pulse oximeter sensor"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install MAX30100 library" callbackKey="installPyLib"></button>
+  <category name="Oxímetro">
+      <label text="Sensor oxímetro de pulso MAX30100"></label>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca MAX30100" callbackKey="installPyLib"></button>
 
 	<block type="max30100_init">
       </block>
@@ -1198,13 +1198,13 @@
 
   </category>
 
-  <category name="Inertial Measurement">
+  <category name="Medição inercial">
       <label text="MPU6050 IMU"></label>
-   <label text="Library: https://github.com/"></label>
-        <button text="Install imu library (MPU6050)" callbackKey="installPyLib"></button>
+   <label text="Biblioteca: https://github.com/"></label>
+        <button text="Instalar biblioteca imu (MPU6050)" callbackKey="installPyLib"></button>
 
-        <button text="Load example: mpu6050" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mpu6050" callbackKey="loadDoc"></button>
+        <button text="Carregar exemplo: mpu6050" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: mpu6050" callbackKey="loadDoc"></button>
 
 
 
@@ -1238,8 +1238,8 @@
       <category name="OneWire">
       <label text="OneWire"></label>
 
-        <button text="Load example: ds1820" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: ds1820" callbackKey="loadDoc"></button>
+        <button text="Carregar exemplo: ds1820" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: ds1820" callbackKey="loadDoc"></button>
 
       <block type="onewire_ds18x20_init">
         <value name="pin">
@@ -1261,12 +1261,12 @@
       </category>
 
 
-  <category name="RFID Reader">
-      <label text="RC522 13.56MHz RFID Reader"></label>
-      <label text="Library: https://github.com/wendlers/micropython-mfrc522"></label>
-        <button text="Install mfrc522 library" callbackKey="installPyLib"></button>
-        <button text="Load example: mfrc522" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: mfrc522" callbackKey="loadDoc"></button>
+  <category name="Leitor RFID">
+      <label text="Leitor RFID RC522 13,56 MHz"></label>
+      <label text="Biblioteca: https://github.com/wendlers/micropython-mfrc522"></label>
+        <button text="Instalar biblioteca mfrc522" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: mfrc522" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: mfrc522" callbackKey="loadDoc"></button>
 
       <block type="rfid_rc522_init">
         <value name="sck">
@@ -1308,10 +1308,10 @@
   </category>
 
 
-  <category name="Rotatory Encoder">
-      <label text="Rotatory Incremental Encoder"></label>
-        <button text="Load example: encoder" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: encoder" callbackKey="loadDoc"></button>
+  <category name="Encoder rotativo">
+      <label text="Encoder incremental rotativo"></label>
+        <button text="Carregar exemplo: encoder" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: encoder" callbackKey="loadDoc"></button>
 
       <block type="encoder_init">
         <value name="p0">
@@ -1331,10 +1331,10 @@
       <block type="encoder_read"></block>
   </category>
 
-  <category name="Camera (ESP32CAM)">
-      <label text="OV2640 Camera on ESP32-CAM Board"></label>
-        <button text="Load example: esp32cam" callbackKey="loadExample"></button>
-      <label text="More info: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
+  <category name="Câmera (ESP32-CAM)">
+      <label text="Câmera OV2640 na placa ESP32-CAM"></label>
+        <button text="Carregar exemplo: esp32cam" callbackKey="loadExample"></button>
+      <label text="Mais informações: https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/"></label>
 
       <block type="esp32_cam_init"> </block>
       <block type="esp32_cam_capture"> </block>
@@ -1344,8 +1344,8 @@
   </category>
 
   <category name="%{BKY_CAT_OUTPUTS}">
-    <category name="Relay">
-      <label text="Relay"></label>
+    <category name="Relé">
+      <label text="Relé"></label>
       <block type="relay_switch">
         <value name="pin">
           <shadow type="pinout">
@@ -1355,8 +1355,8 @@
       </block>
     </category>
 
-  <category name="RC Servo Motor">
-      <label text="Hobby RC Servo Motor"></label>
+  <category name="Servomotor">
+      <label text="Servomotor de hobby (RC)"></label>
     <block type="init_servo">
         <value name="pin">
           <shadow type="pinout">
@@ -1375,8 +1375,8 @@
   </category>
 
 
-  <category name="Stepper Motor">
-      <label text="Stepper Motor"></label>
+  <category name="Motor de passo">
+      <label text="Motor de passo"></label>
     <block type="stepper_init">
       <value name="p0">
         <shadow type="pinout">
@@ -1409,8 +1409,8 @@
     </block>
   </category>
 
-  <category name="DC Motor">
-      <label text="DC Motor"></label>
+  <category name="Motor DC">
+      <label text="Motor DC"></label>
     <block type="dc_motor_init">
       <value name="pwm">
         <shadow type="pinout">
@@ -1450,14 +1450,14 @@ _
     </block>
   </category>
 
-  <category name="Sounds">
-        <label text="Sounds and RTTTL:"></label>
-        <label text="Ring Tone Text Transfer Language (RTTTL) "></label>
-        <label text="Library: "></label>
-        <button text="Install rtttl library" callbackKey="installPyLib"></button>
-        <button text="Install songs library" callbackKey="installPyLib"></button>
-        <button text="Load example: songs" callbackKey="loadExample"></button>
-        <button text="Documentation and how to connect: sound" callbackKey="loadDoc"></button>
+  <category name="Sons">
+        <label text="Sons e RTTTL:"></label>
+        <label text="Linguagem de toques em texto (RTTTL) "></label>
+        <label text="Biblioteca: "></label>
+        <button text="Instalar biblioteca rtttl" callbackKey="installPyLib"></button>
+        <button text="Instalar biblioteca songs" callbackKey="installPyLib"></button>
+        <button text="Carregar exemplo: songs" callbackKey="loadExample"></button>
+        <button text="Documentação e como conectar: sound" callbackKey="loadDoc"></button>
 
     <block type="tone"> 
       <value name="pin">
@@ -1510,8 +1510,8 @@ _
       </value>
     </block>
 
-    <label text="Songs:"></label>
-    <button text="Install songs library" callbackKey="installPyLib"></button>
+    <label text="Músicas:"></label>
+    <button text="Instalar biblioteca songs" callbackKey="installPyLib"></button>
 
     <block type="text"> <field name="TEXT">Super Mario - Main Theme</field> </block>
     <block type="text"> <field name="TEXT">Super Mario - Title Music</field> </block>
@@ -1548,7 +1548,7 @@ _
   <category name="%{BKY_CAT_COMM}">
       <label text="%{BKY_CAT_COMM}"></label>
       <category name="UART">
-      <label text="UART Serial Port"></label>
+      <label text="Porta serial UART"></label>
 <block type="uart_init">
 </block>
 
@@ -1581,7 +1581,7 @@ _
 
       </category>
 
-      <category name="GSM Modem">
+      <category name="Modem GSM">
 
       <block type="gsm_modem_init">
 </block>
@@ -1598,7 +1598,7 @@ _
 
       </category>
       <category name="I2C">
-      <label text="I2c"></label>
+      <label text="I2C"></label>
 <block type="machine.I2C_I2C.init">
 </block>
 <block type="machine.I2C_I2C.deinit">
@@ -1633,7 +1633,7 @@ _
  
  
   <category name="%{BKY_CAT_FILES}">
-  <label text="Read and write files"></label>
+  <label text="Ler e escrever arquivos"></label>
 
   <block type="file_open"> 
     <value name="file_name">
@@ -1701,7 +1701,7 @@ _
 
 </block>
 
-      <label text="Disk file operations"></label>
+      <label text="Operações de arquivos em disco"></label>
 <block type="files_list">
 </block>
 <block type="uos_mkdir">
@@ -1812,9 +1812,9 @@ _
     <block type="net_wiznet5k_ifconfig">
     </block>
 
-    <category name="HTTP Client">
-      <label text="HTTP (web) Client"></label>
-      <label text="GET Method"></label>
+    <category name="Cliente HTTP">
+      <label text="Cliente HTTP (web)"></label>
+      <label text="Método GET"></label>
 
       <block type="net_get_request"></block>
     <block type="net_get_request">
@@ -1922,7 +1922,7 @@ _
 </block>
 
 
-      <label text="POST Method"></label>
+      <label text="Método POST"></label>
 
     <block type="net_post_request">
       <field name="NET_POST_REQUEST_URL">Make HTTP POST Request URL</field>
@@ -1931,10 +1931,10 @@ _
 
     </category>
 
-    <category name="HTTP Server">
-      <label text="HTTP Web Server"></label>
-      <button text="Load example: webserver" callbackKey="loadExample"></button>
-      <button text="Documentation: webserver" callbackKey="loadDoc"></button>
+    <category name="Servidor HTTP">
+      <label text="Servidor HTTP (web)"></label>
+      <button text="Carregar exemplo: webserver" callbackKey="loadExample"></button>
+      <button text="Documentação: webserver" callbackKey="loadDoc"></button>
 
     <block type="net_http_server_start">
         <value name="port">
@@ -1960,11 +1960,11 @@ _
 
     </category>
 
-    <category name="EMAIL">
-      <label text="Email sender using uMail"></label>
-      <label text="Library: https://github.com/shawwwn/uMail"></label>
-        <button text="Install umail library" callbackKey="installPyLib"></button>
-        <button text="Documentation: uMail" callbackKey="loadDoc"></button>
+    <category name="E-mail">
+      <label text="Envio de e-mail com uMail"></label>
+      <label text="Biblioteca: https://github.com/shawwwn/uMail"></label>
+        <button text="Instalar biblioteca umail" callbackKey="installPyLib"></button>
+        <button text="Documentação: uMail" callbackKey="loadDoc"></button>
 
       <block type="umail_init">
 	  <value name="host">
@@ -1997,23 +1997,23 @@ _
         </value>
         <value name="subject">
           <shadow type="text">
-            <field name="TEXT">Email from BIPES!</field>
+            <field name="TEXT">E-mail do SancaBot!</field>
           </shadow>
         </value>
         <value name="contents">
           <shadow type="text">
-            <field name="TEXT">BIPES is nice!</field>
+            <field name="TEXT">O SancaBot é legal!</field>
           </shadow>
         </value>
       </block>
     </category>
 
 
-    <category name="NTP Time">
-     <label text="Network Time Protocol (NTP)"></label>
-     <label text="Adjusts RTC using Internet"></label>
-        <button text="Load example: ntp" callbackKey="loadExample"></button>
-        <button text="Documentation: ntp" callbackKey="loadDoc"></button>
+    <category name="Hora (NTP)">
+     <label text="Protocolo de hora na rede (NTP)"></label>
+     <label text="Ajusta o relógio (RTC) pela Internet"></label>
+        <button text="Carregar exemplo: ntp" callbackKey="loadExample"></button>
+        <button text="Documentação: ntp" callbackKey="loadDoc"></button>
 
 
     <block type="net_ntp_sync">
@@ -2027,10 +2027,10 @@ _
     </block>
     </category>
 
-    <category name="TCP/IP Socket">
-      <label text="TCP/IP Socket"></label>
-        <button text="Load example: starwars" callbackKey="loadExample"></button>
-        <button text="Documentation: sockets" callbackKey="loadDoc"></button>
+    <category name="Socket TCP/IP">
+      <label text="Socket TCP/IP"></label>
+        <button text="Carregar exemplo: starwars" callbackKey="loadExample"></button>
+        <button text="Documentação: sockets" callbackKey="loadDoc"></button>
 
 
     <block type="net_socket_connect">
@@ -2069,7 +2069,7 @@ _
     </category>
 
     <category name="MQTT">
-      <label text="MQTT (Message Queue Telemetry Transport)"></label>
+      <label text="MQTT (transporte de telemetria por fila de mensagens)"></label>
       <block type="mqtt_init">
         <field name="BLOCK_MQTT_INIT">Start MQTT Client</field>
         <value name="server">
@@ -2174,16 +2174,16 @@ _
       </block>
     </category>
 
-  <category name="Bluetooth REPL">
-    <label text="Bluetooth REPL"></label>
-    <label text="This block allows terminal/console access using bluetooth."></label>
-    <label text="Library: https://github.com/micropython/micropython/tree/master/examples/bluetooth"></label>
-    <label text="You need to install 3 files to use:"></label>
-    <button text="Install ble_advertising library" callbackKey="installPyLib"></button>
-    <button text="Install ble_uart_peripheral library" callbackKey="installPyLib"></button>
-    <button text="Install ble_uart_repl library" callbackKey="installPyLib"></button>
+  <category name="REPL Bluetooth">
+    <label text="REPL Bluetooth"></label>
+    <label text="Este bloco permite acessar o terminal/console por Bluetooth."></label>
+    <label text="Biblioteca: https://github.com/micropython/micropython/tree/master/examples/bluetooth"></label>
+    <label text="Você precisa instalar 3 arquivos para usar:"></label>
+    <button text="Instalar biblioteca ble_advertising" callbackKey="installPyLib"></button>
+    <button text="Instalar biblioteca ble_uart_peripheral" callbackKey="installPyLib"></button>
+    <button text="Instalar biblioteca ble_uart_repl" callbackKey="installPyLib"></button>
 
-      <label text="Web Bluetooth REPL"></label>
+      <label text="REPL por Web Bluetooth"></label>
       <block type="bluetooth_repl_setup">
       <value name="name">
           <shadow type="text">
@@ -2198,12 +2198,12 @@ _
           </shadow>
         </value>
       </block>
-    <label text="Usage:"></label>
-    <label text="1. Install the 3 files above"></label>
-    <label text="2. Start Web Bluetooth REPL"></label>
-    <label text="3. Pair the ESP32 with your device /"></label>
-    <label text="4. Go to https://bipes.net.br/beta2/ui/"></label>
-    <label text="5. Select the bluetooth option and Connect (Web Bluetooth)"></label>
+    <label text="Como usar:"></label>
+    <label text="1. Instale os 3 arquivos acima"></label>
+    <label text="2. Inicie o REPL por Web Bluetooth"></label>
+    <label text="3. Pareie o ESP32 com o seu dispositivo /"></label>
+    <label text="4. Acesse https://bipes.net.br/beta2/ui/"></label>
+    <label text="5. Escolha a opção Bluetooth e conecte (Web Bluetooth)"></label>
     </category>
 
   <category name="WebREPL">
@@ -2213,12 +2213,12 @@ _
     </category>
 
 
-    <category name="CAN Bus">
-     <label text="Controller Area Network (CAN)"></label>
-     <label text="Requires specific firmware"></label>
-     <label text="Compatible with: https://github.com/micropython/micropython/issues/5087#issuecomment-538779410"></label>
-        <button text="Load example: esp32_can" callbackKey="loadExample"></button>
-        <button text="Documentation: esp32_can" callbackKey="loadDoc"></button>
+    <category name="Barramento CAN">
+     <label text="Rede de controladores (CAN)"></label>
+     <label text="Requer firmware específico"></label>
+     <label text="Compatível com: https://github.com/micropython/micropython/issues/5087#issuecomment-538779410"></label>
+        <button text="Carregar exemplo: esp32_can" callbackKey="loadExample"></button>
+        <button text="Documentação: esp32_can" callbackKey="loadDoc"></button>
 
     <block type="esp32_can_init">
     </block>
@@ -2232,10 +2232,10 @@ _
 
     </category>
 
-    <category name="Google Sheets">
-      <label text="Send files to a Google Spreadsheet"></label>
-      <label text="Library: https://gist.github.com/SpotlightKid/8637c685626b334e5c0ec341dd269c44"></label>
-        <button text="install prequests library" callbackKey="installPyLib"></button>
+    <category name="Planilhas Google">
+      <label text="Enviar arquivos para uma planilha do Google"></label>
+      <label text="Biblioteca: https://gist.github.com/SpotlightKid/8637c685626b334e5c0ec341dd269c44"></label>
+        <button text="Instalar biblioteca prequests" callbackKey="installPyLib"></button>
       <block type="google_spreadsheet">
     <field name="sheet_num">1</field>
     <value name="deploy_code">
@@ -2265,10 +2265,10 @@ _
 
 <category name="%{BKY_CAT_CONTROL}">
   <category name="PID">
-    <button text="Install control library" callbackKey="installPyLib"></button>
-    <label text="Proportional–integral–derivative Controller"></label>
-      <label text="Library: https://github.com/JorgeGMarques/micropython-simple-pid"></label>
-      <button text="Load example: pid_water_boiler" callbackKey="loadExample"></button>
+    <button text="Instalar biblioteca control" callbackKey="installPyLib"></button>
+    <label text="Controlador proporcional–integral–derivativo (PID)"></label>
+      <label text="Biblioteca: https://github.com/JorgeGMarques/micropython-simple-pid"></label>
+      <button text="Carregar exemplo: pid_water_boiler" callbackKey="loadExample"></button>
 
     <block type="control_pid.__init__">
       <value name="SETPOINT">
@@ -2312,15 +2312,15 @@ _
     -->
   </category>
 
-  <category name="Simulate">
-    <button text="Install control library" callbackKey="installPyLib"></button>
-    <label text="No breadboard or sensors? Just simulate it!"></label>
-    <label text="Realtime simulation:"></label>
-    <button text="Load example: pid_water_boiler" callbackKey="loadExample"></button>
+  <category name="Simular">
+    <button text="Instalar biblioteca control" callbackKey="installPyLib"></button>
+    <label text="Sem protoboard nem sensores? Simule!"></label>
+    <label text="Simulação em tempo real:"></label>
+    <button text="Carregar exemplo: pid_water_boiler" callbackKey="loadExample"></button>
     <block type="simulate_water_boiler">
     </block>
-    <label text="Non realtime simulation:"></label>
-    <button text="Load example: pid_dc_motor" callbackKey="loadExample"></button>
+    <label text="Simulação fora de tempo real:"></label>
+    <button text="Carregar exemplo: pid_dc_motor" callbackKey="loadExample"></button>
     <block type="simulate_dcmotor.sim">
     </block>
     <block type="simulate_dcmotor.vars">
